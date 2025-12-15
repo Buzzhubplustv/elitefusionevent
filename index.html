@@ -16,6 +16,7 @@
         :root {
             --primary-red: #8B1A1A;
             --primary-gold: #D4AF37;
+            --primary-green: #27AE60;
             --white: #FFFFFF;
             --light-gray: #F5F5F5;
             --dark-gray: #333333;
@@ -40,7 +41,7 @@
             text-align: center;
             padding: 25px 0;
             margin-bottom: 30px;
-            border-bottom: 3px solid var(--primary-gold);
+            border-bottom: 3px solid var(--primary-green);
         }
 
         .logo-title {
@@ -91,7 +92,7 @@
             border-radius: 15px;
             padding: 25px;
             box-shadow: var(--shadow);
-            border: 1px solid rgba(139, 26, 26, 0.1);
+            border: 1px solid rgba(39, 174, 96, 0.1);
         }
 
         .panel-title {
@@ -100,14 +101,14 @@
             color: var(--primary-red);
             margin-bottom: 25px;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary-gold);
+            border-bottom: 2px solid var(--primary-green);
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .panel-title i {
-            color: var(--primary-gold);
+            color: var(--primary-green);
         }
 
         /* Left Panel - Controls */
@@ -136,8 +137,8 @@
 
         .name-input:focus {
             outline: none;
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
         }
 
         .gender-selection {
@@ -160,35 +161,35 @@
         }
 
         .gender-btn:hover {
-            border-color: var(--primary-red);
-            background: #FFF5F5;
+            border-color: var(--primary-green);
+            background: #F0FFF5;
         }
 
         .gender-btn.selected {
-            background: var(--primary-red);
+            background: var(--primary-green);
             color: var(--white);
-            border-color: var(--primary-red);
+            border-color: var(--primary-green);
         }
 
         .upload-area {
-            border: 3px dashed var(--primary-gold);
+            border: 3px dashed var(--primary-green);
             border-radius: 12px;
             padding: 40px 20px;
             text-align: center;
             cursor: pointer;
-            background: #FFFDF5;
+            background: #F8FFF9;
             margin-bottom: 15px;
             transition: all 0.3s;
         }
 
         .upload-area:hover {
-            background: #FFF9E6;
+            background: #F0FFF5;
             border-color: var(--primary-red);
         }
 
         .upload-icon {
             font-size: 3.5rem;
-            color: var(--primary-gold);
+            color: var(--primary-green);
             margin-bottom: 15px;
         }
 
@@ -219,7 +220,7 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            border: 2px solid var(--primary-gold);
+            border: 2px solid var(--primary-green);
         }
 
         #flyerImage {
@@ -235,27 +236,37 @@
 
         #userPhotoOverlay {
             border-radius: 50%;
-            border: 3px solid var(--primary-gold);
+            border: 3px solid var(--primary-green);
             overflow: hidden;
-            background: #f0f0f0;
+            background: var(--primary-green);
             cursor: move;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
         }
 
         #userPhotoOverlay img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: none;
         }
 
         #nameOverlay {
-            color: #000000;
+            color: var(--white);
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             text-align: center;
             line-height: 1.2;
-            background: rgba(255, 255, 255, 0);
+            background: rgba(0, 0, 0, 0.3);
             cursor: move;
             padding: 10px;
+            border-radius: 5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
         }
 
         .drag-handle {
@@ -264,7 +275,7 @@
             right: -5px;
             width: 20px;
             height: 20px;
-            background: var(--primary-red);
+            background: var(--primary-green);
             border-radius: 50%;
             cursor: nwse-resize;
             border: 2px solid var(--white);
@@ -273,6 +284,21 @@
 
         .overlay-element:hover .drag-handle {
             display: block;
+        }
+
+        /* Green Placeholder */
+        .placeholder-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            border: 3px solid var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            position: absolute;
         }
 
         /* Right Panel - Image Editor */
@@ -309,7 +335,7 @@
 
         .crop-btn {
             padding: 12px;
-            background: var(--primary-red);
+            background: var(--primary-green);
             color: var(--white);
             border: none;
             border-radius: 8px;
@@ -320,7 +346,7 @@
         }
 
         .crop-btn:hover {
-            background: #9A2A2A;
+            background: #219653;
             transform: translateY(-2px);
         }
 
@@ -352,7 +378,7 @@
         input[type="range"]::-webkit-slider-thumb {
             width: 20px;
             height: 20px;
-            background: var(--primary-red);
+            background: var(--primary-green);
             border-radius: 50%;
             cursor: pointer;
         }
@@ -380,13 +406,13 @@
         }
 
         .action-btn.primary {
-            background: linear-gradient(135deg, var(--primary-gold), #E6C158);
-            color: var(--primary-red);
+            background: linear-gradient(135deg, var(--primary-green), #2ECC71);
+            color: var(--white);
         }
 
         .action-btn.primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
         }
 
         .action-btn.secondary {
@@ -402,7 +428,7 @@
         .download-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, var(--primary-red), #9A2A2A);
+            background: linear-gradient(135deg, var(--primary-green), #27AE60);
             color: var(--white);
             border: none;
             border-radius: 10px;
@@ -416,21 +442,21 @@
 
         .download-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(139, 26, 26, 0.3);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
         }
 
         /* Detection Info */
         .detection-info {
-            background: #F0F8FF;
+            background: #F0FFF5;
             padding: 20px;
             border-radius: 10px;
             margin-top: 20px;
-            border-left: 4px solid #4A90E2;
+            border-left: 4px solid var(--primary-green);
         }
 
         .info-title {
             font-weight: 600;
-            color: #4A90E2;
+            color: var(--primary-green);
             margin-bottom: 10px;
         }
 
@@ -451,7 +477,7 @@
 
         .status-message.success {
             background: #E8F5E9;
-            color: #2E7D32;
+            color: #27AE60;
             border: 2px solid #C8E6C9;
             display: block;
         }
@@ -468,7 +494,7 @@
             text-align: center;
             padding: 40px 20px;
             margin-top: 50px;
-            border-top: 3px solid var(--primary-gold);
+            border-top: 3px solid var(--primary-green);
             background: #FAFAFA;
             border-radius: 15px;
         }
@@ -491,6 +517,21 @@
             color: #666;
             font-size: 1rem;
             line-height: 1.6;
+        }
+
+        /* Preview Instructions */
+        .preview-instructions {
+            background: #F0FFF5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .preview-instructions strong {
+            color: var(--primary-green);
         }
     </style>
 </head>
@@ -516,11 +557,11 @@
                 <div class="control-section">
                     <label class="section-label">YOUR NAME</label>
                     <input type="text" class="name-input" id="userName" 
-                           placeholder="Name will auto-detect from flyer">
+                           placeholder="Enter your name" value="Ismaila Habeeb">
                     <div class="detection-info">
-                        <div class="info-title">Auto-Detected Name</div>
+                        <div class="info-title">📝 Name Preview</div>
                         <div class="info-text" id="detectedNameText">
-                            System will automatically detect "Mr Ismaila Habeeb" from the flyer
+                            White font will be used for name display on the flyer
                         </div>
                     </div>
                 </div>
@@ -540,18 +581,19 @@
                     <div class="upload-area" onclick="openPhotoUpload()">
                         <div class="upload-icon">📷</div>
                         <div class="upload-text">Click to Upload Photo</div>
-                        <div class="upload-note">Drag & drop supported • JPG/PNG</div>
+                        <div class="upload-note">Will appear in the green circular frame</div>
                     </div>
                     <input type="file" id="photoInput" accept="image/*" style="display: none;">
                 </div>
 
-                <!-- Auto-Detection Info -->
+                <!-- Green Placeholder Info -->
                 <div class="detection-info">
-                    <div class="info-title">Smart Detection Active</div>
+                    <div class="info-title">🎯 Green Circular Frame</div>
                     <div class="info-text">
-                        ✓ Photo frame automatically detected<br>
-                        ✓ Name position auto-detected<br>
-                        ✓ Everything will fit perfectly
+                        ✓ Green circle indicates photo position<br>
+                        ✓ Uploaded photos will fit inside<br>
+                        ✓ Drag to reposition if needed<br>
+                        ✓ White font for name visibility
                     </div>
                 </div>
 
@@ -578,8 +620,13 @@
                 <h2 class="panel-title">👁️ LIVE PREVIEW</h2>
                 
                 <div class="flyer-preview" id="flyerPreview">
-                    <img id="flyerImage" src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427" 
+                    <img id="flyerImage" src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765816065" 
                          alt="Elite Fusion Flyer">
+                    
+                    <!-- Green Circular Placeholder -->
+                    <div id="greenPlaceholder" class="placeholder-circle" style="left: 250px; top: 130px;">
+                        <div id="placeholderText">PHOTO FRAME</div>
+                    </div>
                     
                     <!-- User Photo Overlay -->
                     <div id="userPhotoOverlay" class="overlay-element" style="left: 250px; top: 130px; width: 120px; height: 120px; display: none;">
@@ -587,15 +634,15 @@
                         <div class="drag-handle"></div>
                     </div>
                     
-                    <!-- Name Overlay -->
-                    <div id="nameOverlay" class="overlay-element" style="left: 250px; top: 320px; font-size: 32px; display: none;">
+                    <!-- Name Overlay (White Font) -->
+                    <div id="nameOverlay" class="overlay-element" style="left: 250px; top: 320px; font-size: 32px; display: block;">
                         Mr Ismaila Habeeb
                         <div class="drag-handle"></div>
                     </div>
                 </div>
 
-                <div style="margin-top: 20px; text-align: center; color: #666; font-size: 0.9rem;">
-                    <p>💡 <strong>Tip:</strong> Drag elements to reposition • Drag handles to resize</p>
+                <div class="preview-instructions">
+                    <p><strong>💡 Instructions:</strong> Green circle = Photo frame • White text = Name • Drag to reposition</p>
                 </div>
             </div>
 
@@ -629,12 +676,12 @@
                         🔄 Reset
                     </button>
                     <button class="crop-btn" onclick="applyCrop()">
-                        ✅ Apply Changes
+                        ✅ Apply to Green Frame
                     </button>
                 </div>
 
                 <div style="margin-top: 20px; color: #666; font-size: 0.9rem; text-align: center;">
-                    <p>Adjust your photo to fit perfectly in the circular frame</p>
+                    <p>📐 Crop photo to fit perfectly in the <strong style="color: var(--primary-green);">green circular frame</strong></p>
                 </div>
             </div>
         </div>
@@ -647,7 +694,7 @@
             <p class="footer-text">
                 General Team Training & Award Recognition<br>
                 16 DECEMBER 2025 • 10:00 AM • GIDAN DOKI<br>
-                <span style="color: var(--primary-red); font-weight: 600;">Create Your Perfect Attendance Flyer</span>
+                <span style="color: var(--primary-green); font-weight: 600;">Green Frame Photo Placement • White Text Name</span>
             </p>
         </footer>
     </div>
@@ -656,9 +703,9 @@
     <script>
         // Elite Fusion Flyer Configuration
         const FLYER_CONFIG = {
-            photoPosition: { x: 250, y: 130, size: 120 },  // Circular frame position
-            namePosition: { x: 250, y: 320, fontSize: 32 }, // Name position
-            detectedName: "Mr Ismaila Habeeb"               // Name extracted from flyer
+            photoPosition: { x: 250, y: 130, size: 120 },  // Green circular frame position
+            namePosition: { x: 250, y: 320, fontSize: 32 }, // Name position with white font
+            nameColor: '#FFFFFF'                            // White font color
         };
 
         // State Variables
@@ -671,7 +718,8 @@
             startY: 0,
             originalWidth: 0,
             originalHeight: 0,
-            photoScale: 1
+            photoScale: 1,
+            photoUploaded: false
         };
 
         // Initialize on load
@@ -681,20 +729,32 @@
             setupDragAndDrop();
         });
 
-        // Initialize the flyer with auto-detection
+        // Initialize the flyer
         function initializeFlyer() {
-            // Auto-detect and set the name from flyer
-            document.getElementById('userName').value = "Ismaila Habeeb";
-            document.getElementById('detectedNameText').textContent = 
-                `Detected: "${FLYER_CONFIG.detectedName}" from flyer`;
-            
-            // Update name overlay
+            // Set initial name
             updateNameOverlay();
             
-            // Position overlays based on detection
+            // Position overlays
             positionOverlays();
             
-            showStatus("Flyer loaded! Auto-detected photo frame and name position.", "success");
+            // Show green placeholder
+            showGreenPlaceholder();
+            
+            showStatus("Flyer loaded! Green circle shows photo position. White text for name.", "success");
+        }
+
+        // Show green circular placeholder
+        function showGreenPlaceholder() {
+            const placeholder = document.getElementById('greenPlaceholder');
+            placeholder.style.left = FLYER_CONFIG.photoPosition.x + 'px';
+            placeholder.style.top = FLYER_CONFIG.photoPosition.y + 'px';
+            placeholder.style.width = FLYER_CONFIG.photoPosition.size + 'px';
+            placeholder.style.height = FLYER_CONFIG.photoPosition.size + 'px';
+        }
+
+        // Hide green placeholder when photo is uploaded
+        function hideGreenPlaceholder() {
+            document.getElementById('greenPlaceholder').style.display = 'none';
         }
 
         // Set up event listeners
@@ -757,6 +817,12 @@
                 
                 state.currentElement.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
                 state.currentElement.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
+                
+                // Update green placeholder position if dragging photo
+                if (state.currentElement.id === 'userPhotoOverlay' && !state.photoUploaded) {
+                    document.getElementById('greenPlaceholder').style.left = state.currentElement.style.left;
+                    document.getElementById('greenPlaceholder').style.top = state.currentElement.style.top;
+                }
             }
             
             function stopDrag() {
@@ -795,6 +861,12 @@
                 
                 element.style.width = newWidth + 'px';
                 element.style.height = newHeight + 'px';
+                
+                // Keep green placeholder same size
+                if (element.id === 'userPhotoOverlay' && !state.photoUploaded) {
+                    document.getElementById('greenPlaceholder').style.width = newWidth + 'px';
+                    document.getElementById('greenPlaceholder').style.height = newHeight + 'px';
+                }
             }
             
             function stopResize() {
@@ -803,7 +875,7 @@
             }
         }
 
-        // Position overlays based on auto-detection
+        // Position overlays
         function positionOverlays() {
             const photoOverlay = document.getElementById('userPhotoOverlay');
             const nameOverlay = document.getElementById('nameOverlay');
@@ -814,13 +886,14 @@
             photoOverlay.style.width = FLYER_CONFIG.photoPosition.size + 'px';
             photoOverlay.style.height = FLYER_CONFIG.photoPosition.size + 'px';
             
-            // Position name overlay
+            // Position name overlay with white font
             nameOverlay.style.left = FLYER_CONFIG.namePosition.x + 'px';
             nameOverlay.style.top = FLYER_CONFIG.namePosition.y + 'px';
             nameOverlay.style.fontSize = FLYER_CONFIG.namePosition.fontSize + 'px';
+            nameOverlay.style.color = FLYER_CONFIG.nameColor;
         }
 
-        // Update name overlay
+        // Update name overlay (White Font)
         function updateNameOverlay() {
             const nameInput = document.getElementById('userName').value.trim();
             const nameOverlay = document.getElementById('nameOverlay');
@@ -902,7 +975,7 @@
                     }
                 });
                 
-                showStatus('Photo uploaded! Crop and adjust as needed, then click "Apply Changes"', 'success');
+                showStatus('Photo uploaded! Crop to fit green circular frame.', 'success');
             };
             reader.readAsDataURL(file);
         }
@@ -923,7 +996,7 @@
             }
         }
 
-        // Apply crop
+        // Apply crop - Replace green placeholder with photo
         function applyCrop() {
             if (!state.cropper) {
                 showStatus('No image to crop', 'error');
@@ -942,18 +1015,27 @@
             const uploadedPhoto = document.getElementById('uploadedPhoto');
             
             uploadedPhoto.src = croppedCanvas.toDataURL('image/png');
+            uploadedPhoto.style.display = 'block';
             photoOverlay.style.display = 'block';
+            
+            // Hide green placeholder
+            hideGreenPlaceholder();
+            
+            // Update state
+            state.photoUploaded = true;
             
             // Hide image editor
             document.getElementById('imageEditorPanel').classList.remove('active');
             
-            showStatus('Photo applied to flyer! Drag to reposition or resize if needed.', 'success');
+            showStatus('Photo applied! Green frame replaced with your image.', 'success');
         }
 
         // Reset positions
         function resetPositions() {
             positionOverlays();
-            showStatus('Positions reset to auto-detected locations', 'success');
+            showGreenPlaceholder();
+            state.photoUploaded = false;
+            showStatus('Positions reset. Green placeholder visible.', 'success');
         }
 
         // Auto-fit all elements
@@ -965,13 +1047,6 @@
 
         // Download flyer
         function downloadFlyer() {
-            // Check if photo is uploaded
-            const photoOverlay = document.getElementById('userPhotoOverlay');
-            if (photoOverlay.style.display === 'none') {
-                showStatus('Please upload and apply your photo first', 'error');
-                return;
-            }
-            
             // Create canvas
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -985,41 +1060,81 @@
             // Draw flyer
             ctx.drawImage(flyerImage, 0, 0, canvas.width, canvas.height);
             
-            // Draw user photo (circular)
-            const photoRect = photoOverlay.getBoundingClientRect();
-            const previewRect = preview.getBoundingClientRect();
+            // Draw user photo if uploaded
+            if (state.photoUploaded) {
+                const photoOverlay = document.getElementById('userPhotoOverlay');
+                const photoRect = photoOverlay.getBoundingClientRect();
+                const previewRect = preview.getBoundingClientRect();
+                
+                const photoX = photoRect.left - previewRect.left;
+                const photoY = photoRect.top - previewRect.top;
+                const photoSize = photoRect.width;
+                
+                // Create circular clipping path
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(
+                    photoX + photoSize / 2,
+                    photoY + photoSize / 2,
+                    photoSize / 2,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.closePath();
+                ctx.clip();
+                
+                const uploadedPhoto = document.getElementById('uploadedPhoto');
+                ctx.drawImage(uploadedPhoto, photoX, photoY, photoSize, photoSize);
+                ctx.restore();
+            } else {
+                // Draw green placeholder
+                const placeholder = document.getElementById('greenPlaceholder');
+                const placeholderRect = placeholder.getBoundingClientRect();
+                const previewRect = preview.getBoundingClientRect();
+                
+                const placeholderX = placeholderRect.left - previewRect.left;
+                const placeholderY = placeholderRect.top - previewRect.top;
+                const placeholderSize = placeholderRect.width;
+                
+                // Draw green circle
+                ctx.beginPath();
+                ctx.arc(
+                    placeholderX + placeholderSize / 2,
+                    placeholderY + placeholderSize / 2,
+                    placeholderSize / 2,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fillStyle = FLYER_CONFIG.photoPosition.green || '#27AE60';
+                ctx.fill();
+                
+                // Draw placeholder text
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('PHOTO', placeholderX + placeholderSize / 2, placeholderY + placeholderSize / 2 - 10);
+                ctx.fillText('FRAME', placeholderX + placeholderSize / 2, placeholderY + placeholderSize / 2 + 10);
+            }
             
-            const photoX = photoRect.left - previewRect.left;
-            const photoY = photoRect.top - previewRect.top;
-            const photoSize = photoRect.width;
-            
-            // Create circular clipping path
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(
-                photoX + photoSize / 2,
-                photoY + photoSize / 2,
-                photoSize / 2,
-                0,
-                Math.PI * 2
-            );
-            ctx.closePath();
-            ctx.clip();
-            
-            const uploadedPhoto = document.getElementById('uploadedPhoto');
-            ctx.drawImage(uploadedPhoto, photoX, photoY, photoSize, photoSize);
-            ctx.restore();
-            
-            // Draw name
+            // Draw name with white font
             const nameOverlay = document.getElementById('nameOverlay');
             const nameRect = nameOverlay.getBoundingClientRect();
+            const previewRect = preview.getBoundingClientRect();
+            
             const nameX = nameRect.left - previewRect.left;
             const nameY = nameRect.top - previewRect.top;
             
-            ctx.font = `${nameOverlay.style.fontSize} Montserrat`;
-            ctx.fillStyle = '#000000';
+            ctx.font = `bold ${nameOverlay.style.fontSize} Montserrat`;
+            ctx.fillStyle = FLYER_CONFIG.nameColor; // White font
             ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+            ctx.textBaseline = 'top';
+            
+            // Add text shadow for better visibility
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+            ctx.shadowBlur = 3;
+            ctx.shadowOffsetX = 1;
+            ctx.shadowOffsetY = 1;
             
             const nameLines = nameOverlay.textContent.split('\n');
             nameLines.forEach((line, index) => {
@@ -1029,6 +1144,9 @@
                     nameY + (index * parseInt(nameOverlay.style.fontSize) * 1.2)
                 );
             });
+            
+            // Reset shadow
+            ctx.shadowColor = 'transparent';
             
             // Create download
             const link = document.createElement('a');
