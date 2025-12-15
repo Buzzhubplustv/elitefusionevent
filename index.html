@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Fusion - Professional Flyer Editor</title>
+    <title>Elite Fusion - Smart Flyer Editor</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
     <style>
@@ -16,7 +16,7 @@
         :root {
             --primary-red: #8B1A1A;
             --primary-gold: #D4AF37;
-            --primary-green: #27AE60;
+            --target-green: #098928;
             --white: #FFFFFF;
             --light-gray: #F5F5F5;
             --dark-gray: #333333;
@@ -41,7 +41,7 @@
             text-align: center;
             padding: 25px 0;
             margin-bottom: 30px;
-            border-bottom: 3px solid var(--primary-green);
+            border-bottom: 3px solid var(--target-green);
         }
 
         .logo-title {
@@ -92,7 +92,7 @@
             border-radius: 15px;
             padding: 25px;
             box-shadow: var(--shadow);
-            border: 1px solid rgba(39, 174, 96, 0.1);
+            border: 1px solid rgba(9, 137, 40, 0.1);
         }
 
         .panel-title {
@@ -101,17 +101,13 @@
             color: var(--primary-red);
             margin-bottom: 25px;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary-green);
+            border-bottom: 2px solid var(--target-green);
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .panel-title i {
-            color: var(--primary-green);
-        }
-
-        /* Left Panel - Controls */
+        /* Controls */
         .control-section {
             margin-bottom: 25px;
         }
@@ -137,10 +133,11 @@
 
         .name-input:focus {
             outline: none;
-            border-color: var(--primary-green);
-            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+            border-color: var(--target-green);
+            box-shadow: 0 0 0 3px rgba(9, 137, 40, 0.2);
         }
 
+        /* Gender Selection */
         .gender-selection {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -161,18 +158,19 @@
         }
 
         .gender-btn:hover {
-            border-color: var(--primary-green);
+            border-color: var(--target-green);
             background: #F0FFF5;
         }
 
         .gender-btn.selected {
-            background: var(--primary-green);
+            background: var(--target-green);
             color: var(--white);
-            border-color: var(--primary-green);
+            border-color: var(--target-green);
         }
 
+        /* Upload Area */
         .upload-area {
-            border: 3px dashed var(--primary-green);
+            border: 3px dashed var(--target-green);
             border-radius: 12px;
             padding: 40px 20px;
             text-align: center;
@@ -189,23 +187,11 @@
 
         .upload-icon {
             font-size: 3.5rem;
-            color: var(--primary-green);
+            color: var(--target-green);
             margin-bottom: 15px;
         }
 
-        .upload-text {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--dark-gray);
-            margin-bottom: 8px;
-        }
-
-        .upload-note {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        /* Center Panel - Preview */
+        /* Preview */
         .preview-container {
             display: flex;
             flex-direction: column;
@@ -220,13 +206,13 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            border: 2px solid var(--primary-green);
+            border: 2px solid var(--target-green);
         }
 
         #flyerImage {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .overlay-element {
@@ -236,23 +222,16 @@
 
         #userPhotoOverlay {
             border-radius: 50%;
-            border: 3px solid var(--primary-green);
+            border: 3px solid var(--target-green);
             overflow: hidden;
-            background: var(--primary-green);
+            background: var(--target-green);
             cursor: move;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
         }
 
         #userPhotoOverlay img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: none;
         }
 
         #nameOverlay {
@@ -261,12 +240,9 @@
             font-weight: 700;
             text-align: center;
             line-height: 1.2;
-            background: rgba(0, 0, 0, 0.3);
             cursor: move;
             padding: 10px;
-            border-radius: 5px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            backdrop-filter: blur(2px);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .drag-handle {
@@ -275,33 +251,43 @@
             right: -5px;
             width: 20px;
             height: 20px;
-            background: var(--primary-green);
+            background: var(--target-green);
             border-radius: 50%;
             cursor: nwse-resize;
             border: 2px solid var(--white);
-            display: none;
         }
 
-        .overlay-element:hover .drag-handle {
-            display: block;
-        }
-
-        /* Green Placeholder */
-        .placeholder-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: var(--primary-green);
-            border: 3px solid var(--primary-green);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
+        .size-handle {
             position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-red);
+            border-radius: 50%;
+            cursor: nesw-resize;
+            border: 2px solid var(--white);
         }
 
-        /* Right Panel - Image Editor */
+        /* Text Size Controls */
+        .text-controls {
+            background: #F8F9FA;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .size-slider {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .size-value {
+            font-weight: 600;
+            color: var(--target-green);
+        }
+
+        /* Image Editor */
         .image-editor {
             display: none;
         }
@@ -319,13 +305,6 @@
             margin-bottom: 20px;
         }
 
-        #imagePreview {
-            max-width: 100%;
-            max-height: 300px;
-            display: block;
-            margin: 0 auto;
-        }
-
         .crop-controls {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -335,158 +314,61 @@
 
         .crop-btn {
             padding: 12px;
-            background: var(--primary-green);
+            background: var(--target-green);
             color: var(--white);
             border: none;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            text-align: center;
         }
 
         .crop-btn:hover {
-            background: #219653;
-            transform: translateY(-2px);
+            background: #087823;
         }
 
-        .crop-btn.secondary {
-            background: var(--light-gray);
-            color: var(--dark-gray);
-            border: 2px solid #E0E0E0;
-        }
-
-        .slider-container {
-            margin: 20px 0;
-        }
-
-        .slider-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            height: 6px;
-            background: #E0E0E0;
-            border-radius: 3px;
-            outline: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            width: 20px;
-            height: 20px;
-            background: var(--primary-green);
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        /* Action Buttons */
+        /* Buttons */
         .action-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-top: 30px;
+            margin-top: 25px;
         }
 
         .action-btn {
-            padding: 16px;
+            padding: 15px;
+            background: var(--target-green);
+            color: white;
             border: none;
             border-radius: 10px;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .action-btn.primary {
-            background: linear-gradient(135deg, var(--primary-green), #2ECC71);
-            color: var(--white);
-        }
-
-        .action-btn.primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
-        }
-
-        .action-btn.secondary {
-            background: var(--light-gray);
-            color: var(--dark-gray);
-            border: 2px solid #E0E0E0;
-        }
-
-        .action-btn.secondary:hover {
-            background: #EAEAEA;
         }
 
         .download-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, var(--primary-green), #27AE60);
-            color: var(--white);
+            background: linear-gradient(135deg, var(--target-green), #0A9E2C);
+            color: white;
             border: none;
             border-radius: 10px;
             font-weight: 800;
-            font-size: 1.2rem;
+            margin-top: 20px;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 20px;
-            letter-spacing: 1px;
         }
 
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
-        }
-
-        /* Detection Info */
-        .detection-info {
-            background: #F0FFF5;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 4px solid var(--primary-green);
-        }
-
-        .info-title {
-            font-weight: 600;
-            color: var(--primary-green);
-            margin-bottom: 10px;
-        }
-
-        .info-text {
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        /* Status Messages */
-        .status-message {
+        /* Detection Status */
+        .detection-status {
+            background: #E8F5E9;
             padding: 15px;
             border-radius: 10px;
-            margin: 15px 0;
+            margin-top: 20px;
+        }
+
+        .status-title {
+            color: var(--target-green);
             font-weight: 600;
-            text-align: center;
-            display: none;
-        }
-
-        .status-message.success {
-            background: #E8F5E9;
-            color: #27AE60;
-            border: 2px solid #C8E6C9;
-            display: block;
-        }
-
-        .status-message.error {
-            background: #FFEBEE;
-            color: #C62828;
-            border: 2px solid #FFCDD2;
-            display: block;
+            margin-bottom: 10px;
         }
 
         /* Footer */
@@ -494,79 +376,38 @@
             text-align: center;
             padding: 40px 20px;
             margin-top: 50px;
-            border-top: 3px solid var(--primary-green);
+            border-top: 3px solid var(--target-green);
             background: #FAFAFA;
-            border-radius: 15px;
         }
 
         .footer-logo {
             height: 60px;
             margin-bottom: 20px;
-            opacity: 0.9;
-        }
-
-        .footer-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--primary-red);
-            margin-bottom: 10px;
-        }
-
-        .footer-text {
-            color: #666;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        /* Preview Instructions */
-        .preview-instructions {
-            background: #F0FFF5;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        .preview-instructions strong {
-            color: var(--primary-green);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <header class="site-header">
             <div class="logo-title">
                 <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" 
                      alt="Elite Fusion" class="event-logo">
                 <h1 class="site-title">ELITE FUSION</h1>
             </div>
-            <p class="site-subtitle">Professional Flyer Customization System</p>
+            <p class="site-subtitle">Smart Green Frame Detection System</p>
         </header>
 
-        <!-- Main Editor -->
         <div class="editor-container">
-            <!-- Left Panel - Controls -->
+            <!-- Left Panel -->
             <div class="editor-panel">
-                <h2 class="panel-title">✏️ CUSTOMIZE FLYER</h2>
+                <h2 class="panel-title">CUSTOMIZE FLYER</h2>
                 
-                <!-- Name Section -->
                 <div class="control-section">
                     <label class="section-label">YOUR NAME</label>
                     <input type="text" class="name-input" id="userName" 
                            placeholder="Enter your name" value="Ismaila Habeeb">
-                    <div class="detection-info">
-                        <div class="info-title">📝 Name Preview</div>
-                        <div class="info-text" id="detectedNameText">
-                            White font will be used for name display on the flyer
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Gender Selection -->
                 <div class="control-section">
                     <label class="section-label">TITLE</label>
                     <div class="gender-selection">
@@ -575,189 +416,262 @@
                     </div>
                 </div>
 
-                <!-- Photo Upload -->
                 <div class="control-section">
                     <label class="section-label">UPLOAD PHOTO</label>
                     <div class="upload-area" onclick="openPhotoUpload()">
                         <div class="upload-icon">📷</div>
-                        <div class="upload-text">Click to Upload Photo</div>
-                        <div class="upload-note">Will appear in the green circular frame</div>
+                        <div>Click to Upload Photo</div>
+                        <div style="font-size: 0.9rem; color: #666; margin-top: 10px;">
+                            Will auto-fit to detected green frame
+                        </div>
                     </div>
                     <input type="file" id="photoInput" accept="image/*" style="display: none;">
                 </div>
 
-                <!-- Green Placeholder Info -->
-                <div class="detection-info">
-                    <div class="info-title">🎯 Green Circular Frame</div>
-                    <div class="info-text">
-                        ✓ Green circle indicates photo position<br>
-                        ✓ Uploaded photos will fit inside<br>
-                        ✓ Drag to reposition if needed<br>
-                        ✓ White font for name visibility
+                <!-- Text Size Controls -->
+                <div class="text-controls">
+                    <label class="section-label">TEXT SIZE</label>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Small</span>
+                        <span class="size-value" id="sizeValue">32px</span>
+                        <span>Large</span>
+                    </div>
+                    <input type="range" class="size-slider" id="textSizeSlider" 
+                           min="20" max="50" value="32" step="1">
+                    <div style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 10px;">
+                        Adjust white text size for perfect fit
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="action-btn secondary" onclick="resetPositions()">
-                        🔄 Reset Positions
-                    </button>
-                    <button class="action-btn secondary" onclick="autoFitAll()">
-                        🎯 Auto-Fit All
-                    </button>
+                <div class="detection-status" id="detectionStatus">
+                    <div class="status-title">🔍 DETECTION STATUS</div>
+                    <div id="statusText">Scanning for green circular frame (#098928)...</div>
                 </div>
 
                 <button class="download-btn" onclick="downloadFlyer()">
-                    ⬇️ DOWNLOAD MY FLYER
+                    ⬇️ DOWNLOAD FLYER
                 </button>
-
-                <!-- Status Message -->
-                <div id="statusMessage" class="status-message"></div>
             </div>
 
-            <!-- Center Panel - Preview -->
+            <!-- Center Preview -->
             <div class="editor-panel preview-container">
-                <h2 class="panel-title">👁️ LIVE PREVIEW</h2>
+                <h2 class="panel-title">LIVE PREVIEW</h2>
                 
                 <div class="flyer-preview" id="flyerPreview">
-                    <img id="flyerImage" src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765816065" 
+                    <img id="flyerImage" src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427" 
                          alt="Elite Fusion Flyer">
                     
-                    <!-- Green Circular Placeholder -->
-                    <div id="greenPlaceholder" class="placeholder-circle" style="left: 250px; top: 130px;">
-                        <div id="placeholderText">PHOTO FRAME</div>
-                    </div>
-                    
-                    <!-- User Photo Overlay -->
-                    <div id="userPhotoOverlay" class="overlay-element" style="left: 250px; top: 130px; width: 120px; height: 120px; display: none;">
+                    <!-- User Photo -->
+                    <div id="userPhotoOverlay" class="overlay-element" 
+                         style="display: none; left: 0; top: 0; width: 100px; height: 100px;">
                         <img id="uploadedPhoto" src="" alt="User Photo">
                         <div class="drag-handle"></div>
                     </div>
                     
-                    <!-- Name Overlay (White Font) -->
-                    <div id="nameOverlay" class="overlay-element" style="left: 250px; top: 320px; font-size: 32px; display: block;">
+                    <!-- Name Text -->
+                    <div id="nameOverlay" class="overlay-element" 
+                         style="display: block; left: 250px; top: 320px; font-size: 32px;">
                         Mr Ismaila Habeeb
                         <div class="drag-handle"></div>
+                        <div class="size-handle"></div>
                     </div>
                 </div>
 
-                <div class="preview-instructions">
-                    <p><strong>💡 Instructions:</strong> Green circle = Photo frame • White text = Name • Drag to reposition</p>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="autoDetectGreenFrame()">
+                        🔍 Re-detect Green Frame
+                    </button>
+                    <button class="action-btn" onclick="resetPositions()">
+                        🔄 Reset All
+                    </button>
                 </div>
             </div>
 
-            <!-- Right Panel - Image Editor -->
+            <!-- Right Editor -->
             <div class="editor-panel image-editor" id="imageEditorPanel">
-                <h2 class="panel-title">✂️ EDIT PHOTO</h2>
+                <h2 class="panel-title">EDIT PHOTO</h2>
                 
                 <div class="crop-container">
                     <img id="imagePreview" src="" alt="Image to crop">
                 </div>
 
-                <div class="slider-container">
-                    <div class="slider-label">
-                        <span>Zoom:</span>
-                        <span id="zoomValue">100%</span>
-                    </div>
-                    <input type="range" id="zoomSlider" min="50" max="200" value="100">
+                <div style="margin: 20px 0;">
+                    <label>Zoom: <span id="zoomValue">100%</span></label>
+                    <input type="range" id="zoomSlider" min="50" max="200" value="100" style="width: 100%;">
                 </div>
 
                 <div class="crop-controls">
-                    <button class="crop-btn secondary" onclick="rotateImage(-90)">
-                        ⟲ Rotate Left
-                    </button>
-                    <button class="crop-btn secondary" onclick="rotateImage(90)">
-                        ⟳ Rotate Right
-                    </button>
-                </div>
-
-                <div class="crop-controls">
-                    <button class="crop-btn secondary" onclick="resetCrop()">
-                        🔄 Reset
-                    </button>
-                    <button class="crop-btn" onclick="applyCrop()">
-                        ✅ Apply to Green Frame
-                    </button>
+                    <button class="crop-btn" onclick="rotateImage(-90)">⟲ Left</button>
+                    <button class="crop-btn" onclick="rotateImage(90)">⟳ Right</button>
+                    <button class="crop-btn" onclick="resetCrop()">🔄 Reset</button>
+                    <button class="crop-btn" onclick="applyCrop()">✅ Apply</button>
                 </div>
 
                 <div style="margin-top: 20px; color: #666; font-size: 0.9rem; text-align: center;">
-                    <p>📐 Crop photo to fit perfectly in the <strong style="color: var(--primary-green);">green circular frame</strong></p>
+                    <p>Crop photo to fit the detected green circular frame</p>
                 </div>
             </div>
         </div>
 
-        <!-- Footer -->
         <footer class="site-footer">
             <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" 
                  alt="Elite Fusion" class="footer-logo">
-            <h2 class="footer-title">ELITE FUSION</h2>
-            <p class="footer-text">
-                General Team Training & Award Recognition<br>
-                16 DECEMBER 2025 • 10:00 AM • GIDAN DOKI<br>
-                <span style="color: var(--primary-green); font-weight: 600;">Green Frame Photo Placement • White Text Name</span>
+            <h2 style="color: var(--primary-red); font-family: 'Montserrat'; margin-bottom: 10px;">
+                ELITE FUSION
+            </h2>
+            <p style="color: #666;">
+                Green Frame Detection System • White Text Editor • Automatic Placement
             </p>
         </footer>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <script>
-        // Elite Fusion Flyer Configuration
-        const FLYER_CONFIG = {
-            photoPosition: { x: 250, y: 130, size: 120 },  // Green circular frame position
-            namePosition: { x: 250, y: 320, fontSize: 32 }, // Name position with white font
-            nameColor: '#FFFFFF'                            // White font color
-        };
-
-        // State Variables
+        // Configuration
+        const TARGET_GREEN = '#098928';
+        const FLYER_URL = "https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427";
+        
+        // State
         let state = {
             gender: 'male',
             cropper: null,
-            isDragging: false,
-            currentElement: null,
-            startX: 0,
-            startY: 0,
-            originalWidth: 0,
-            originalHeight: 0,
-            photoScale: 1,
-            photoUploaded: false
+            textSize: 32,
+            greenFrame: null,
+            namePosition: { x: 250, y: 320 }
         };
 
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeFlyer();
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            await initializeFlyer();
             setupEventListeners();
             setupDragAndDrop();
         });
 
-        // Initialize the flyer
-        function initializeFlyer() {
-            // Set initial name
+        // Initialize flyer with detection
+        async function initializeFlyer() {
+            // Load flyer
+            loadFlyerImage();
+            
+            // Start green frame detection
+            setTimeout(() => {
+                detectGreenFrame();
+            }, 1000);
+            
+            // Update name
             updateNameOverlay();
-            
-            // Position overlays
-            positionOverlays();
-            
-            // Show green placeholder
-            showGreenPlaceholder();
-            
-            showStatus("Flyer loaded! Green circle shows photo position. White text for name.", "success");
         }
 
-        // Show green circular placeholder
-        function showGreenPlaceholder() {
-            const placeholder = document.getElementById('greenPlaceholder');
-            placeholder.style.left = FLYER_CONFIG.photoPosition.x + 'px';
-            placeholder.style.top = FLYER_CONFIG.photoPosition.y + 'px';
-            placeholder.style.width = FLYER_CONFIG.photoPosition.size + 'px';
-            placeholder.style.height = FLYER_CONFIG.photoPosition.size + 'px';
+        // Load flyer image
+        function loadFlyerImage() {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = function() {
+                document.getElementById('flyerImage').src = FLYER_URL;
+            };
+            img.src = FLYER_URL;
         }
 
-        // Hide green placeholder when photo is uploaded
-        function hideGreenPlaceholder() {
-            document.getElementById('greenPlaceholder').style.display = 'none';
+        // Detect green circular frame (#098928)
+        function detectGreenFrame() {
+            const statusText = document.getElementById('statusText');
+            const flyerImg = document.getElementById('flyerImage');
+            
+            statusText.textContent = "Analyzing flyer for green circular frame (#098928)...";
+            
+            // Create canvas to analyze image
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size to image size
+            canvas.width = flyerImg.naturalWidth || 500;
+            canvas.height = flyerImg.naturalHeight || 700;
+            
+            // Draw image on canvas
+            ctx.drawImage(flyerImg, 0, 0, canvas.width, canvas.height);
+            
+            // Get image data
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            // Look for green pixels (#098928)
+            let greenPixels = [];
+            const targetR = 9, targetG = 137, targetB = 40;
+            const tolerance = 20; // Color tolerance
+            
+            for (let y = 0; y < canvas.height; y++) {
+                for (let x = 0; x < canvas.width; x++) {
+                    const index = (y * canvas.width + x) * 4;
+                    const r = data[index];
+                    const g = data[index + 1];
+                    const b = data[index + 2];
+                    
+                    // Check if pixel is close to target green
+                    if (Math.abs(r - targetR) < tolerance && 
+                        Math.abs(g - targetG) < tolerance && 
+                        Math.abs(b - targetB) < tolerance) {
+                        greenPixels.push({x, y});
+                    }
+                }
+            }
+            
+            // Find circular cluster (approximate)
+            if (greenPixels.length > 100) {
+                // Calculate center and radius
+                let minX = Infinity, maxX = -Infinity;
+                let minY = Infinity, maxY = -Infinity;
+                
+                greenPixels.forEach(pixel => {
+                    minX = Math.min(minX, pixel.x);
+                    maxX = Math.max(maxX, pixel.x);
+                    minY = Math.min(minY, pixel.y);
+                    maxY = Math.max(maxY, pixel.y);
+                });
+                
+                const centerX = (minX + maxX) / 2;
+                const centerY = (minY + maxY) / 2;
+                const radius = Math.max((maxX - minX) / 2, (maxY - minY) / 2);
+                
+                // Scale to preview size
+                const preview = document.getElementById('flyerPreview');
+                const scaleX = preview.offsetWidth / canvas.width;
+                const scaleY = preview.offsetHeight / canvas.height;
+                
+                state.greenFrame = {
+                    x: centerX * scaleX,
+                    y: centerY * scaleY,
+                    radius: radius * Math.min(scaleX, scaleY)
+                };
+                
+                // Position photo overlay
+                const photoOverlay = document.getElementById('userPhotoOverlay');
+                const size = state.greenFrame.radius * 2;
+                
+                photoOverlay.style.left = (state.greenFrame.x - size/2) + 'px';
+                photoOverlay.style.top = (state.greenFrame.y - size/2) + 'px';
+                photoOverlay.style.width = size + 'px';
+                photoOverlay.style.height = size + 'px';
+                
+                statusText.textContent = `✅ Green frame detected! Size: ${Math.round(size)}px`;
+                statusText.style.color = '#098928';
+                
+            } else {
+                // Default position if no green detected
+                state.greenFrame = { x: 250, y: 130, radius: 60 };
+                statusText.textContent = "⚠️ Using default position. Click 'Re-detect' to scan again.";
+                statusText.style.color = '#FFA500';
+            }
         }
 
-        // Set up event listeners
+        // Auto-detect green frame
+        function autoDetectGreenFrame() {
+            const statusText = document.getElementById('statusText');
+            statusText.textContent = "🔄 Scanning for green frame...";
+            statusText.style.color = '#666';
+            
+            setTimeout(detectGreenFrame, 500);
+        }
+
+        // Setup event listeners
         function setupEventListeners() {
             // Name input
             document.getElementById('userName').addEventListener('input', updateNameOverlay);
@@ -765,135 +679,122 @@
             // Photo upload
             document.getElementById('photoInput').addEventListener('change', handlePhotoUpload);
             
+            // Text size slider
+            document.getElementById('textSizeSlider').addEventListener('input', function() {
+                state.textSize = parseInt(this.value);
+                document.getElementById('sizeValue').textContent = state.textSize + 'px';
+                
+                const nameOverlay = document.getElementById('nameOverlay');
+                nameOverlay.style.fontSize = state.textSize + 'px';
+            });
+            
             // Zoom slider
             document.getElementById('zoomSlider').addEventListener('input', function() {
-                const value = this.value;
-                document.getElementById('zoomValue').textContent = value + '%';
+                document.getElementById('zoomValue').textContent = this.value + '%';
                 if (state.cropper) {
-                    state.cropper.scale(value / 100);
+                    state.cropper.scale(parseInt(this.value) / 100);
                 }
             });
         }
 
-        // Set up drag and drop for overlays
+        // Setup drag and drop
         function setupDragAndDrop() {
-            const photoOverlay = document.getElementById('userPhotoOverlay');
-            const nameOverlay = document.getElementById('nameOverlay');
-            
-            makeDraggable(photoOverlay);
-            makeResizable(photoOverlay);
-            makeDraggable(nameOverlay);
+            makeDraggable('userPhotoOverlay');
+            makeDraggable('nameOverlay');
+            makeResizable('nameOverlay');
         }
 
         // Make element draggable
-        function makeDraggable(element) {
+        function makeDraggable(elementId) {
+            const element = document.getElementById(elementId);
+            let isDragging = false;
+            let startX, startY;
+            
             element.addEventListener('mousedown', startDrag);
             
             function startDrag(e) {
-                e.preventDefault();
-                state.isDragging = true;
-                state.currentElement = element;
-                
-                const rect = element.getBoundingClientRect();
-                const previewRect = document.getElementById('flyerPreview').getBoundingClientRect();
-                
-                state.startX = e.clientX - rect.left + previewRect.left;
-                state.startY = e.clientY - rect.top + previewRect.top;
+                isDragging = true;
+                startX = e.clientX - element.offsetLeft;
+                startY = e.clientY - element.offsetTop;
                 
                 document.addEventListener('mousemove', drag);
                 document.addEventListener('mouseup', stopDrag);
             }
             
             function drag(e) {
-                if (!state.isDragging) return;
+                if (!isDragging) return;
                 
-                const previewRect = document.getElementById('flyerPreview').getBoundingClientRect();
-                const x = e.clientX - state.startX;
-                const y = e.clientY - state.startY;
+                const preview = document.getElementById('flyerPreview');
+                const maxX = preview.offsetWidth - element.offsetWidth;
+                const maxY = preview.offsetHeight - element.offsetHeight;
+                
+                let x = e.clientX - startX;
+                let y = e.clientY - startY;
                 
                 // Keep within bounds
-                const maxX = previewRect.width - state.currentElement.offsetWidth;
-                const maxY = previewRect.height - state.currentElement.offsetHeight;
+                x = Math.max(0, Math.min(x, maxX));
+                y = Math.max(0, Math.min(y, maxY));
                 
-                state.currentElement.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
-                state.currentElement.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
+                element.style.left = x + 'px';
+                element.style.top = y + 'px';
                 
-                // Update green placeholder position if dragging photo
-                if (state.currentElement.id === 'userPhotoOverlay' && !state.photoUploaded) {
-                    document.getElementById('greenPlaceholder').style.left = state.currentElement.style.left;
-                    document.getElementById('greenPlaceholder').style.top = state.currentElement.style.top;
+                // Update position in state if it's the name
+                if (elementId === 'nameOverlay') {
+                    state.namePosition = { x, y };
                 }
             }
             
             function stopDrag() {
-                state.isDragging = false;
-                state.currentElement = null;
+                isDragging = false;
                 document.removeEventListener('mousemove', drag);
                 document.removeEventListener('mouseup', stopDrag);
             }
         }
 
-        // Make element resizable
-        function makeResizable(element) {
-            const handle = element.querySelector('.drag-handle');
+        // Make name text resizable
+        function makeResizable(elementId) {
+            const element = document.getElementById(elementId);
+            const handle = element.querySelector('.size-handle');
+            let isResizing = false;
             
             handle.addEventListener('mousedown', startResize);
             
             function startResize(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                
-                state.originalWidth = element.offsetWidth;
-                state.originalHeight = element.offsetHeight;
-                state.startX = e.clientX;
-                state.startY = e.clientY;
+                isResizing = true;
                 
                 document.addEventListener('mousemove', resize);
                 document.addEventListener('mouseup', stopResize);
             }
             
             function resize(e) {
-                const deltaX = e.clientX - state.startX;
-                const deltaY = e.clientY - state.startY;
+                if (!isResizing) return;
                 
-                const newWidth = Math.max(80, state.originalWidth + deltaX);
-                const newHeight = Math.max(80, state.originalHeight + deltaY);
+                // Calculate new font size based on mouse position
+                const rect = element.getBoundingClientRect();
+                const newWidth = e.clientX - rect.left;
                 
-                element.style.width = newWidth + 'px';
-                element.style.height = newHeight + 'px';
+                // Convert width to font size (approximate)
+                const newSize = Math.max(20, Math.min(60, newWidth / 5));
+                state.textSize = Math.round(newSize);
                 
-                // Keep green placeholder same size
-                if (element.id === 'userPhotoOverlay' && !state.photoUploaded) {
-                    document.getElementById('greenPlaceholder').style.width = newWidth + 'px';
-                    document.getElementById('greenPlaceholder').style.height = newHeight + 'px';
-                }
+                // Update element
+                element.style.fontSize = state.textSize + 'px';
+                
+                // Update slider
+                document.getElementById('textSizeSlider').value = state.textSize;
+                document.getElementById('sizeValue').textContent = state.textSize + 'px';
             }
             
             function stopResize() {
+                isResizing = false;
                 document.removeEventListener('mousemove', resize);
                 document.removeEventListener('mouseup', stopResize);
             }
         }
 
-        // Position overlays
-        function positionOverlays() {
-            const photoOverlay = document.getElementById('userPhotoOverlay');
-            const nameOverlay = document.getElementById('nameOverlay');
-            
-            // Position photo overlay
-            photoOverlay.style.left = FLYER_CONFIG.photoPosition.x + 'px';
-            photoOverlay.style.top = FLYER_CONFIG.photoPosition.y + 'px';
-            photoOverlay.style.width = FLYER_CONFIG.photoPosition.size + 'px';
-            photoOverlay.style.height = FLYER_CONFIG.photoPosition.size + 'px';
-            
-            // Position name overlay with white font
-            nameOverlay.style.left = FLYER_CONFIG.namePosition.x + 'px';
-            nameOverlay.style.top = FLYER_CONFIG.namePosition.y + 'px';
-            nameOverlay.style.fontSize = FLYER_CONFIG.namePosition.fontSize + 'px';
-            nameOverlay.style.color = FLYER_CONFIG.nameColor;
-        }
-
-        // Update name overlay (White Font)
+        // Update name overlay
         function updateNameOverlay() {
             const nameInput = document.getElementById('userName').value.trim();
             const nameOverlay = document.getElementById('nameOverlay');
@@ -911,8 +812,6 @@
             } else {
                 nameOverlay.textContent = `${prefix} ${parts[0]}\n${parts.slice(1).join(' ')}`;
             }
-            
-            nameOverlay.style.display = 'block';
         }
 
         // Select gender
@@ -940,13 +839,13 @@
             if (!file) return;
             
             if (!file.type.match('image.*')) {
-                showStatus('Please select an image file (JPEG, PNG)', 'error');
+                alert('Please select an image file (JPEG, PNG)');
                 return;
             }
             
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Show image editor
+                // Show editor
                 document.getElementById('imageEditorPanel').classList.add('active');
                 
                 // Initialize cropper
@@ -958,24 +857,14 @@
                 }
                 
                 state.cropper = new Cropper(image, {
-                    aspectRatio: 1, // Square for circular crop
+                    aspectRatio: 1,
                     viewMode: 1,
                     autoCropArea: 0.8,
                     movable: true,
                     rotatable: true,
                     scalable: true,
-                    zoomable: true,
-                    cropBoxResizable: true,
-                    ready: function() {
-                        // Fit to circular frame
-                        this.cropper.setCropBoxData({
-                            width: FLYER_CONFIG.photoPosition.size,
-                            height: FLYER_CONFIG.photoPosition.size
-                        });
-                    }
+                    zoomable: true
                 });
-                
-                showStatus('Photo uploaded! Crop to fit green circular frame.', 'success');
             };
             reader.readAsDataURL(file);
         }
@@ -996,17 +885,17 @@
             }
         }
 
-        // Apply crop - Replace green placeholder with photo
+        // Apply crop
         function applyCrop() {
-            if (!state.cropper) {
-                showStatus('No image to crop', 'error');
+            if (!state.cropper || !state.greenFrame) {
+                alert('Please upload a photo first');
                 return;
             }
             
             // Get cropped image
             const croppedCanvas = state.cropper.getCroppedCanvas({
-                width: FLYER_CONFIG.photoPosition.size,
-                height: FLYER_CONFIG.photoPosition.size,
+                width: state.greenFrame.radius * 2,
+                height: state.greenFrame.radius * 2,
                 fillColor: '#fff'
             });
             
@@ -1015,109 +904,81 @@
             const uploadedPhoto = document.getElementById('uploadedPhoto');
             
             uploadedPhoto.src = croppedCanvas.toDataURL('image/png');
-            uploadedPhoto.style.display = 'block';
             photoOverlay.style.display = 'block';
             
-            // Hide green placeholder
-            hideGreenPlaceholder();
+            // Position in green frame
+            const size = state.greenFrame.radius * 2;
+            photoOverlay.style.left = (state.greenFrame.x - size/2) + 'px';
+            photoOverlay.style.top = (state.greenFrame.y - size/2) + 'px';
+            photoOverlay.style.width = size + 'px';
+            photoOverlay.style.height = size + 'px';
             
-            // Update state
-            state.photoUploaded = true;
-            
-            // Hide image editor
+            // Hide editor
             document.getElementById('imageEditorPanel').classList.remove('active');
             
-            showStatus('Photo applied! Green frame replaced with your image.', 'success');
+            // Update status
+            document.getElementById('statusText').textContent = '✅ Photo placed in green frame!';
         }
 
         // Reset positions
         function resetPositions() {
-            positionOverlays();
-            showGreenPlaceholder();
-            state.photoUploaded = false;
-            showStatus('Positions reset. Green placeholder visible.', 'success');
-        }
-
-        // Auto-fit all elements
-        function autoFitAll() {
-            positionOverlays();
-            updateNameOverlay();
-            showStatus('All elements auto-fitted to flyer', 'success');
+            // Reset photo to green frame
+            if (state.greenFrame) {
+                const photoOverlay = document.getElementById('userPhotoOverlay');
+                const size = state.greenFrame.radius * 2;
+                
+                photoOverlay.style.left = (state.greenFrame.x - size/2) + 'px';
+                photoOverlay.style.top = (state.greenFrame.y - size/2) + 'px';
+            }
+            
+            // Reset text position and size
+            const nameOverlay = document.getElementById('nameOverlay');
+            nameOverlay.style.left = state.namePosition.x + 'px';
+            nameOverlay.style.top = state.namePosition.y + 'px';
+            
+            state.textSize = 32;
+            nameOverlay.style.fontSize = '32px';
+            document.getElementById('textSizeSlider').value = 32;
+            document.getElementById('sizeValue').textContent = '32px';
         }
 
         // Download flyer
         function downloadFlyer() {
-            // Create canvas
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
-            const flyerImage = document.getElementById('flyerImage');
             const preview = document.getElementById('flyerPreview');
+            const flyerImg = document.getElementById('flyerImage');
             
             // Set canvas size
             canvas.width = preview.offsetWidth;
             canvas.height = preview.offsetHeight;
             
             // Draw flyer
-            ctx.drawImage(flyerImage, 0, 0, canvas.width, canvas.height);
+            ctx.drawImage(flyerImg, 0, 0, canvas.width, canvas.height);
             
-            // Draw user photo if uploaded
-            if (state.photoUploaded) {
-                const photoOverlay = document.getElementById('userPhotoOverlay');
+            // Draw photo if exists
+            const photoOverlay = document.getElementById('userPhotoOverlay');
+            if (photoOverlay.style.display !== 'none') {
                 const photoRect = photoOverlay.getBoundingClientRect();
                 const previewRect = preview.getBoundingClientRect();
                 
-                const photoX = photoRect.left - previewRect.left;
-                const photoY = photoRect.top - previewRect.top;
-                const photoSize = photoRect.width;
+                const x = photoRect.left - previewRect.left;
+                const y = photoRect.top - previewRect.top;
+                const size = photoRect.width;
                 
-                // Create circular clipping path
+                // Circular clipping
                 ctx.save();
                 ctx.beginPath();
-                ctx.arc(
-                    photoX + photoSize / 2,
-                    photoY + photoSize / 2,
-                    photoSize / 2,
-                    0,
-                    Math.PI * 2
-                );
+                ctx.arc(x + size/2, y + size/2, size/2, 0, Math.PI * 2);
                 ctx.closePath();
                 ctx.clip();
                 
                 const uploadedPhoto = document.getElementById('uploadedPhoto');
-                ctx.drawImage(uploadedPhoto, photoX, photoY, photoSize, photoSize);
+                ctx.drawImage(uploadedPhoto, x, y, size, size);
                 ctx.restore();
-            } else {
-                // Draw green placeholder
-                const placeholder = document.getElementById('greenPlaceholder');
-                const placeholderRect = placeholder.getBoundingClientRect();
-                const previewRect = preview.getBoundingClientRect();
-                
-                const placeholderX = placeholderRect.left - previewRect.left;
-                const placeholderY = placeholderRect.top - previewRect.top;
-                const placeholderSize = placeholderRect.width;
-                
-                // Draw green circle
-                ctx.beginPath();
-                ctx.arc(
-                    placeholderX + placeholderSize / 2,
-                    placeholderY + placeholderSize / 2,
-                    placeholderSize / 2,
-                    0,
-                    Math.PI * 2
-                );
-                ctx.fillStyle = FLYER_CONFIG.photoPosition.green || '#27AE60';
-                ctx.fill();
-                
-                // Draw placeholder text
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 12px Arial';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('PHOTO', placeholderX + placeholderSize / 2, placeholderY + placeholderSize / 2 - 10);
-                ctx.fillText('FRAME', placeholderX + placeholderSize / 2, placeholderY + placeholderSize / 2 + 10);
             }
             
-            // Draw name with white font
+            // Draw white text
             const nameOverlay = document.getElementById('nameOverlay');
             const nameRect = nameOverlay.getBoundingClientRect();
             const previewRect = preview.getBoundingClientRect();
@@ -1125,30 +986,30 @@
             const nameX = nameRect.left - previewRect.left;
             const nameY = nameRect.top - previewRect.top;
             
-            ctx.font = `bold ${nameOverlay.style.fontSize} Montserrat`;
-            ctx.fillStyle = FLYER_CONFIG.nameColor; // White font
+            ctx.font = `bold ${state.textSize}px Montserrat`;
+            ctx.fillStyle = '#FFFFFF';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
             
-            // Add text shadow for better visibility
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-            ctx.shadowBlur = 3;
-            ctx.shadowOffsetX = 1;
-            ctx.shadowOffsetY = 1;
+            // Add text shadow for visibility
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+            ctx.shadowBlur = 4;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
             
-            const nameLines = nameOverlay.textContent.split('\n');
-            nameLines.forEach((line, index) => {
+            const lines = nameOverlay.textContent.split('\n');
+            lines.forEach((line, i) => {
                 ctx.fillText(
                     line,
-                    nameX + nameRect.width / 2,
-                    nameY + (index * parseInt(nameOverlay.style.fontSize) * 1.2)
+                    nameX + nameRect.width/2,
+                    nameY + (i * state.textSize * 1.2)
                 );
             });
             
             // Reset shadow
             ctx.shadowColor = 'transparent';
             
-            // Create download
+            // Download
             const link = document.createElement('a');
             const name = document.getElementById('userName').value.trim().replace(/\s+/g, '-');
             link.download = `Elite-Fusion-${name || 'flyer'}.png`;
@@ -1157,18 +1018,8 @@
             link.click();
             document.body.removeChild(link);
             
-            showStatus('Flyer downloaded successfully!', 'success');
-        }
-
-        // Show status message
-        function showStatus(message, type) {
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.textContent = message;
-            statusDiv.className = `status-message ${type}`;
-            
-            setTimeout(() => {
-                statusDiv.style.display = 'none';
-            }, 4000);
+            // Update status
+            document.getElementById('statusText').textContent = '✅ Flyer downloaded!';
         }
     </script>
 </body>
