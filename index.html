@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Fusion - Smart Flyer Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Elite Fusion - Mobile Flyer Editor</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
@@ -20,7 +20,6 @@
             --white: #FFFFFF;
             --light-gray: #F5F5F5;
             --dark-gray: #333333;
-            --shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         body {
@@ -28,1081 +27,1240 @@
             font-family: 'Inter', sans-serif;
             color: var(--dark-gray);
             line-height: 1.6;
+            touch-action: pan-y;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
 
-        /* Header */
+        /* Header - Mobile Optimized */
         .site-header {
             text-align: center;
-            padding: 25px 0;
-            margin-bottom: 30px;
-            border-bottom: 3px solid var(--target-green);
+            padding: 20px 0;
+            margin-bottom: 20px;
         }
 
         .logo-title {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .event-logo {
-            height: 80px;
+            height: 60px;
             width: auto;
         }
 
         .site-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 3rem;
+            font-size: 2rem;
             font-weight: 900;
             color: var(--primary-red);
-            letter-spacing: 1px;
+            text-align: center;
         }
 
         .site-subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--primary-red);
             font-weight: 600;
+            text-align: center;
         }
 
-        /* Main Layout */
-        .editor-container {
-            display: grid;
-            grid-template-columns: 400px 1fr 400px;
-            gap: 25px;
-            min-height: 700px;
+        /* Mobile App Layout */
+        .mobile-app {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        @media (max-width: 1200px) {
-            .editor-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
+        /* Tab Navigation for Mobile */
+        .mobile-tabs {
+            display: flex;
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 15px;
         }
 
-        /* Panel Styling */
-        .editor-panel {
+        .tab-btn {
+            flex: 1;
+            padding: 12px 5px;
+            border: none;
+            background: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--target-green);
+            color: white;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Control Panel - Mobile Optimized */
+        .control-panel {
             background: var(--white);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(9, 137, 40, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .panel-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: var(--primary-red);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid var(--target-green);
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        /* Controls */
-        .control-section {
-            margin-bottom: 25px;
+        /* Mobile Form Controls */
+        .control-group {
+            margin-bottom: 20px;
         }
 
-        .section-label {
+        .control-label {
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             color: var(--primary-red);
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
-        .name-input {
+        .mobile-input {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid #E0E0E0;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            transition: all 0.3s;
-            margin-bottom: 10px;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--white);
+            -webkit-appearance: none;
+            appearance: none;
         }
 
-        .name-input:focus {
+        .mobile-input:focus {
             outline: none;
             border-color: var(--target-green);
-            box-shadow: 0 0 0 3px rgba(9, 137, 40, 0.2);
         }
 
-        /* Gender Selection */
-        .gender-selection {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+        /* Gender Selection - Mobile Friendly */
+        .gender-select {
+            display: flex;
+            gap: 10px;
             margin-top: 10px;
         }
 
-        .gender-btn {
+        .gender-option {
+            flex: 1;
             padding: 15px;
             background: var(--light-gray);
             border: 2px solid #E0E0E0;
-            border-radius: 10px;
+            border-radius: 8px;
             text-align: center;
             cursor: pointer;
             font-weight: 600;
             font-size: 1.1rem;
-            transition: all 0.3s;
+            user-select: none;
         }
 
-        .gender-btn:hover {
-            border-color: var(--target-green);
-            background: #F0FFF5;
-        }
-
-        .gender-btn.selected {
+        .gender-option.selected {
             background: var(--target-green);
-            color: var(--white);
+            color: white;
             border-color: var(--target-green);
         }
 
-        /* Upload Area */
-        .upload-area {
-            border: 3px dashed var(--target-green);
-            border-radius: 12px;
-            padding: 40px 20px;
+        /* Upload Area - Mobile Optimized */
+        .mobile-upload {
+            border: 2px dashed var(--target-green);
+            border-radius: 10px;
+            padding: 30px 15px;
             text-align: center;
-            cursor: pointer;
             background: #F8FFF9;
             margin-bottom: 15px;
-            transition: all 0.3s;
-        }
-
-        .upload-area:hover {
-            background: #F0FFF5;
-            border-color: var(--primary-red);
+            position: relative;
+            overflow: hidden;
         }
 
         .upload-icon {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             color: var(--target-green);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        /* Preview */
+        .upload-text {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark-gray);
+        }
+
+        .upload-note {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Preview Area - Mobile Responsive */
         .preview-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .flyer-preview {
-            position: relative;
-            width: 500px;
-            height: 700px;
             background: var(--white);
             border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .flyer-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--light-gray);
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            border: 2px solid var(--target-green);
+            touch-action: none;
         }
 
         #flyerImage {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
+            height: auto;
+            display: block;
         }
 
-        .overlay-element {
+        /* Touch-Friendly Overlays */
+        .touch-overlay {
             position: absolute;
-            pointer-events: all;
+            pointer-events: auto;
+            touch-action: none;
             user-select: none;
         }
 
-        #userPhotoOverlay {
+        #photoOverlay {
             border-radius: 50%;
             border: 3px solid var(--target-green);
             overflow: hidden;
-            background: var(--target-green);
-            cursor: move;
+            background: rgba(9, 137, 40, 0.3);
         }
 
-        #userPhotoOverlay img {
+        #photoOverlay img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        #nameOverlay {
-            color: var(--white);
+        #textOverlay {
+            color: white;
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             text-align: center;
             line-height: 1.2;
-            cursor: move;
-            padding: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            min-width: 50px;
-            transition: transform 0.2s;
+            padding: 10px;
+            min-width: 100px;
+            touch-action: none;
         }
 
-        #nameOverlay:active {
-            cursor: grabbing;
-        }
-
-        .drag-handle {
+        /* Touch Handles */
+        .touch-handle {
             position: absolute;
-            bottom: -5px;
-            right: -5px;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             background: var(--target-green);
             border-radius: 50%;
-            cursor: nwse-resize;
-            border: 2px solid var(--white);
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
-        .size-controls {
+        .move-handle {
+            top: -12px;
+            left: -12px;
+            background: var(--primary-red);
+            cursor: move;
+        }
+
+        .resize-handle {
+            bottom: -12px;
+            right: -12px;
+            cursor: nwse-resize;
+        }
+
+        .text-resize-handle {
+            top: -12px;
+            right: -12px;
+            background: var(--primary-gold);
+            cursor: nesw-resize;
+        }
+
+        /* Touch Size Controls */
+        .touch-controls {
+            display: none;
             position: absolute;
-            top: -40px;
+            top: -50px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 6px;
-            padding: 5px;
-            display: none;
-            gap: 5px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 8px;
+            padding: 8px;
+            gap: 10px;
+            z-index: 1000;
         }
 
         .size-btn {
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             background: var(--target-green);
             color: white;
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            border-radius: 50%;
+            font-size: 1.2rem;
             font-weight: bold;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .size-btn:hover {
-            background: #0a9e2c;
-        }
-
-        /* Text Size Controls */
-        .text-controls {
-            background: #F8F9FA;
+        /* Image Editor - Mobile Optimized */
+        .mobile-editor {
+            background: var(--white);
+            border-radius: 12px;
             padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .size-slider {
-            width: 100%;
-            margin: 15px 0;
-        }
-
-        .size-value {
-            font-weight: 600;
-            color: var(--target-green);
-        }
-
-        /* Click Instructions */
-        .click-instruction {
-            background: #FFF3CD;
-            border-left: 4px solid #FFC107;
-            padding: 10px 15px;
-            margin-top: 15px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            color: #856404;
-        }
-
-        /* Image Editor */
-        .image-editor {
-            display: none;
-        }
-
-        .image-editor.active {
-            display: block;
-        }
-
-        .crop-container {
+        .crop-area {
             width: 100%;
             height: 300px;
             background: #f0f0f0;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
             margin-bottom: 20px;
+            position: relative;
         }
 
-        .crop-controls {
+        #cropImage {
+            max-width: 100%;
+            max-height: 300px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Touch Sliders */
+        .touch-slider {
+            width: 100%;
+            height: 44px;
+            margin: 15px 0;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #E0E0E0;
+            border-radius: 22px;
+            outline: none;
+        }
+
+        .touch-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 44px;
+            height: 44px;
+            background: var(--target-green);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        /* Touch Buttons Grid */
+        .touch-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
             margin: 20px 0;
         }
 
-        .crop-btn {
-            padding: 12px;
-            background: var(--target-green);
-            color: var(--white);
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .crop-btn:hover {
-            background: #087823;
-        }
-
-        .crop-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        /* Buttons */
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .action-btn {
-            padding: 15px;
+        .touch-btn {
+            padding: 15px 10px;
             background: var(--target-green);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 600;
+            font-size: 0.9rem;
             cursor: pointer;
+            text-align: center;
+            user-select: none;
         }
 
-        .download-btn {
-            width: 100%;
-            padding: 18px;
+        .touch-btn:active {
+            transform: scale(0.95);
+        }
+
+        .touch-btn.secondary {
+            background: #666;
+        }
+
+        /* Status Messages */
+        .mobile-status {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+
+        .mobile-status.success {
+            background: #E8F5E9;
+            color: #27AE60;
+            border: 2px solid #C8E6C9;
+            display: block;
+        }
+
+        .mobile-status.error {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 2px solid #FFCDD2;
+            display: block;
+        }
+
+        /* Action Bar - Mobile Bottom */
+        .action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .primary-btn {
+            flex: 2;
+            padding: 16px;
             background: linear-gradient(135deg, var(--target-green), #0A9E2C);
             color: white;
             border: none;
             border-radius: 10px;
             font-weight: 800;
-            margin-top: 20px;
+            font-size: 1.1rem;
             cursor: pointer;
         }
 
-        /* Detection Status */
-        .detection-status {
-            background: #E8F5E9;
-            padding: 15px;
+        .secondary-btn {
+            flex: 1;
+            padding: 16px;
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            border: none;
             border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .status-title {
-            color: var(--target-green);
             font-weight: 600;
-            margin-bottom: 10px;
+            cursor: pointer;
         }
 
         /* Footer */
-        .site-footer {
+        .mobile-footer {
             text-align: center;
-            padding: 40px 20px;
-            margin-top: 50px;
-            border-top: 3px solid var(--target-green);
+            padding: 30px 20px;
+            margin-top: 80px;
             background: #FAFAFA;
+            border-radius: 12px;
         }
 
         .footer-logo {
-            height: 60px;
-            margin-bottom: 20px;
+            height: 50px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        /* Mobile Instructions */
+        .mobile-help {
+            background: #FFF3CD;
+            border-left: 4px solid #FFC107;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #856404;
+        }
+
+        /* Responsive Media Queries */
+        @media (min-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .mobile-tabs {
+                max-width: 500px;
+                margin: 0 auto 20px;
+            }
+            
+            .action-bar {
+                position: relative;
+                box-shadow: none;
+                padding: 20px 0;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-app {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            
+            .mobile-tabs {
+                display: none;
+            }
+            
+            .tab-content {
+                display: block !important;
+            }
+            
+            .action-bar {
+                grid-column: span 2;
+            }
+        }
+
+        /* Prevent text selection on mobile */
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <header class="site-header">
             <div class="logo-title">
                 <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" 
                      alt="Elite Fusion" class="event-logo">
                 <h1 class="site-title">ELITE FUSION</h1>
             </div>
-            <p class="site-subtitle">Smart Green Frame Detection System</p>
+            <p class="site-subtitle">Mobile Flyer Editor</p>
         </header>
 
-        <div class="editor-container">
-            <!-- Left Panel -->
-            <div class="editor-panel">
-                <h2 class="panel-title">CUSTOMIZE FLYER</h2>
-                
-                <div class="control-section">
-                    <label class="section-label">YOUR NAME</label>
-                    <input type="text" class="name-input" id="userName" 
-                           placeholder="Enter your name" value="Ismaila Habeeb">
-                </div>
+        <!-- Mobile Tabs -->
+        <div class="mobile-tabs">
+            <button class="tab-btn active" onclick="showTab('editTab')">✏️ Edit</button>
+            <button class="tab-btn" onclick="showTab('previewTab')">👁️ Preview</button>
+            <button class="tab-btn" onclick="showTab('cropTab')">✂️ Crop</button>
+        </div>
 
-                <div class="control-section">
-                    <label class="section-label">TITLE</label>
-                    <div class="gender-selection">
-                        <div class="gender-btn selected" onclick="selectGender('male')">Mr</div>
-                        <div class="gender-btn" onclick="selectGender('female')">Miss</div>
+        <div class="mobile-app">
+            <!-- Edit Tab -->
+            <div class="tab-content active" id="editTab">
+                <div class="control-panel">
+                    <h2 class="panel-title">EDIT DETAILS</h2>
+                    
+                    <div class="control-group">
+                        <label class="control-label">YOUR NAME</label>
+                        <input type="text" class="mobile-input" id="userName" 
+                               placeholder="Enter your name" value="Ismaila Habeeb">
                     </div>
-                </div>
 
-                <div class="control-section">
-                    <label class="section-label">UPLOAD PHOTO</label>
-                    <div class="upload-area" onclick="openPhotoUpload()">
-                        <div class="upload-icon">📷</div>
-                        <div>Click to Upload Photo</div>
-                        <div style="font-size: 0.9rem; color: #666; margin-top: 10px;">
-                            Will auto-fit to detected green frame
+                    <div class="control-group">
+                        <label class="control-label">TITLE</label>
+                        <div class="gender-select">
+                            <div class="gender-option selected" onclick="selectGender('male')">Mr</div>
+                            <div class="gender-option" onclick="selectGender('female')">Miss</div>
                         </div>
                     </div>
-                    <input type="file" id="photoInput" accept="image/*" style="display: none;">
-                </div>
 
-                <!-- Text Size Controls -->
-                <div class="text-controls">
-                    <label class="section-label">TEXT SIZE CONTROL</label>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                        <span>Small</span>
-                        <span class="size-value" id="sizeValue">32px</span>
-                        <span>Large</span>
+                    <div class="control-group">
+                        <label class="control-label">UPLOAD PHOTO</label>
+                        <div class="mobile-upload" onclick="openPhotoUpload()">
+                            <div class="upload-icon">📷</div>
+                            <div class="upload-text">Tap to Upload Photo</div>
+                            <div class="upload-note">Will auto-fit to green frame</div>
+                            <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;">
+                        </div>
                     </div>
-                    <input type="range" class="size-slider" id="textSizeSlider" 
-                           min="20" max="50" value="32" step="1">
-                    <div class="click-instruction">
-                        💡 <strong>Quick size change:</strong> Click on the name in preview, then use + - buttons
+
+                    <div class="mobile-help">
+                        💡 <strong>Tip:</strong> Upload a clear photo for best results
                     </div>
-                </div>
 
-                <div class="detection-status" id="detectionStatus">
-                    <div class="status-title">🔍 DETECTION STATUS</div>
-                    <div id="statusText">Scanning for green circular frame (#098928)...</div>
-                </div>
-
-                <button class="download-btn" onclick="downloadFlyer()">
-                    ⬇️ DOWNLOAD FLYER
-                </button>
-            </div>
-
-            <!-- Center Preview -->
-            <div class="editor-panel preview-container">
-                <h2 class="panel-title">LIVE PREVIEW</h2>
-                
-                <div class="flyer-preview" id="flyerPreview">
-                    <img id="flyerImage" src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427" 
-                         alt="Elite Fusion Flyer">
-                    
-                    <!-- User Photo -->
-                    <div id="userPhotoOverlay" class="overlay-element" 
-                         style="display: none; left: 0; top: 0; width: 100px; height: 100px;">
-                        <img id="uploadedPhoto" src="" alt="User Photo">
-                        <div class="drag-handle"></div>
-                    </div>
-                    
-                    <!-- Name Text with Size Controls -->
-                    <div id="nameOverlay" class="overlay-element" 
-                         style="display: block; left: 250px; top: 320px; font-size: 32px;">
-                        Mr Ismaila Habeeb
-                        <div class="drag-handle"></div>
-                        <div class="size-controls" id="nameSizeControls">
-                            <button class="size-btn" onclick="changeTextSize(-2)">-</button>
-                            <button class="size-btn" onclick="changeTextSize(2)">+</button>
+                    <div class="control-group">
+                        <label class="control-label">TEXT SIZE</label>
+                        <input type="range" class="touch-slider" id="textSizeSlider" 
+                               min="20" max="50" value="32">
+                        <div style="text-align: center; font-weight: 600; color: var(--target-green);">
+                            Size: <span id="sizeValue">32px</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="action-buttons">
-                    <button class="action-btn" onclick="autoDetectGreenFrame()">
-                        🔍 Re-detect Green Frame
-                    </button>
-                    <button class="action-btn" onclick="resetPositions()">
-                        🔄 Reset All
-                    </button>
+            <!-- Preview Tab -->
+            <div class="tab-content" id="previewTab">
+                <div class="preview-container">
+                    <h2 class="panel-title">PREVIEW</h2>
+                    
+                    <div class="flyer-wrapper" id="flyerWrapper">
+                        <img id="flyerImage" src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427" 
+                             alt="Elite Fusion Flyer">
+                        
+                        <!-- Photo Overlay -->
+                        <div id="photoOverlay" class="touch-overlay" 
+                             style="display: none; left: 150px; top: 80px; width: 120px; height: 120px;">
+                            <img id="uploadedPhoto" src="" alt="User Photo">
+                            <div class="touch-handle move-handle"></div>
+                            <div class="touch-handle resize-handle"></div>
+                        </div>
+                        
+                        <!-- Text Overlay -->
+                        <div id="textOverlay" class="touch-overlay" 
+                             style="display: block; left: 150px; top: 220px; font-size: 28px;">
+                            Mr Ismaila Habeeb
+                            <div class="touch-handle move-handle"></div>
+                            <div class="touch-handle text-resize-handle"></div>
+                            <div class="touch-controls" id="textControls">
+                                <button class="size-btn" onclick="changeTextSize(-2)">-</button>
+                                <button class="size-btn" onclick="changeTextSize(2)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-help">
+                        💡 <strong>Touch Controls:</strong> Drag circles to move • Drag corners to resize
+                    </div>
                 </div>
             </div>
 
-            <!-- Right Editor -->
-            <div class="editor-panel image-editor" id="imageEditorPanel">
-                <h2 class="panel-title">EDIT PHOTO</h2>
-                
-                <div class="crop-container">
-                    <img id="imagePreview" src="" alt="Image to crop">
-                </div>
+            <!-- Crop Tab -->
+            <div class="tab-content" id="cropTab">
+                <div class="mobile-editor">
+                    <h2 class="panel-title">CROP PHOTO</h2>
+                    
+                    <div class="crop-area">
+                        <img id="cropImage" src="" alt="Image to crop">
+                    </div>
 
-                <div style="margin: 20px 0;">
-                    <label>Zoom: <span id="zoomValue">100%</span></label>
-                    <input type="range" id="zoomSlider" min="50" max="200" value="100" style="width: 100%;">
-                </div>
+                    <div class="control-group">
+                        <label class="control-label">ZOOM: <span id="zoomValue">100%</span></label>
+                        <input type="range" class="touch-slider" id="zoomSlider" min="50" max="200" value="100">
+                    </div>
 
-                <div class="crop-controls">
-                    <button class="crop-btn" onclick="rotateImage(-90)">⟲ Left</button>
-                    <button class="crop-btn" onclick="rotateImage(90)">⟳ Right</button>
-                    <button class="crop-btn" onclick="resetCrop()">🔄 Reset</button>
-                    <button class="crop-btn" id="applyCropBtn" onclick="applyCrop()">✅ Apply</button>
-                </div>
+                    <div class="touch-buttons">
+                        <button class="touch-btn" onclick="rotateImage(-90)">⟲ Left</button>
+                        <button class="touch-btn" onclick="rotateImage(90)">⟳ Right</button>
+                        <button class="touch-btn secondary" onclick="resetCrop()">Reset</button>
+                        <button class="touch-btn" onclick="applyCrop()" id="applyBtn">Apply</button>
+                    </div>
 
-                <div style="margin-top: 20px; color: #666; font-size: 0.9rem; text-align: center;">
-                    <p>Crop photo to fit the detected green circular frame</p>
+                    <div class="mobile-help">
+                        💡 <strong>Instructions:</strong> Pinch to zoom • Drag to move crop area
+                    </div>
                 </div>
+            </div>
+
+            <!-- Status Messages -->
+            <div id="statusMessage" class="mobile-status"></div>
+
+            <!-- Action Bar -->
+            <div class="action-bar">
+                <button class="secondary-btn" onclick="autoDetect()">🔍 Detect</button>
+                <button class="secondary-btn" onclick="resetAll()">🔄 Reset</button>
+                <button class="primary-btn" onclick="downloadFlyer()">⬇️ Download</button>
             </div>
         </div>
 
-        <footer class="site-footer">
+        <!-- Footer -->
+        <footer class="mobile-footer">
             <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" 
                  alt="Elite Fusion" class="footer-logo">
-            <h2 style="color: var(--primary-red); font-family: 'Montserrat'; margin-bottom: 10px;">
+            <h3 style="color: var(--primary-red); font-family: 'Montserrat'; margin-bottom: 10px;">
                 ELITE FUSION
-            </h2>
-            <p style="color: #666;">
-                Green Frame Detection System • White Text Editor • Click to Resize
+            </h3>
+            <p style="color: #666; font-size: 0.9rem;">
+                Touch-friendly editor • Works on all devices
             </p>
         </footer>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <script>
-        // Configuration
-        const TARGET_GREEN = '#098928';
-        const FLYER_URL = "https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765816065";
-        
-        // State
-        let state = {
+        // Mobile State Management
+        let mobileState = {
             gender: 'male',
-            cropper: null,
             textSize: 32,
             greenFrame: null,
-            namePosition: { x: 250, y: 320 },
-            photoUploaded: false,
-            nameControlsVisible: false
+            isDragging: false,
+            activeElement: null,
+            startX: 0,
+            startY: 0,
+            startWidth: 0,
+            startHeight: 0,
+            startFontSize: 32,
+            touchStartDistance: 0,
+            currentScale: 1
         };
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', async function() {
-            await initializeFlyer();
-            setupEventListeners();
-            setupDragAndDrop();
-            setupNameClickControls();
+        // Initialize Mobile App
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMobileApp();
+            setupTouchEvents();
+            setupMobileListeners();
         });
 
-        // Initialize flyer with detection
-        async function initializeFlyer() {
+        function initializeMobileApp() {
+            // Set initial text size
+            updateTextSize();
+            
             // Load flyer
-            loadFlyerImage();
+            loadFlyer();
             
-            // Start green frame detection
-            setTimeout(() => {
-                detectGreenFrame();
-            }, 1000);
+            // Show first tab
+            showTab('editTab');
             
-            // Update name
-            updateNameOverlay();
+            // Update status
+            showStatus('Ready to customize! Tap buttons below.', 'success');
         }
 
-        // Load flyer image
-        function loadFlyerImage() {
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            img.onload = function() {
-                document.getElementById('flyerImage').src = FLYER_URL;
-            };
-            img.src = FLYER_URL;
-        }
-
-        // Detect green circular frame (#098928)
-        function detectGreenFrame() {
-            const statusText = document.getElementById('statusText');
+        function loadFlyer() {
             const flyerImg = document.getElementById('flyerImage');
+            flyerImg.onload = function() {
+                // Auto-detect green frame after image loads
+                setTimeout(detectGreenFrame, 500);
+            };
+            flyerImg.src = "https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427";
+        }
+
+        function detectGreenFrame() {
+            showStatus('🔍 Detecting green frame...', 'success');
             
-            statusText.textContent = "Analyzing flyer for green circular frame (#098928)...";
+            // For mobile, use simpler detection with default positions
+            const wrapper = document.getElementById('flyerWrapper');
+            const width = wrapper.offsetWidth;
+            const height = wrapper.offsetHeight;
             
-            // Create canvas to analyze image
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
+            // Default positions for mobile (centered)
+            mobileState.greenFrame = {
+                x: width * 0.5,
+                y: height * 0.2,
+                radius: Math.min(width, height) * 0.12
+            };
             
-            // Set canvas size to image size
-            canvas.width = flyerImg.naturalWidth || 500;
-            canvas.height = flyerImg.naturalHeight || 700;
+            // Position photo overlay
+            const photoOverlay = document.getElementById('photoOverlay');
+            const size = mobileState.greenFrame.radius * 2;
             
-            // Draw image on canvas
-            ctx.drawImage(flyerImg, 0, 0, canvas.width, canvas.height);
+            photoOverlay.style.left = (mobileState.greenFrame.x - size/2) + 'px';
+            photoOverlay.style.top = (mobileState.greenFrame.y - size/2) + 'px';
+            photoOverlay.style.width = size + 'px';
+            photoOverlay.style.height = size + 'px';
             
-            // Get image data
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
+            showStatus('✅ Green frame detected!', 'success');
+        }
+
+        function setupTouchEvents() {
+            setupElementTouch('photoOverlay');
+            setupElementTouch('textOverlay');
+            setupTextResizeTouch();
+        }
+
+        function setupElementTouch(elementId) {
+            const element = document.getElementById(elementId);
+            const moveHandle = element.querySelector('.move-handle');
+            const resizeHandle = element.querySelector('.resize-handle') || element.querySelector('.text-resize-handle');
             
-            // Look for green pixels (#098928)
-            let greenPixels = [];
-            const targetR = 9, targetG = 137, targetB = 40;
-            const tolerance = 20; // Color tolerance
+            // Move with handle
+            setupTouchDrag(moveHandle, element, 'move');
             
-            for (let y = 0; y < canvas.height; y++) {
-                for (let x = 0; x < canvas.width; x++) {
-                    const index = (y * canvas.width + x) * 4;
-                    const r = data[index];
-                    const g = data[index + 1];
-                    const b = data[index + 2];
-                    
-                    // Check if pixel is close to target green
-                    if (Math.abs(r - targetR) < tolerance && 
-                        Math.abs(g - targetG) < tolerance && 
-                        Math.abs(b - targetB) < tolerance) {
-                        greenPixels.push({x, y});
-                    }
+            // Resize with handle
+            if (resizeHandle) {
+                if (elementId === 'textOverlay') {
+                    setupTextResize(resizeHandle, element);
+                } else {
+                    setupTouchDrag(resizeHandle, element, 'resize');
                 }
             }
             
-            // Find circular cluster (approximate)
-            if (greenPixels.length > 100) {
-                // Calculate center and radius
-                let minX = Infinity, maxX = -Infinity;
-                let minY = Infinity, maxY = -Infinity;
-                
-                greenPixels.forEach(pixel => {
-                    minX = Math.min(minX, pixel.x);
-                    maxX = Math.max(maxX, pixel.x);
-                    minY = Math.min(minY, pixel.y);
-                    maxY = Math.max(maxY, pixel.y);
+            // Touch controls for text
+            if (elementId === 'textOverlay') {
+                element.addEventListener('touchstart', function(e) {
+                    if (e.target === this) {
+                        const controls = document.getElementById('textControls');
+                        controls.style.display = 'flex';
+                        setTimeout(() => {
+                            controls.style.display = 'none';
+                        }, 3000);
+                    }
                 });
-                
-                const centerX = (minX + maxX) / 2;
-                const centerY = (minY + maxY) / 2;
-                const radius = Math.max((maxX - minX) / 2, (maxY - minY) / 2);
-                
-                // Scale to preview size
-                const preview = document.getElementById('flyerPreview');
-                const scaleX = preview.offsetWidth / canvas.width;
-                const scaleY = preview.offsetHeight / canvas.height;
-                
-                state.greenFrame = {
-                    x: centerX * scaleX,
-                    y: centerY * scaleY,
-                    radius: radius * Math.min(scaleX, scaleY)
-                };
-                
-                // Position photo overlay
-                const photoOverlay = document.getElementById('userPhotoOverlay');
-                const size = state.greenFrame.radius * 2;
-                
-                photoOverlay.style.left = (state.greenFrame.x - size/2) + 'px';
-                photoOverlay.style.top = (state.greenFrame.y - size/2) + 'px';
-                photoOverlay.style.width = size + 'px';
-                photoOverlay.style.height = size + 'px';
-                
-                statusText.textContent = `✅ Green frame detected! Size: ${Math.round(size)}px`;
-                statusText.style.color = '#098928';
-                
-                // Enable apply button since we have green frame
-                document.getElementById('applyCropBtn').disabled = false;
-                
-            } else {
-                // Default position if no green detected
-                state.greenFrame = { x: 250, y: 130, radius: 60 };
-                statusText.textContent = "⚠️ Using default position. Click 'Re-detect' to scan again.";
-                statusText.style.color = '#FFA500';
-                
-                // Enable apply button with default position
-                document.getElementById('applyCropBtn').disabled = false;
             }
         }
 
-        // Auto-detect green frame
-        function autoDetectGreenFrame() {
-            const statusText = document.getElementById('statusText');
-            statusText.textContent = "🔄 Scanning for green frame...";
-            statusText.style.color = '#666';
+        function setupTouchDrag(handle, element, mode) {
+            handle.addEventListener('touchstart', startTouch);
+            handle.addEventListener('mousedown', startTouch);
             
-            setTimeout(detectGreenFrame, 500);
+            function startTouch(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                mobileState.isDragging = true;
+                mobileState.activeElement = element;
+                
+                const touch = e.touches ? e.touches[0] : e;
+                mobileState.startX = touch.clientX;
+                mobileState.startY = touch.clientY;
+                
+                const rect = element.getBoundingClientRect();
+                mobileState.startLeft = rect.left;
+                mobileState.startTop = rect.top;
+                mobileState.startWidth = rect.width;
+                mobileState.startHeight = rect.height;
+                
+                // Add active class for visual feedback
+                element.classList.add('dragging');
+                
+                if (mode === 'move') {
+                    document.addEventListener('touchmove', moveTouch);
+                    document.addEventListener('mousemove', moveTouch);
+                    document.addEventListener('touchend', stopTouch);
+                    document.addEventListener('mouseup', stopTouch);
+                } else if (mode === 'resize') {
+                    document.addEventListener('touchmove', resizeTouch);
+                    document.addEventListener('mousemove', resizeTouch);
+                    document.addEventListener('touchend', stopTouch);
+                    document.addEventListener('mouseup', stopTouch);
+                }
+            }
+            
+            function moveTouch(e) {
+                if (!mobileState.isDragging) return;
+                
+                const touch = e.touches ? e.touches[0] : e;
+                const deltaX = touch.clientX - mobileState.startX;
+                const deltaY = touch.clientY - mobileState.startY;
+                
+                const wrapper = document.getElementById('flyerWrapper');
+                const wrapperRect = wrapper.getBoundingClientRect();
+                
+                let newLeft = mobileState.startLeft + deltaX - wrapperRect.left;
+                let newTop = mobileState.startTop + deltaY - wrapperRect.top;
+                
+                // Keep within bounds
+                newLeft = Math.max(0, Math.min(newLeft, wrapperRect.width - mobileState.startWidth));
+                newTop = Math.max(0, Math.min(newTop, wrapperRect.height - mobileState.startHeight));
+                
+                element.style.left = newLeft + 'px';
+                element.style.top = newTop + 'px';
+            }
+            
+            function resizeTouch(e) {
+                if (!mobileState.isDragging) return;
+                
+                const touch = e.touches ? e.touches[0] : e;
+                const deltaX = touch.clientX - mobileState.startX;
+                
+                // Calculate new size
+                let newSize = Math.max(80, Math.min(300, mobileState.startWidth + deltaX));
+                
+                element.style.width = newSize + 'px';
+                element.style.height = newSize + 'px';
+                
+                // Adjust position to keep center
+                const deltaSize = newSize - mobileState.startWidth;
+                element.style.left = (parseFloat(element.style.left) - deltaSize/2) + 'px';
+                element.style.top = (parseFloat(element.style.top) - deltaSize/2) + 'px';
+            }
+            
+            function stopTouch() {
+                mobileState.isDragging = false;
+                mobileState.activeElement.classList.remove('dragging');
+                mobileState.activeElement = null;
+                
+                document.removeEventListener('touchmove', moveTouch);
+                document.removeEventListener('mousemove', moveTouch);
+                document.removeEventListener('touchmove', resizeTouch);
+                document.removeEventListener('mousemove', resizeTouch);
+                document.removeEventListener('touchend', stopTouch);
+                document.removeEventListener('mouseup', stopTouch);
+            }
         }
 
-        // Setup event listeners
-        function setupEventListeners() {
+        function setupTextResize(handle, element) {
+            handle.addEventListener('touchstart', startResize);
+            handle.addEventListener('mousedown', startResize);
+            
+            function startResize(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                mobileState.isDragging = true;
+                mobileState.activeElement = element;
+                mobileState.startFontSize = mobileState.textSize;
+                
+                const touch = e.touches ? e.touches[0] : e;
+                mobileState.startX = touch.clientX;
+                
+                document.addEventListener('touchmove', resizeText);
+                document.addEventListener('mousemove', resizeText);
+                document.addEventListener('touchend', stopResize);
+                document.addEventListener('mouseup', stopResize);
+            }
+            
+            function resizeText(e) {
+                if (!mobileState.isDragging) return;
+                
+                const touch = e.touches ? e.touches[0] : e;
+                const deltaX = touch.clientX - mobileState.startX;
+                
+                // Calculate new font size
+                let newSize = Math.max(20, Math.min(50, mobileState.startFontSize + deltaX * 0.1));
+                mobileState.textSize = Math.round(newSize);
+                
+                // Update text
+                element.style.fontSize = mobileState.textSize + 'px';
+                
+                // Update slider
+                document.getElementById('textSizeSlider').value = mobileState.textSize;
+                document.getElementById('sizeValue').textContent = mobileState.textSize + 'px';
+            }
+            
+            function stopResize() {
+                mobileState.isDragging = false;
+                mobileState.activeElement = null;
+                
+                document.removeEventListener('touchmove', resizeText);
+                document.removeEventListener('mousemove', resizeText);
+                document.removeEventListener('touchend', stopResize);
+                document.removeEventListener('mouseup', stopResize);
+            }
+        }
+
+        function setupTextResizeTouch() {
+            const textOverlay = document.getElementById('textOverlay');
+            
+            textOverlay.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 2) {
+                    // Pinch gesture for text resize
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    mobileState.touchStartDistance = Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+                    mobileState.startFontSize = mobileState.textSize;
+                    
+                    document.addEventListener('touchmove', handlePinch);
+                    document.addEventListener('touchend', stopPinch);
+                }
+            });
+            
+            function handlePinch(e) {
+                if (e.touches.length === 2) {
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    const currentDistance = Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+                    
+                    const scale = currentDistance / mobileState.touchStartDistance;
+                    let newSize = Math.max(20, Math.min(50, mobileState.startFontSize * scale));
+                    mobileState.textSize = Math.round(newSize);
+                    
+                    textOverlay.style.fontSize = mobileState.textSize + 'px';
+                    document.getElementById('textSizeSlider').value = mobileState.textSize;
+                    document.getElementById('sizeValue').textContent = mobileState.textSize + 'px';
+                }
+            }
+            
+            function stopPinch() {
+                document.removeEventListener('touchmove', handlePinch);
+                document.removeEventListener('touchend', stopPinch);
+            }
+        }
+
+        function setupMobileListeners() {
             // Name input
-            document.getElementById('userName').addEventListener('input', updateNameOverlay);
+            document.getElementById('userName').addEventListener('input', updateName);
+            
+            // Text size slider
+            document.getElementById('textSizeSlider').addEventListener('input', function() {
+                mobileState.textSize = parseInt(this.value);
+                updateTextSize();
+            });
             
             // Photo upload
             document.getElementById('photoInput').addEventListener('change', handlePhotoUpload);
             
-            // Text size slider
-            document.getElementById('textSizeSlider').addEventListener('input', function() {
-                state.textSize = parseInt(this.value);
-                document.getElementById('sizeValue').textContent = state.textSize + 'px';
-                
-                const nameOverlay = document.getElementById('nameOverlay');
-                nameOverlay.style.fontSize = state.textSize + 'px';
-            });
-            
             // Zoom slider
             document.getElementById('zoomSlider').addEventListener('input', function() {
                 document.getElementById('zoomValue').textContent = this.value + '%';
-                if (state.cropper) {
-                    state.cropper.scale(parseInt(this.value) / 100);
-                }
             });
         }
 
-        // Setup drag and drop
-        function setupDragAndDrop() {
-            makeDraggable('userPhotoOverlay');
-            makeDraggable('nameOverlay');
-        }
-
-        // Make element draggable
-        function makeDraggable(elementId) {
-            const element = document.getElementById(elementId);
-            let isDragging = false;
-            let startX, startY;
+        function updateName() {
+            const name = document.getElementById('userName').value.trim();
+            const textOverlay = document.getElementById('textOverlay');
             
-            element.addEventListener('mousedown', startDrag);
-            
-            function startDrag(e) {
-                // Don't start drag if clicking on size buttons
-                if (e.target.classList.contains('size-btn')) return;
-                
-                isDragging = true;
-                startX = e.clientX - element.offsetLeft;
-                startY = e.clientY - element.offsetTop;
-                
-                element.style.cursor = 'grabbing';
-                
-                document.addEventListener('mousemove', drag);
-                document.addEventListener('mouseup', stopDrag);
-            }
-            
-            function drag(e) {
-                if (!isDragging) return;
-                
-                const preview = document.getElementById('flyerPreview');
-                const maxX = preview.offsetWidth - element.offsetWidth;
-                const maxY = preview.offsetHeight - element.offsetHeight;
-                
-                let x = e.clientX - startX;
-                let y = e.clientY - startY;
-                
-                // Keep within bounds
-                x = Math.max(0, Math.min(x, maxX));
-                y = Math.max(0, Math.min(y, maxY));
-                
-                element.style.left = x + 'px';
-                element.style.top = y + 'px';
-                
-                // Update position in state if it's the name
-                if (elementId === 'nameOverlay') {
-                    state.namePosition = { x, y };
-                }
-            }
-            
-            function stopDrag() {
-                isDragging = false;
-                element.style.cursor = 'grab';
-                document.removeEventListener('mousemove', drag);
-                document.removeEventListener('mouseup', stopDrag);
-            }
-        }
-
-        // Setup name click controls
-        function setupNameClickControls() {
-            const nameOverlay = document.getElementById('nameOverlay');
-            const sizeControls = document.getElementById('nameSizeControls');
-            
-            // Show size controls when clicking name
-            nameOverlay.addEventListener('click', function(e) {
-                // Don't trigger if clicking on size buttons
-                if (e.target.classList.contains('size-btn')) return;
-                
-                // Toggle visibility
-                if (state.nameControlsVisible) {
-                    sizeControls.style.display = 'none';
-                    state.nameControlsVisible = false;
-                } else {
-                    // Position controls above the name
-                    const rect = nameOverlay.getBoundingClientRect();
-                    const previewRect = document.getElementById('flyerPreview').getBoundingClientRect();
-                    
-                    sizeControls.style.display = 'flex';
-                    sizeControls.style.left = '50%';
-                    sizeControls.style.top = '-45px';
-                    state.nameControlsVisible = true;
-                }
-            });
-            
-            // Hide controls when clicking elsewhere
-            document.addEventListener('click', function(e) {
-                if (!nameOverlay.contains(e.target) && !e.target.classList.contains('size-btn')) {
-                    sizeControls.style.display = 'none';
-                    state.nameControlsVisible = false;
-                }
-            });
-        }
-
-        // Change text size by clicking + - buttons
-        function changeTextSize(change) {
-            state.textSize = Math.max(20, Math.min(50, state.textSize + change));
-            
-            // Update name overlay
-            const nameOverlay = document.getElementById('nameOverlay');
-            nameOverlay.style.fontSize = state.textSize + 'px';
-            
-            // Update slider
-            document.getElementById('textSizeSlider').value = state.textSize;
-            document.getElementById('sizeValue').textContent = state.textSize + 'px';
-        }
-
-        // Update name overlay
-        function updateNameOverlay() {
-            const nameInput = document.getElementById('userName').value.trim();
-            const nameOverlay = document.getElementById('nameOverlay');
-            
-            if (!nameInput) {
-                nameOverlay.textContent = state.gender === 'male' ? 'Mr Your Name' : 'Miss Your Name';
+            if (!name) {
+                textOverlay.textContent = mobileState.gender === 'male' ? 'Mr Your Name' : 'Miss Your Name';
                 return;
             }
             
-            const parts = nameInput.split(' ');
-            const prefix = state.gender === 'male' ? 'Mr' : 'Miss';
+            const parts = name.split(' ');
+            const prefix = mobileState.gender === 'male' ? 'Mr' : 'Miss';
             
             if (parts.length <= 1) {
-                nameOverlay.textContent = `${prefix} ${nameInput}`;
+                textOverlay.textContent = `${prefix} ${name}`;
             } else {
-                nameOverlay.textContent = `${prefix} ${parts[0]}\n${parts.slice(1).join(' ')}`;
+                textOverlay.textContent = `${prefix} ${parts[0]}\n${parts.slice(1).join(' ')}`;
             }
         }
 
-        // Select gender
-        function selectGender(selectedGender) {
-            state.gender = selectedGender;
+        function updateTextSize() {
+            const textOverlay = document.getElementById('textOverlay');
+            textOverlay.style.fontSize = mobileState.textSize + 'px';
+            document.getElementById('sizeValue').textContent = mobileState.textSize + 'px';
+        }
+
+        function selectGender(gender) {
+            mobileState.gender = gender;
             
             // Update UI
-            document.querySelectorAll('.gender-btn').forEach(btn => {
+            document.querySelectorAll('.gender-option').forEach(btn => {
                 btn.classList.remove('selected');
             });
             event.target.classList.add('selected');
             
             // Update name
-            updateNameOverlay();
+            updateName();
         }
 
-        // Open photo upload
+        function changeTextSize(change) {
+            mobileState.textSize = Math.max(20, Math.min(50, mobileState.textSize + change));
+            updateTextSize();
+            document.getElementById('textSizeSlider').value = mobileState.textSize;
+        }
+
         function openPhotoUpload() {
             document.getElementById('photoInput').click();
         }
 
-        // Handle photo upload
         function handlePhotoUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
             
             if (!file.type.match('image.*')) {
-                alert('Please select an image file (JPEG, PNG)');
+                showStatus('Please select an image file', 'error');
                 return;
             }
             
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Show editor
-                document.getElementById('imageEditorPanel').classList.add('active');
+                // Show crop tab
+                showTab('cropTab');
                 
-                // Initialize cropper
-                const image = document.getElementById('imagePreview');
-                image.src = e.target.result;
+                // Load image for cropping
+                const cropImage = document.getElementById('cropImage');
+                cropImage.src = e.target.result;
                 
-                if (state.cropper) {
-                    state.cropper.destroy();
-                }
+                // Show photo overlay in preview
+                const photoOverlay = document.getElementById('photoOverlay');
+                const uploadedPhoto = document.getElementById('uploadedPhoto');
+                uploadedPhoto.src = e.target.result;
+                photoOverlay.style.display = 'block';
                 
-                state.cropper = new Cropper(image, {
-                    aspectRatio: 1,
-                    viewMode: 1,
-                    autoCropArea: 0.8,
-                    movable: true,
-                    rotatable: true,
-                    scalable: true,
-                    zoomable: true
-                });
-                
-                // Enable apply button
-                document.getElementById('applyCropBtn').disabled = false;
+                showStatus('Photo uploaded! Crop as needed.', 'success');
             };
             reader.readAsDataURL(file);
         }
 
-        // Rotate image
         function rotateImage(degrees) {
-            if (state.cropper) {
-                state.cropper.rotate(degrees);
-            }
+            const cropImage = document.getElementById('cropImage');
+            const currentRotation = parseFloat(cropImage.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+            const newRotation = currentRotation + degrees;
+            
+            cropImage.style.transform = `rotate(${newRotation}deg)`;
+            showStatus(`Rotated ${degrees > 0 ? 'right' : 'left'}`, 'success');
         }
 
-        // Reset crop
         function resetCrop() {
-            if (state.cropper) {
-                state.cropper.reset();
-                document.getElementById('zoomSlider').value = 100;
-                document.getElementById('zoomValue').textContent = '100%';
-            }
+            const cropImage = document.getElementById('cropImage');
+            cropImage.style.transform = 'rotate(0deg)';
+            document.getElementById('zoomSlider').value = 100;
+            document.getElementById('zoomValue').textContent = '100%';
+            showStatus('Crop reset', 'success');
         }
 
-        // Apply crop - FIXED: No longer requires photo to be uploaded first
         function applyCrop() {
-            if (!state.cropper) {
-                // Show error if no image is loaded in cropper
-                document.getElementById('statusText').textContent = "⚠️ Please upload a photo first";
-                document.getElementById('statusText').style.color = '#dc3545';
-                return;
-            }
+            // In mobile version, we'll use the image as-is
+            // For advanced cropping, you'd need a mobile-friendly cropper library
             
-            if (!state.greenFrame) {
-                // If no green frame detected, use default
-                state.greenFrame = { x: 250, y: 130, radius: 60 };
-            }
-            
-            // Get cropped image
-            const croppedCanvas = state.cropper.getCroppedCanvas({
-                width: state.greenFrame.radius * 2,
-                height: state.greenFrame.radius * 2,
-                fillColor: '#fff'
-            });
-            
-            // Update photo overlay
-            const photoOverlay = document.getElementById('userPhotoOverlay');
-            const uploadedPhoto = document.getElementById('uploadedPhoto');
-            
-            uploadedPhoto.src = croppedCanvas.toDataURL('image/png');
+            const photoOverlay = document.getElementById('photoOverlay');
             photoOverlay.style.display = 'block';
             
-            // Position in green frame
-            const size = state.greenFrame.radius * 2;
-            photoOverlay.style.left = (state.greenFrame.x - size/2) + 'px';
-            photoOverlay.style.top = (state.greenFrame.y - size/2) + 'px';
-            photoOverlay.style.width = size + 'px';
-            photoOverlay.style.height = size + 'px';
-            
-            // Update state
-            state.photoUploaded = true;
-            
-            // Hide editor
-            document.getElementById('imageEditorPanel').classList.remove('active');
-            
-            // Update status
-            document.getElementById('statusText').textContent = '✅ Photo placed in green frame!';
-            document.getElementById('statusText').style.color = '#098928';
+            showStatus('Photo applied!', 'success');
+            showTab('previewTab');
         }
 
-        // Reset positions
-        function resetPositions() {
-            // Reset photo to green frame
-            if (state.greenFrame) {
-                const photoOverlay = document.getElementById('userPhotoOverlay');
-                const size = state.greenFrame.radius * 2;
+        function autoDetect() {
+            detectGreenFrame();
+        }
+
+        function resetAll() {
+            // Reset positions
+            if (mobileState.greenFrame) {
+                const photoOverlay = document.getElementById('photoOverlay');
+                const size = mobileState.greenFrame.radius * 2;
                 
-                photoOverlay.style.left = (state.greenFrame.x - size/2) + 'px';
-                photoOverlay.style.top = (state.greenFrame.y - size/2) + 'px';
+                photoOverlay.style.left = (mobileState.greenFrame.x - size/2) + 'px';
+                photoOverlay.style.top = (mobileState.greenFrame.y - size/2) + 'px';
+                photoOverlay.style.width = size + 'px';
+                photoOverlay.style.height = size + 'px';
             }
             
-            // Reset text position and size
-            const nameOverlay = document.getElementById('nameOverlay');
-            nameOverlay.style.left = state.namePosition.x + 'px';
-            nameOverlay.style.top = state.namePosition.y + 'px';
+            // Reset text
+            const textOverlay = document.getElementById('textOverlay');
+            textOverlay.style.left = '150px';
+            textOverlay.style.top = '220px';
             
-            state.textSize = 32;
-            nameOverlay.style.fontSize = '32px';
+            mobileState.textSize = 32;
+            updateTextSize();
             document.getElementById('textSizeSlider').value = 32;
-            document.getElementById('sizeValue').textContent = '32px';
             
-            // Hide size controls
-            document.getElementById('nameSizeControls').style.display = 'none';
-            state.nameControlsVisible = false;
+            showStatus('All positions reset', 'success');
         }
 
-        // Download flyer
-        function downloadFlyer() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const preview = document.getElementById('flyerPreview');
-            const flyerImg = document.getElementById('flyerImage');
-            
-            // Set canvas size
-            canvas.width = preview.offsetWidth;
-            canvas.height = preview.offsetHeight;
-            
-            // Draw flyer
-            ctx.drawImage(flyerImg, 0, 0, canvas.width, canvas.height);
-            
-            // Draw photo if exists
-            const photoOverlay = document.getElementById('userPhotoOverlay');
-            if (photoOverlay.style.display !== 'none') {
-                const photoRect = photoOverlay.getBoundingClientRect();
-                const previewRect = preview.getBoundingClientRect();
-                
-                const x = photoRect.left - previewRect.left;
-                const y = photoRect.top - previewRect.top;
-                const size = photoRect.width;
-                
-                // Circular clipping
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(x + size/2, y + size/2, size/2, 0, Math.PI * 2);
-                ctx.closePath();
-                ctx.clip();
-                
-                const uploadedPhoto = document.getElementById('uploadedPhoto');
-                ctx.drawImage(uploadedPhoto, x, y, size, size);
-                ctx.restore();
-            }
-            
-            // Draw white text
-            const nameOverlay = document.getElementById('nameOverlay');
-            const nameRect = nameOverlay.getBoundingClientRect();
-            const previewRect = preview.getBoundingClientRect();
-            
-            const nameX = nameRect.left - previewRect.left;
-            const nameY = nameRect.top - previewRect.top;
-            
-            ctx.font = `bold ${state.textSize}px Montserrat`;
-            ctx.fillStyle = '#FFFFFF';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'top';
-            
-            // Add text shadow for visibility
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-            ctx.shadowBlur = 4;
-            ctx.shadowOffsetX = 2;
-            ctx.shadowOffsetY = 2;
-            
-            const lines = nameOverlay.textContent.split('\n');
-            lines.forEach((line, i) => {
-                ctx.fillText(
-                    line,
-                    nameX + nameRect.width/2,
-                    nameY + (i * state.textSize * 1.2)
-                );
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
             });
             
-            // Reset shadow
-            ctx.shadowColor = 'transparent';
+            // Remove active from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
             
-            // Download
-            const link = document.createElement('a');
-            const name = document.getElementById('userName').value.trim().replace(/\s+/g, '-');
-            link.download = `Elite-Fusion-${name || 'flyer'}.png`;
-            link.href = canvas.toDataURL('image/png');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
             
-            // Update status
-            document.getElementById('statusText').textContent = '✅ Flyer downloaded!';
-            document.getElementById('statusText').style.color = '#098928';
+            // Activate corresponding tab button
+            document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
         }
+
+        function downloadFlyer() {
+            showStatus('Preparing download...', 'success');
+            
+            // Simple mobile download using canvas
+            setTimeout(() => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const wrapper = document.getElementById('flyerWrapper');
+                const flyerImg = document.getElementById('flyerImage');
+                
+                // Set canvas size
+                canvas.width = wrapper.offsetWidth;
+                canvas.height = wrapper.offsetHeight;
+                
+                // Draw flyer
+                ctx.drawImage(flyerImg, 0, 0, canvas.width, canvas.height);
+                
+                // Draw photo if exists
+                const photoOverlay = document.getElementById('photoOverlay');
+                if (photoOverlay.style.display !== 'none') {
+                    const rect = photoOverlay.getBoundingClientRect();
+                    const wrapperRect = wrapper.getBoundingClientRect();
+                    
+                    const x = rect.left - wrapperRect.left;
+                    const y = rect.top - wrapperRect.top;
+                    const size = rect.width;
+                    
+                    // Circular clipping
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(x + size/2, y + size/2, size/2, 0, Math.PI * 2);
+                    ctx.closePath();
+                    ctx.clip();
+                    
+                    const uploadedPhoto = document.getElementById('uploadedPhoto');
+                    ctx.drawImage(uploadedPhoto, x, y, size, size);
+                    ctx.restore();
+                }
+                
+                // Draw text
+                const textOverlay = document.getElementById('textOverlay');
+                const textRect = textOverlay.getBoundingClientRect();
+                const wrapperRect = wrapper.getBoundingClientRect();
+                
+                const textX = textRect.left - wrapperRect.left;
+                const textY = textRect.top - wrapperRect.top;
+                
+                ctx.font = `bold ${mobileState.textSize}px Montserrat`;
+                ctx.fillStyle = '#FFFFFF';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+                ctx.shadowBlur = 4;
+                
+                const lines = textOverlay.textContent.split('\n');
+                lines.forEach((line, i) => {
+                    ctx.fillText(
+                        line,
+                        textX + textRect.width/2,
+                        textY + (i * mobileState.textSize * 1.2)
+                    );
+                });
+                
+                // Download
+                const link = document.createElement('a');
+                const name = document.getElementById('userName').value.trim().replace(/\s+/g, '-');
+                link.download = `Elite-Fusion-${name || 'flyer'}.png`;
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showStatus('✅ Flyer downloaded!', 'success');
+            }, 500);
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `mobile-status ${type}`;
+            
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Prevent default touch behaviors
+        document.addEventListener('touchmove', function(e) {
+            if (mobileState.isDragging) {
+                e.preventDefault();
+            }
+        }, { passive: false });
     </script>
 </body>
 </html>
