@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Fusion - Flyer Customizer</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Elite Fusion - Simple Flyer Maker</title>
     <style>
         * {
             margin: 0;
@@ -13,731 +11,414 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-red: #8B1A1A;
-            --primary-gold: #D4AF37;
-            --white-bg: #FFFFFF;
-            --light-gray: #F8F9FA;
-            --medium-gray: #E9ECEF;
-            --dark-gray: #6C757D;
-            --text-dark: #212529;
-        }
-
         body {
-            background: var(--white-bg);
-            color: var(--text-dark);
-            min-height: 100vh;
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+            background: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            color: #333;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
 
-        /* Header */
-        .site-header {
+        .header {
             text-align: center;
-            padding: 30px 20px;
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--medium-gray);
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 2px solid #8B1A1A;
         }
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+        .header img {
+            height: 80px;
+            margin-bottom: 15px;
         }
 
-        .event-logo {
-            height: 70px;
-            width: auto;
-        }
-
-        .header-text {
-            text-align: left;
-        }
-
-        .site-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--primary-red);
+        .header h1 {
+            color: #8B1A1A;
+            font-size: 32px;
             margin-bottom: 5px;
         }
 
-        .site-subtitle {
-            font-size: 1.1rem;
-            color: var(--dark-gray);
-            font-weight: 600;
+        .header p {
+            color: #666;
+            font-size: 18px;
         }
 
-        /* Main Layout */
-        .app-container {
-            display: grid;
-            grid-template-columns: 400px 1fr;
+        .app {
+            display: flex;
+            flex-wrap: wrap;
             gap: 30px;
+            margin-bottom: 40px;
         }
 
-        @media (max-width: 1100px) {
-            .app-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-        }
-
-        /* Control Panel */
-        .control-panel {
-            background: var(--white-bg);
+        .controls {
+            flex: 1;
+            min-width: 300px;
+            background: #f9f9f9;
             padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--medium-gray);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            border: 1px solid #ddd;
         }
 
-        .panel-title {
-            color: var(--primary-red);
-            font-size: 1.4rem;
-            margin-bottom: 25px;
+        .preview {
+            flex: 2;
+            min-width: 500px;
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .section-title {
+            color: #8B1A1A;
+            margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary-gold);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
+            border-bottom: 2px solid #D4AF37;
+            font-size: 20px;
         }
 
-        /* Instructions */
-        .instructions {
-            background: #FFF9E6;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border-left: 4px solid var(--primary-gold);
-        }
-
-        .instructions-title {
-            color: var(--primary-red);
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .instructions-list {
-            padding-left: 20px;
-            color: var(--dark-gray);
-        }
-
-        .instructions-list li {
-            margin-bottom: 8px;
-        }
-
-        /* Form Groups */
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        .form-label {
+        label {
             display: block;
             margin-bottom: 8px;
-            color: var(--primary-red);
-            font-weight: 600;
-            font-size: 1rem;
+            font-weight: bold;
+            color: #555;
         }
 
-        .name-input {
+        input[type="text"] {
             width: 100%;
             padding: 12px;
-            border: 2px solid var(--medium-gray);
+            border: 2px solid #ddd;
             border-radius: 6px;
-            font-size: 1rem;
-            transition: all 0.3s;
+            font-size: 16px;
         }
 
-        .name-input:focus {
+        input[type="text"]:focus {
             outline: none;
-            border-color: var(--primary-gold);
+            border-color: #8B1A1A;
         }
 
-        /* Gender Selection */
-        .gender-selection {
+        .gender-buttons {
             display: flex;
             gap: 10px;
             margin-top: 10px;
         }
 
-        .gender-option {
+        .gender-btn {
             flex: 1;
             padding: 12px;
-            border: 2px solid var(--medium-gray);
+            background: white;
+            border: 2px solid #ddd;
             border-radius: 6px;
-            text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
+            font-weight: bold;
+            text-align: center;
         }
 
-        .gender-option:hover {
-            border-color: var(--primary-red);
-        }
-
-        .gender-option.selected {
-            background: var(--primary-red);
+        .gender-btn.selected {
+            background: #8B1A1A;
             color: white;
-            border-color: var(--primary-red);
+            border-color: #8B1A1A;
         }
 
-        /* Upload Area */
         .upload-area {
-            border: 2px dashed var(--medium-gray);
-            border-radius: 8px;
-            padding: 30px 20px;
+            border: 3px dashed #8B1A1A;
+            border-radius: 10px;
+            padding: 40px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-            background: var(--light-gray);
+            margin-bottom: 15px;
+            background: #fff9f9;
         }
 
         .upload-area:hover {
-            border-color: var(--primary-gold);
-            background: #FFF9E6;
+            background: #fff0f0;
         }
 
         .upload-icon {
-            font-size: 2.5rem;
-            color: var(--primary-gold);
-            margin-bottom: 10px;
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #8B1A1A;
         }
 
-        .upload-label {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--text-dark);
+        .preview-container {
+            position: relative;
+            width: 500px;
+            height: 700px;
+            margin: 0 auto;
+            border: 2px solid #ddd;
+            background: white;
+            overflow: hidden;
         }
 
-        .upload-note {
-            color: var(--dark-gray);
-            font-size: 0.9rem;
+        #flyerImage {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
-        /* Action Buttons */
+        .user-photo {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #D4AF37;
+            background: #f0f0f0;
+        }
+
+        .user-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            position: absolute;
+            color: black;
+            font-weight: bold;
+            font-size: 24px;
+            text-align: center;
+            line-height: 1.2;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
         .action-buttons {
             display: flex;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 15px;
+            margin-top: 30px;
         }
 
-        .control-btn {
+        button {
             flex: 1;
-            padding: 12px;
-            background: var(--primary-red);
-            color: white;
+            padding: 15px;
             border: none;
             border-radius: 6px;
-            font-weight: 600;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
         }
 
-        .control-btn:hover {
-            background: #9A2A2A;
+        .adjust-btn {
+            background: #D4AF37;
+            color: #8B1A1A;
         }
 
         .download-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--primary-gold), #E6C158);
-            color: var(--primary-red);
-            border: none;
+            background: #8B1A1A;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .position-controls {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
             border-radius: 8px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s;
+            border: 1px solid #ddd;
+        }
+
+        .pos-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
             margin-top: 10px;
         }
 
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-        }
-
-        /* Preview Panel */
-        .preview-panel {
-            background: var(--white-bg);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--medium-gray);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .preview-title {
-            color: var(--primary-red);
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-        }
-
-        .canvas-container {
-            background: var(--light-gray);
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            min-height: 700px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #previewCanvas {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        /* Position Controls */
-        .position-controls {
-            margin-top: 20px;
-            background: var(--light-gray);
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .position-title {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--primary-red);
-        }
-
-        .position-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .position-input {
+        .pos-input {
             width: 100%;
             padding: 8px;
-            border: 1px solid var(--medium-gray);
+            border: 1px solid #ddd;
             border-radius: 4px;
         }
 
-        /* Footer */
-        .site-footer {
+        .footer {
             text-align: center;
-            padding: 30px 20px;
-            margin-top: 50px;
-            border-top: 2px solid var(--medium-gray);
+            padding: 30px;
+            border-top: 2px solid #8B1A1A;
+            color: #666;
         }
 
-        .footer-logo {
-            height: 50px;
+        .footer img {
+            height: 60px;
             margin-bottom: 15px;
             opacity: 0.8;
         }
 
-        .footer-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--primary-red);
-            margin-bottom: 10px;
-        }
-
-        .footer-text {
-            color: var(--dark-gray);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Status Messages */
-        .status {
-            padding: 10px;
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
             border-radius: 6px;
-            margin: 10px 0;
-            font-weight: 600;
+            margin-bottom: 20px;
             text-align: center;
             display: none;
-        }
-
-        .status.success {
-            background: #D4EDDA;
-            color: #155724;
-            border: 1px solid #C3E6CB;
-            display: block;
-        }
-
-        .status.error {
-            background: #F8D7DA;
-            color: #721C24;
-            border: 1px solid #F5C6CB;
-            display: block;
-        }
-
-        .status.info {
-            background: #D1ECF1;
-            color: #0C5460;
-            border: 1px solid #BEE5EB;
-            display: block;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="site-header">
-            <div class="header-content">
-                <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" 
-                     alt="Elite Fusion Logo" class="event-logo">
-                <div class="header-text">
-                    <h1 class="site-title">ELITE FUSION</h1>
-                    <p class="site-subtitle">Flyer Customization Tool</p>
-                </div>
-            </div>
-        </header>
+        <div class="header">
+            <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" alt="Elite Fusion">
+            <h1>ELITE FUSION</h1>
+            <p>General Team Training & Award Recognition</p>
+        </div>
 
-        <!-- Main App -->
-        <div class="app-container">
-            <!-- Control Panel -->
-            <div class="control-panel">
-                <h2 class="panel-title">CUSTOMIZE YOUR FLYER</h2>
+        <div class="error-message" id="errorMessage"></div>
 
-                <!-- Instructions -->
-                <div class="instructions">
-                    <h3 class="instructions-title">How to use:</h3>
-                    <ol class="instructions-list">
-                        <li>Enter your name below</li>
-                        <li>Select your gender title</li>
-                        <li>Upload your portrait photo</li>
-                        <li>Adjust position if needed</li>
-                        <li>Download your custom flyer</li>
-                    </ol>
-                </div>
-
-                <!-- Name Input -->
+        <div class="app">
+            <div class="controls">
+                <h2 class="section-title">CUSTOMIZE YOUR FLYER</h2>
+                
                 <div class="form-group">
-                    <label class="form-label">YOUR NAME</label>
-                    <input type="text" class="name-input" id="nameInput" 
-                           placeholder="Enter your name" value="Victor Jaiyeola">
+                    <label>YOUR NAME</label>
+                    <input type="text" id="userName" placeholder="Enter your name" value="Victor Jaiyeola">
                 </div>
 
-                <!-- Gender Selection -->
                 <div class="form-group">
-                    <label class="form-label">TITLE</label>
-                    <div class="gender-selection">
-                        <div class="gender-option selected" onclick="selectGender('male')">
-                            Mr
-                        </div>
-                        <div class="gender-option" onclick="selectGender('female')">
-                            Miss
-                        </div>
+                    <label>TITLE</label>
+                    <div class="gender-buttons">
+                        <div class="gender-btn selected" onclick="selectGender('male')">Mr</div>
+                        <div class="gender-btn" onclick="selectGender('female')">Miss</div>
                     </div>
                 </div>
 
-                <!-- Photo Upload -->
                 <div class="form-group">
-                    <label class="form-label">YOUR PHOTO</label>
-                    <div class="upload-area" id="photoUploadArea">
+                    <label>UPLOAD YOUR PHOTO</label>
+                    <div class="upload-area" onclick="document.getElementById('photoUpload').click()">
                         <div class="upload-icon">📷</div>
-                        <div class="upload-label">Click to upload photo</div>
-                        <div class="upload-note">Or drag and drop your photo here</div>
+                        <div>Click to upload photo</div>
+                        <div style="font-size: 14px; color: #666; margin-top: 10px;">
+                            Photo will appear in the circle on the flyer
+                        </div>
                         <input type="file" id="photoUpload" accept="image/*" style="display: none;">
                     </div>
                 </div>
 
-                <!-- Controls -->
-                <div class="action-buttons">
-                    <button class="control-btn" onclick="adjustPosition('photo', -10, 0)">← Photo Left</button>
-                    <button class="control-btn" onclick="adjustPosition('photo', 10, 0)">Photo Right →</button>
-                </div>
-
-                <div class="action-buttons">
-                    <button class="control-btn" onclick="adjustPosition('name', -10, 0)">← Name Left</button>
-                    <button class="control-btn" onclick="adjustPosition('name', 10, 0)">Name Right →</button>
-                </div>
-
-                <!-- Download -->
-                <button class="download-btn" onclick="downloadFlyer()">
-                    ⬇️ DOWNLOAD MY FLYER
-                </button>
-
-                <!-- Status -->
-                <div id="statusMessage" class="status"></div>
-            </div>
-
-            <!-- Preview Panel -->
-            <div class="preview-panel">
-                <h2 class="preview-title">LIVE PREVIEW</h2>
-                
-                <div class="canvas-container">
-                    <canvas id="previewCanvas" width="500" height="700"></canvas>
-                </div>
-
-                <!-- Position Adjustments -->
                 <div class="position-controls">
-                    <div class="position-title">Manual Position Adjustment</div>
-                    <div class="position-grid">
+                    <div style="margin-bottom: 15px; font-weight: bold; color: #8B1A1A;">
+                        Adjust Positions (If needed):
+                    </div>
+                    <div class="pos-inputs">
                         <div>
-                            <label>Photo X: <input type="number" id="photoX" class="position-input" value="250"></label>
+                            <label>Photo X: <input type="number" id="photoX" class="pos-input" value="250"></label>
                         </div>
                         <div>
-                            <label>Photo Y: <input type="number" id="photoY" class="position-input" value="130"></label>
+                            <label>Photo Y: <input type="number" id="photoY" class="pos-input" value="130"></label>
                         </div>
                         <div>
-                            <label>Name X: <input type="number" id="nameX" class="position-input" value="250"></label>
+                            <label>Name X: <input type="number" id="nameX" class="pos-input" value="250"></label>
                         </div>
                         <div>
-                            <label>Name Y: <input type="number" id="nameY" class="position-input" value="320"></label>
+                            <label>Name Y: <input type="number" id="nameY" class="pos-input" value="320"></label>
                         </div>
                     </div>
-                    <button class="control-btn" onclick="applyPosition()" style="margin-top: 10px;">
-                        Apply Positions
-                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="adjust-btn" onclick="updatePositions()">UPDATE POSITIONS</button>
+                    <button class="download-btn" onclick="downloadFlyer()">DOWNLOAD FLYER</button>
+                </div>
+            </div>
+
+            <div class="preview">
+                <h2 class="section-title">LIVE PREVIEW</h2>
+                
+                <div class="preview-container">
+                    <!-- Elite Fusion Flyer -->
+                    <img id="flyerImage" src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427" alt="Elite Fusion Flyer">
+                    
+                    <!-- User Photo (will be added dynamically) -->
+                    <div id="photoContainer" class="user-photo" style="left: 250px; top: 130px;">
+                        <div id="photoPlaceholder" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #888; font-size: 14px;">
+                            Your photo will appear here
+                        </div>
+                        <img id="uploadedPhoto" style="display: none;">
+                    </div>
+                    
+                    <!-- User Name (will be added dynamically) -->
+                    <div id="nameContainer" class="user-name" style="left: 250px; top: 320px;">
+                        Mr Victor Jaiyeola
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; color: #666; font-size: 14px;">
+                    <p><strong>Tip:</strong> Drag the photo or name to reposition. Use the position inputs for precise adjustment.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="site-footer">
-            <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" 
-                 alt="Elite Fusion Logo" class="footer-logo">
-            <h2 class="footer-title">ELITE FUSION</h2>
-            <p class="footer-text">
-                General Team Training & Award Recognition<br>
-                16 DEC 2025 • 10AM • GIDAN DOKI
-            </p>
-        </footer>
+        <div class="footer">
+            <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" alt="Elite Fusion">
+            <h2>ELITE FUSION</h2>
+            <p>General Team Training & Award Recognition • 16 DEC 2025 • 10AM • GIDAN DOKI</p>
+        </div>
     </div>
 
     <script>
-        // Elite Fusion flyer URL
-        const ELITE_FLYER_URL = "https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427";
-
         // State
-        let canvas = null;
-        let flyerImage = null;
-        let userPhoto = null;
-        let nameText = null;
         let gender = 'male';
-        
-        // Default positions (adjust these based on YOUR flyer)
-        let photoPosition = { x: 250, y: 130, radius: 60 };
+        let photoPosition = { x: 250, y: 130 };
         let namePosition = { x: 250, y: 320 };
+        let isDragging = false;
+        let currentDragging = null;
+        let startX, startY;
+        let originalX, originalY;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            // Create canvas
-            canvas = new fabric.Canvas('previewCanvas');
-            
-            // Load the Elite Fusion flyer
-            loadEliteFusionFlyer();
-            
             // Setup event listeners
-            setupEventListeners();
+            document.getElementById('photoUpload').addEventListener('change', handlePhotoUpload);
+            document.getElementById('userName').addEventListener('input', updateName);
             
-            // Create initial name text
-            createNameText();
+            // Setup drag and drop
+            setupDragging();
             
-            showStatus('Elite Fusion flyer loaded. Ready to customize!', 'success');
+            // Update initial name
+            updateName();
+            
+            // Update position inputs
+            updatePositionInputs();
         });
 
-        // Load Elite Fusion flyer
-        function loadEliteFusionFlyer() {
-            fabric.Image.fromURL(ELITE_FLYER_URL, function(img) {
-                // Clear canvas
-                canvas.clear();
-                
-                // Calculate scale to fit canvas (500x700)
-                const canvasWidth = 500;
-                const canvasHeight = 700;
-                
-                // Get image dimensions
-                const imgWidth = img.width;
-                const imgHeight = img.height;
-                
-                // Calculate scale to fit while maintaining aspect ratio
-                const scaleX = canvasWidth / imgWidth;
-                const scaleY = canvasHeight / imgHeight;
-                const scale = Math.min(scaleX, scaleY);
-                
-                // Calculate position to center
-                const left = (canvasWidth - (imgWidth * scale)) / 2;
-                const top = (canvasHeight - (imgHeight * scale)) / 2;
-                
-                img.set({
-                    left: left,
-                    top: top,
-                    scaleX: scale,
-                    scaleY: scale,
-                    selectable: false,
-                    evented: false
-                });
-                
-                flyerImage = img;
-                canvas.add(flyerImage);
-                canvas.sendToBack(flyerImage);
-                
-                // Adjust positions based on scaling
-                const scaleFactor = scale;
-                photoPosition.x = 250 * scaleFactor + left;
-                photoPosition.y = 130 * scaleFactor + top;
-                photoPosition.radius = 60 * scaleFactor;
-                
-                namePosition.x = 250 * scaleFactor + left;
-                namePosition.y = 320 * scaleFactor + top;
-                
-                // Update position inputs
-                updatePositionInputs();
-                
-            }, {
-                crossOrigin: 'anonymous'
-            });
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Photo upload
-            document.getElementById('photoUploadArea').addEventListener('click', () => {
-                document.getElementById('photoUpload').click();
-            });
-
-            document.getElementById('photoUpload').addEventListener('change', function(e) {
-                if (e.target.files[0]) {
-                    uploadUserPhoto(e.target.files[0]);
-                }
-            });
-
-            // Name input
-            document.getElementById('nameInput').addEventListener('input', function(e) {
-                updateNameText();
-            });
-
-            // Drag and drop
-            setupDragDrop('photoUploadArea', uploadUserPhoto);
-
-            // Position inputs
-            document.getElementById('photoX').addEventListener('change', updatePhotoPosition);
-            document.getElementById('photoY').addEventListener('change', updatePhotoPosition);
-            document.getElementById('nameX').addEventListener('change', updateNamePosition);
-            document.getElementById('nameY').addEventListener('change', updateNamePosition);
-        }
-
-        // Upload user photo
-        function uploadUserPhoto(file) {
+        // Handle photo upload
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
             if (!file.type.match('image.*')) {
-                showStatus('Please upload an image file (JPEG or PNG)', 'error');
+                showError('Please select an image file (JPEG, PNG, etc.)');
                 return;
             }
-
+            
             const reader = new FileReader();
-            reader.onload = function(event) {
-                fabric.Image.fromURL(event.target.result, function(img) {
-                    // Remove previous photo
-                    if (userPhoto) {
-                        canvas.remove(userPhoto);
-                    }
-                    
-                    // Create circular clipping mask
-                    const clipCircle = new fabric.Circle({
-                        left: photoPosition.x,
-                        top: photoPosition.y,
-                        radius: photoPosition.radius,
-                        originX: 'center',
-                        originY: 'center'
-                    });
-                    
-                    // Calculate scale to fit circle
-                    const scale = (photoPosition.radius * 2) / Math.min(img.width, img.height);
-                    
-                    img.set({
-                        left: photoPosition.x,
-                        top: photoPosition.y,
-                        originX: 'center',
-                        originY: 'center',
-                        clipPath: clipCircle,
-                        scaleX: scale,
-                        scaleY: scale,
-                        selectable: true,
-                        hasControls: true,
-                        hasBorders: true,
-                        lockScalingFlip: true
-                    });
-                    
-                    userPhoto = img;
-                    canvas.add(userPhoto);
-                    canvas.bringToFront(userPhoto);
-                    
-                    showStatus('Photo uploaded successfully!', 'success');
-                });
+            reader.onload = function(e) {
+                const photoContainer = document.getElementById('photoContainer');
+                const uploadedPhoto = document.getElementById('uploadedPhoto');
+                const photoPlaceholder = document.getElementById('photoPlaceholder');
+                
+                uploadedPhoto.src = e.target.result;
+                uploadedPhoto.style.display = 'block';
+                photoPlaceholder.style.display = 'none';
+                
+                // Make photo draggable
+                photoContainer.setAttribute('draggable', 'true');
+                
+                showError('');
             };
             reader.readAsDataURL(file);
-        }
-
-        // Create name text
-        function createNameText() {
-            if (nameText) {
-                canvas.remove(nameText);
-            }
-            
-            const name = document.getElementById('nameInput').value.trim() || 'Your Name';
-            const formattedName = formatName(name);
-            
-            nameText = new fabric.Text(formattedName, {
-                left: namePosition.x,
-                top: namePosition.y,
-                fontSize: 32,
-                fontFamily: 'Montserrat',
-                fontWeight: 700,
-                fill: '#000000',
-                textAlign: 'center',
-                originX: 'center',
-                originY: 'center',
-                selectable: true,
-                hasControls: true,
-                hasBorders: true,
-                editable: true
-            });
-            
-            canvas.add(nameText);
-            canvas.bringToFront(nameText);
-            
-            // Update when moved
-            nameText.on('modified', function() {
-                namePosition.x = nameText.left;
-                namePosition.y = nameText.top;
-                updatePositionInputs();
-            });
-        }
-
-        // Update name text
-        function updateNameText() {
-            const name = document.getElementById('nameInput').value.trim() || 'Your Name';
-            const formattedName = formatName(name);
-            
-            if (nameText) {
-                nameText.set('text', formattedName);
-                canvas.renderAll();
-            } else {
-                createNameText();
-            }
-        }
-
-        // Format name with gender
-        function formatName(fullName) {
-            const parts = fullName.split(' ');
-            const prefix = gender === 'male' ? 'Mr' : 'Miss';
-            
-            if (parts.length === 1) {
-                return `${prefix} ${parts[0]}`;
-            } else {
-                return `${prefix} ${parts[0]}\n${parts.slice(1).join(' ')}`;
-            }
         }
 
         // Select gender
@@ -745,37 +426,155 @@
             gender = selectedGender;
             
             // Update UI
-            document.querySelectorAll('.gender-option').forEach(option => {
-                option.classList.remove('selected');
+            document.querySelectorAll('.gender-btn').forEach(btn => {
+                btn.classList.remove('selected');
             });
             event.target.classList.add('selected');
             
-            // Update name text
-            updateNameText();
-            
-            showStatus(`Title set to ${gender === 'male' ? 'Mr' : 'Miss'}`, 'success');
+            // Update name
+            updateName();
         }
 
-        // Adjust position
-        function adjustPosition(type, deltaX, deltaY) {
-            if (type === 'photo' && userPhoto) {
-                photoPosition.x += deltaX;
-                photoPosition.y += deltaY;
-                userPhoto.set({
-                    left: photoPosition.x,
-                    top: photoPosition.y
-                });
-            } else if (type === 'name' && nameText) {
-                namePosition.x += deltaX;
-                namePosition.y += deltaY;
-                nameText.set({
-                    left: namePosition.x,
-                    top: namePosition.y
-                });
+        // Update name
+        function updateName() {
+            const nameInput = document.getElementById('userName').value.trim();
+            const nameContainer = document.getElementById('nameContainer');
+            
+            if (!nameInput) {
+                nameContainer.textContent = gender === 'male' ? 'Mr Your Name' : 'Miss Your Name';
+                return;
             }
             
-            canvas.renderAll();
-            updatePositionInputs();
+            const parts = nameInput.split(' ');
+            if (parts.length === 1) {
+                nameContainer.textContent = gender === 'male' ? `Mr ${parts[0]}` : `Miss ${parts[0]}`;
+            } else {
+                nameContainer.textContent = gender === 'male' 
+                    ? `Mr ${parts[0]}\n${parts.slice(1).join(' ')}`
+                    : `Miss ${parts[0]}\n${parts.slice(1).join(' ')}`;
+            }
+        }
+
+        // Setup dragging functionality
+        function setupDragging() {
+            const photoContainer = document.getElementById('photoContainer');
+            const nameContainer = document.getElementById('nameContainer');
+            
+            // Make elements draggable
+            makeDraggable(photoContainer, 'photo');
+            makeDraggable(nameContainer, 'name');
+        }
+
+        function makeDraggable(element, type) {
+            element.addEventListener('mousedown', startDrag);
+            element.addEventListener('touchstart', startDragTouch);
+            
+            function startDrag(e) {
+                isDragging = true;
+                currentDragging = type;
+                element.style.cursor = 'grabbing';
+                
+                if (type === 'photo') {
+                    startX = e.clientX - photoPosition.x;
+                    startY = e.clientY - photoPosition.y;
+                    originalX = photoPosition.x;
+                    originalY = photoPosition.y;
+                } else {
+                    startX = e.clientX - namePosition.x;
+                    startY = e.clientY - namePosition.y;
+                    originalX = namePosition.x;
+                    originalY = namePosition.y;
+                }
+                
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', stopDrag);
+            }
+            
+            function startDragTouch(e) {
+                isDragging = true;
+                currentDragging = type;
+                element.style.cursor = 'grabbing';
+                
+                const touch = e.touches[0];
+                if (type === 'photo') {
+                    startX = touch.clientX - photoPosition.x;
+                    startY = touch.clientY - photoPosition.y;
+                    originalX = photoPosition.x;
+                    originalY = photoPosition.y;
+                } else {
+                    startX = touch.clientX - namePosition.x;
+                    startY = touch.clientY - namePosition.y;
+                    originalX = namePosition.x;
+                    originalY = namePosition.y;
+                }
+                
+                document.addEventListener('touchmove', dragTouch);
+                document.addEventListener('touchend', stopDrag);
+            }
+            
+            function drag(e) {
+                if (!isDragging) return;
+                
+                if (currentDragging === 'photo') {
+                    photoPosition.x = e.clientX - startX;
+                    photoPosition.y = e.clientY - startY;
+                    element.style.left = photoPosition.x + 'px';
+                    element.style.top = photoPosition.y + 'px';
+                } else {
+                    namePosition.x = e.clientX - startX;
+                    namePosition.y = e.clientY - startY;
+                    element.style.left = namePosition.x + 'px';
+                    element.style.top = namePosition.y + 'px';
+                }
+            }
+            
+            function dragTouch(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                
+                const touch = e.touches[0];
+                if (currentDragging === 'photo') {
+                    photoPosition.x = touch.clientX - startX;
+                    photoPosition.y = touch.clientY - startY;
+                    element.style.left = photoPosition.x + 'px';
+                    element.style.top = photoPosition.y + 'px';
+                } else {
+                    namePosition.x = touch.clientX - startX;
+                    namePosition.y = touch.clientY - startY;
+                    element.style.left = namePosition.x + 'px';
+                    element.style.top = namePosition.y + 'px';
+                }
+            }
+            
+            function stopDrag() {
+                isDragging = false;
+                currentDragging = null;
+                element.style.cursor = 'grab';
+                
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener('touchmove', dragTouch);
+                document.removeEventListener('touchend', stopDrag);
+                
+                // Update position inputs
+                updatePositionInputs();
+            }
+        }
+
+        // Update position from inputs
+        function updatePositions() {
+            photoPosition.x = parseInt(document.getElementById('photoX').value) || 250;
+            photoPosition.y = parseInt(document.getElementById('photoY').value) || 130;
+            namePosition.x = parseInt(document.getElementById('nameX').value) || 250;
+            namePosition.y = parseInt(document.getElementById('nameY').value) || 320;
+            
+            // Update UI
+            document.getElementById('photoContainer').style.left = photoPosition.x + 'px';
+            document.getElementById('photoContainer').style.top = photoPosition.y + 'px';
+            document.getElementById('nameContainer').style.left = namePosition.x + 'px';
+            document.getElementById('nameContainer').style.top = namePosition.y + 'px';
+            
+            showError('Positions updated!');
         }
 
         // Update position inputs
@@ -786,98 +585,91 @@
             document.getElementById('nameY').value = Math.round(namePosition.y);
         }
 
-        // Update photo position from inputs
-        function updatePhotoPosition() {
-            photoPosition.x = parseInt(document.getElementById('photoX').value);
-            photoPosition.y = parseInt(document.getElementById('photoY').value);
-            
-            if (userPhoto) {
-                userPhoto.set({
-                    left: photoPosition.x,
-                    top: photoPosition.y
-                });
-                canvas.renderAll();
-            }
-        }
-
-        // Update name position from inputs
-        function updateNamePosition() {
-            namePosition.x = parseInt(document.getElementById('nameX').value);
-            namePosition.y = parseInt(document.getElementById('nameY').value);
-            
-            if (nameText) {
-                nameText.set({
-                    left: namePosition.x,
-                    top: namePosition.y
-                });
-                canvas.renderAll();
-            }
-        }
-
-        // Apply positions
-        function applyPosition() {
-            updatePhotoPosition();
-            updateNamePosition();
-            showStatus('Positions updated', 'success');
-        }
-
         // Download flyer
         function downloadFlyer() {
-            if (!userPhoto) {
-                showStatus('Please upload your photo first', 'error');
+            // Check if photo is uploaded
+            const uploadedPhoto = document.getElementById('uploadedPhoto');
+            if (!uploadedPhoto.src || uploadedPhoto.src.includes('#')) {
+                showError('Please upload your photo first');
                 return;
             }
             
-            // Create download
-            const dataURL = canvas.toDataURL({
-                format: 'png',
-                quality: 1,
-                multiplier: 2
+            // Create a canvas to combine everything
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const flyerImage = document.getElementById('flyerImage');
+            const previewContainer = document.querySelector('.preview-container');
+            
+            // Set canvas size
+            canvas.width = previewContainer.offsetWidth;
+            canvas.height = previewContainer.offsetHeight;
+            
+            // Draw flyer background
+            ctx.drawImage(flyerImage, 0, 0, canvas.width, canvas.height);
+            
+            // Draw user photo (circular)
+            const photoContainer = document.getElementById('photoContainer');
+            const photoX = parseFloat(photoContainer.style.left) || 250;
+            const photoY = parseFloat(photoContainer.style.top) || 130;
+            const photoSize = photoContainer.offsetWidth;
+            
+            // Create circular clipping for photo
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.clip();
+            
+            if (uploadedPhoto.complete && uploadedPhoto.naturalWidth > 0) {
+                ctx.drawImage(uploadedPhoto, photoX, photoY, photoSize, photoSize);
+            }
+            ctx.restore();
+            
+            // Draw name
+            const nameContainer = document.getElementById('nameContainer');
+            const nameX = parseFloat(nameContainer.style.left) || 250;
+            const nameY = parseFloat(nameContainer.style.top) || 320;
+            
+            ctx.font = 'bold 24px Arial';
+            ctx.fillStyle = 'black';
+            ctx.textAlign = 'center';
+            
+            const nameLines = nameContainer.textContent.split('\n');
+            nameLines.forEach((line, index) => {
+                ctx.fillText(line, nameX, nameY + (index * 30));
             });
             
+            // Create download link
             const link = document.createElement('a');
-            const name = document.getElementById('nameInput').value.trim().replace(/\s+/g, '-');
-            link.download = `Elite-Fusion-${name}.png`;
-            link.href = dataURL;
+            link.download = 'Elite-Fusion-Flyer.png';
+            link.href = canvas.toDataURL('image/png');
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             
-            showStatus('Flyer downloaded successfully!', 'success');
+            showError('Flyer downloaded successfully!');
         }
 
-        // Setup drag and drop
-        function setupDragDrop(elementId, callback) {
-            const element = document.getElementById(elementId);
+        // Show error/success message
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = message ? 'block' : 'none';
             
-            element.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                element.style.background = '#FFF9E6';
-            });
+            if (message && !message.includes('error')) {
+                errorDiv.style.background = '#e8f5e9';
+                errorDiv.style.color = '#2e7d32';
+            } else if (message) {
+                errorDiv.style.background = '#ffebee';
+                errorDiv.style.color = '#c62828';
+            }
             
-            element.addEventListener('dragleave', () => {
-                element.style.background = '';
-            });
-            
-            element.addEventListener('drop', (e) => {
-                e.preventDefault();
-                element.style.background = '';
-                
-                if (e.dataTransfer.files.length) {
-                    callback(e.dataTransfer.files[0]);
-                }
-            });
-        }
-
-        // Show status message
-        function showStatus(message, type) {
-            const status = document.getElementById('statusMessage');
-            status.textContent = message;
-            status.className = `status ${type}`;
-            
-            setTimeout(() => {
-                status.style.display = 'none';
-            }, 4000);
+            // Auto-hide success messages
+            if (message && !message.toLowerCase().includes('error')) {
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 3000);
+            }
         }
     </script>
 </body>
