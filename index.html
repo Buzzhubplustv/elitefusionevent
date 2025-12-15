@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Fusion - Smart Flyer Customizer</title>
+    <title>Elite Fusion - Flyer Customizer</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.0.2/tesseract.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,172 +16,144 @@
         :root {
             --primary-red: #8B1A1A;
             --primary-gold: #D4AF37;
-            --secondary-red: #A52A2A;
-            --secondary-gold: #FFD700;
-            --dark-bg: #0F0F0F;
-            --darker-bg: #0A0A0A;
-            --light-text: #F5F5F5;
-            --gray-text: #AAAAAA;
-            --card-bg: #1A1A1A;
+            --white-bg: #FFFFFF;
+            --light-gray: #F8F9FA;
+            --medium-gray: #E9ECEF;
+            --dark-gray: #6C757D;
+            --text-dark: #212529;
         }
 
         body {
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a0f0f 100%);
-            color: var(--light-text);
+            background: var(--white-bg);
+            color: var(--text-dark);
             min-height: 100vh;
-            padding: 20px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
         }
 
         /* Header */
         .site-header {
             text-align: center;
-            padding: 30px;
+            padding: 30px 20px;
             margin-bottom: 40px;
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(15, 15, 15, 0.95) 100%);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid var(--medium-gray);
         }
 
-        .logo-container {
-            margin-bottom: 20px;
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .event-logo {
-            max-width: 180px;
-            height: auto;
-            filter: drop-shadow(0 5px 15px rgba(212, 175, 55, 0.3));
+            height: 70px;
+            width: auto;
+        }
+
+        .header-text {
+            text-align: left;
         }
 
         .site-title {
-            font-size: 3.5rem;
-            font-weight: 900;
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary-red);
+            margin-bottom: 5px;
         }
 
         .site-subtitle {
-            font-size: 1.3rem;
-            color: var(--primary-gold);
+            font-size: 1.1rem;
+            color: var(--dark-gray);
             font-weight: 600;
-            letter-spacing: 2px;
         }
 
         /* Main Layout */
         .app-container {
             display: grid;
-            grid-template-columns: 450px 1fr;
-            gap: 40px;
-            margin-bottom: 50px;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
         }
 
         @media (max-width: 1100px) {
             .app-container {
                 grid-template-columns: 1fr;
+                gap: 30px;
             }
         }
 
         /* Control Panel */
         .control-panel {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%);
-            padding: 35px;
-            border-radius: 20px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            background: var(--white-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--medium-gray);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .panel-title {
-            color: var(--primary-gold);
-            font-size: 1.8rem;
-            margin-bottom: 35px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--primary-red);
+            color: var(--primary-red);
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-gold);
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
         }
 
-        /* Upload Section */
-        .upload-section {
-            background: linear-gradient(135deg, rgba(139, 26, 26, 0.1) 0%, rgba(20, 20, 20, 0.9) 100%);
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(139, 26, 26, 0.3);
+        /* Instructions */
+        .instructions {
+            background: #FFF9E6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--primary-gold);
         }
 
-        .upload-area {
-            border: 3px dashed rgba(212, 175, 55, 0.4);
-            border-radius: 12px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(15, 15, 15, 0.6);
-            margin-bottom: 20px;
-        }
-
-        .upload-area:hover {
-            background: rgba(139, 26, 26, 0.1);
-            border-color: var(--primary-gold);
-        }
-
-        .upload-icon {
-            font-size: 3.5rem;
-            color: var(--primary-gold);
-            margin-bottom: 15px;
-        }
-
-        .upload-label {
-            color: white;
-            font-size: 1.2rem;
+        .instructions-title {
+            color: var(--primary-red);
             font-weight: 600;
             margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
         }
 
-        .upload-note {
-            color: var(--gray-text);
-            font-size: 0.9rem;
+        .instructions-list {
+            padding-left: 20px;
+            color: var(--dark-gray);
         }
 
-        /* Form Controls */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 25px;
+        .instructions-list li {
+            margin-bottom: 8px;
         }
 
+        /* Form Groups */
         .form-group {
             margin-bottom: 25px;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 12px;
-            color: var(--primary-gold);
+            margin-bottom: 8px;
+            color: var(--primary-red);
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .name-input {
             width: 100%;
-            padding: 15px;
-            background: rgba(15, 15, 15, 0.8);
-            border: 2px solid rgba(139, 26, 26, 0.5);
-            border-radius: 10px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 500;
+            padding: 12px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s;
         }
 
         .name-input:focus {
@@ -192,18 +163,16 @@
 
         /* Gender Selection */
         .gender-selection {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            display: flex;
+            gap: 10px;
             margin-top: 10px;
         }
 
         .gender-option {
-            padding: 20px;
-            background: rgba(15, 15, 15, 0.8);
-            border: 2px solid rgba(139, 26, 26, 0.5);
-            border-radius: 10px;
-            color: var(--gray-text);
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 6px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
@@ -211,415 +180,428 @@
         }
 
         .gender-option:hover {
-            background: rgba(139, 26, 26, 0.2);
             border-color: var(--primary-red);
         }
 
         .gender-option.selected {
-            background: linear-gradient(135deg, rgba(139, 26, 26, 0.3) 0%, rgba(212, 175, 55, 0.1) 100%);
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--medium-gray);
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            background: var(--light-gray);
+        }
+
+        .upload-area:hover {
             border-color: var(--primary-gold);
+            background: #FFF9E6;
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
             color: var(--primary-gold);
+            margin-bottom: 10px;
+        }
+
+        .upload-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .upload-note {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
         }
 
         /* Action Buttons */
         .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 30px 0;
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
         }
 
-        .action-btn {
-            padding: 16px;
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+        .control-btn {
+            flex: 1;
+            padding: 12px;
+            background: var(--primary-red);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 1rem;
+            border-radius: 6px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
         }
 
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(139, 26, 26, 0.4);
+        .control-btn:hover {
+            background: #9A2A2A;
         }
 
         .download-btn {
             width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
-            color: var(--dark-bg);
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-gold), #E6C158);
+            color: var(--primary-red);
             border: none;
-            border-radius: 12px;
-            font-weight: 900;
-            font-size: 1.3rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
         }
 
         /* Preview Panel */
         .preview-panel {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%);
-            padding: 35px;
-            border-radius: 20px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            background: var(--white-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--medium-gray);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        .canvas-wrapper {
-            background: #111;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-            max-width: 500px;
-            margin: 0 auto;
-            position: relative;
+        .preview-title {
+            color: var(--primary-red);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        .canvas-container {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            min-height: 700px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         #previewCanvas {
-            display: block;
             max-width: 100%;
-            background: white;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        /* Detection Overlay */
-        .detection-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-        }
-
-        .detection-box {
-            position: absolute;
-            border: 2px solid #00FF00;
-            background: rgba(0, 255, 0, 0.1);
-            transition: all 0.3s;
-        }
-
-        .detection-box.name-detected {
-            border-color: #FFD700;
-            background: rgba(255, 215, 0, 0.1);
-        }
-
-        .detection-box.photo-detected {
-            border-color: #FF0000;
-            background: rgba(255, 0, 0, 0.1);
-        }
-
-        .detection-label {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 2px 8px;
-            font-size: 0.8rem;
-            border-radius: 3px;
-            transform: translateY(-100%);
-        }
-
-        /* Analysis Panel */
-        .analysis-panel {
-            background: linear-gradient(135deg, rgba(30, 30, 60, 0.9) 0%, rgba(20, 20, 40, 0.95) 100%);
-            padding: 20px;
-            border-radius: 10px;
+        /* Position Controls */
+        .position-controls {
             margin-top: 20px;
-            border: 1px solid rgba(100, 100, 255, 0.3);
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 8px;
         }
 
-        .analysis-title {
-            color: #87CEEB;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
+        .position-title {
             font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-red);
         }
 
-        .analysis-results {
+        .position-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 10px;
         }
 
-        .analysis-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 5px;
+        .position-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
         }
 
-        .analysis-label {
-            color: #AAAAAA;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
+        /* Footer */
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            border-top: 2px solid var(--medium-gray);
         }
 
-        .analysis-value {
-            color: white;
-            font-weight: 600;
-        }
-
-        /* Status */
-        .status-container {
-            margin-top: 30px;
-        }
-
-        .status {
-            padding: 15px;
-            border-radius: 10px;
+        .footer-logo {
+            height: 50px;
             margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .footer-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary-red);
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Status Messages */
+        .status {
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
             font-weight: 600;
+            text-align: center;
             display: none;
         }
 
         .status.success {
-            background: rgba(46, 204, 113, 0.1);
-            color: #2ecc71;
-            border: 1px solid #2ecc71;
+            background: #D4EDDA;
+            color: #155724;
+            border: 1px solid #C3E6CB;
             display: block;
         }
 
         .status.error {
-            background: rgba(231, 76, 60, 0.1);
-            color: #e74c3c;
-            border: 1px solid #e74c3c;
+            background: #F8D7DA;
+            color: #721C24;
+            border: 1px solid #F5C6CB;
             display: block;
         }
 
         .status.info {
-            background: rgba(52, 152, 219, 0.1);
-            color: #3498db;
-            border: 1px solid #3498db;
+            background: #D1ECF1;
+            color: #0C5460;
+            border: 1px solid #BEE5EB;
             display: block;
-        }
-
-        /* Instructions */
-        .instructions {
-            background: linear-gradient(135deg, rgba(139, 26, 26, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
-            padding: 25px;
-            border-radius: 15px;
-            margin-top: 30px;
-            border-left: 5px solid var(--primary-gold);
-        }
-
-        .instructions-title {
-            color: var(--primary-gold);
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-        }
-
-        .instructions-list {
-            padding-left: 20px;
-            color: var(--gray-text);
-        }
-
-        .instructions-list li {
-            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <header class="site-header">
-            <div class="logo-container">
+            <div class="header-content">
                 <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" 
                      alt="Elite Fusion Logo" class="event-logo">
+                <div class="header-text">
+                    <h1 class="site-title">ELITE FUSION</h1>
+                    <p class="site-subtitle">Flyer Customization Tool</p>
+                </div>
             </div>
-            <h1 class="site-title">ELITE FUSION</h1>
-            <p class="site-subtitle">Smart Flyer Customizer</p>
         </header>
 
+        <!-- Main App -->
         <div class="app-container">
             <!-- Control Panel -->
             <div class="control-panel">
-                <h2 class="panel-title">SMART CUSTOMIZATION</h2>
+                <h2 class="panel-title">CUSTOMIZE YOUR FLYER</h2>
 
-                <!-- Flyer Upload -->
-                <div class="upload-section">
-                    <div class="upload-area" id="flyerUploadArea">
-                        <div class="upload-icon">🖼️</div>
-                        <div class="upload-label">UPLOAD EVENT FLYER</div>
-                        <div class="upload-note">Upload your flyer image (JPEG/PNG)</div>
-                        <input type="file" id="flyerUpload" accept="image/*" style="display: none;">
-                    </div>
-                    <div class="upload-note" style="text-align: center;">
-                        The system will automatically detect name and photo areas
-                    </div>
+                <!-- Instructions -->
+                <div class="instructions">
+                    <h3 class="instructions-title">How to use:</h3>
+                    <ol class="instructions-list">
+                        <li>Enter your name below</li>
+                        <li>Select your gender title</li>
+                        <li>Upload your portrait photo</li>
+                        <li>Adjust position if needed</li>
+                        <li>Download your custom flyer</li>
+                    </ol>
                 </div>
 
-                <!-- Name & Gender -->
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label">YOUR NAME</label>
-                        <input type="text" class="name-input" id="nameInput" 
-                               placeholder="Will auto-detect from flyer">
-                    </div>
+                <!-- Name Input -->
+                <div class="form-group">
+                    <label class="form-label">YOUR NAME</label>
+                    <input type="text" class="name-input" id="nameInput" 
+                           placeholder="Enter your name" value="Victor Jaiyeola">
+                </div>
 
-                    <div class="form-group">
-                        <label class="form-label">GENDER</label>
-                        <div class="gender-selection">
-                            <div class="gender-option selected" data-gender="male" onclick="selectGender('male')">
-                                <div style="font-size: 1.5rem;">👨</div>
-                                <div>Mr</div>
-                            </div>
-                            <div class="gender-option" data-gender="female" onclick="selectGender('female')">
-                                <div style="font-size: 1.5rem;">👩</div>
-                                <div>Miss</div>
-                            </div>
+                <!-- Gender Selection -->
+                <div class="form-group">
+                    <label class="form-label">TITLE</label>
+                    <div class="gender-selection">
+                        <div class="gender-option selected" onclick="selectGender('male')">
+                            Mr
+                        </div>
+                        <div class="gender-option" onclick="selectGender('female')">
+                            Miss
                         </div>
                     </div>
                 </div>
 
                 <!-- Photo Upload -->
-                <div class="upload-section">
+                <div class="form-group">
+                    <label class="form-label">YOUR PHOTO</label>
                     <div class="upload-area" id="photoUploadArea">
                         <div class="upload-icon">📷</div>
-                        <div class="upload-label">UPLOAD YOUR PHOTO</div>
-                        <div class="upload-note">Will fit into detected photo area</div>
+                        <div class="upload-label">Click to upload photo</div>
+                        <div class="upload-note">Or drag and drop your photo here</div>
                         <input type="file" id="photoUpload" accept="image/*" style="display: none;">
                     </div>
                 </div>
 
                 <!-- Controls -->
                 <div class="action-buttons">
-                    <button class="action-btn" onclick="rotatePhoto(-15)">
-                        <span>⟲</span> ROTATE
-                    </button>
-                    <button class="action-btn" onclick="adjustDetection()">
-                        <span>🎯</span> ADJUST
-                    </button>
+                    <button class="control-btn" onclick="adjustPosition('photo', -10, 0)">← Photo Left</button>
+                    <button class="control-btn" onclick="adjustPosition('photo', 10, 0)">Photo Right →</button>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="control-btn" onclick="adjustPosition('name', -10, 0)">← Name Left</button>
+                    <button class="control-btn" onclick="adjustPosition('name', 10, 0)">Name Right →</button>
                 </div>
 
                 <!-- Download -->
                 <button class="download-btn" onclick="downloadFlyer()">
-                    <span>⬇️</span> DOWNLOAD CUSTOM FLYER
+                    ⬇️ DOWNLOAD MY FLYER
                 </button>
 
                 <!-- Status -->
-                <div class="status-container">
-                    <div id="statusMessage" class="status"></div>
-                </div>
-
-                <!-- Instructions -->
-                <div class="instructions">
-                    <h3 class="instructions-title">HOW IT WORKS</h3>
-                    <ol class="instructions-list">
-                        <li><strong>Upload Flyer</strong>: System analyzes and detects name/photo areas</li>
-                        <li><strong>Auto-detect Name</strong>: Extracts name from flyer for editing</li>
-                        <li><strong>Upload Photo</strong>: Fits into detected photo frame</li>
-                        <li><strong>Customize</strong>: Edit name, select gender</li>
-                        <li><strong>Download</strong>: Get your personalized version</li>
-                    </ol>
-                </div>
+                <div id="statusMessage" class="status"></div>
             </div>
 
             <!-- Preview Panel -->
             <div class="preview-panel">
-                <h2 class="panel-title">LIVE PREVIEW & DETECTION</h2>
+                <h2 class="preview-title">LIVE PREVIEW</h2>
                 
-                <div class="canvas-wrapper">
+                <div class="canvas-container">
                     <canvas id="previewCanvas" width="500" height="700"></canvas>
-                    <div id="detectionOverlay" class="detection-overlay"></div>
                 </div>
 
-                <!-- Analysis Results -->
-                <div id="analysisPanel" class="analysis-panel" style="display: none;">
-                    <h3 class="analysis-title">DETECTION RESULTS</h3>
-                    <div class="analysis-results">
-                        <div class="analysis-item">
-                            <div class="analysis-label">Name Detected:</div>
-                            <div id="detectedName" class="analysis-value">-</div>
+                <!-- Position Adjustments -->
+                <div class="position-controls">
+                    <div class="position-title">Manual Position Adjustment</div>
+                    <div class="position-grid">
+                        <div>
+                            <label>Photo X: <input type="number" id="photoX" class="position-input" value="250"></label>
                         </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">Name Position:</div>
-                            <div id="namePosition" class="analysis-value">-</div>
+                        <div>
+                            <label>Photo Y: <input type="number" id="photoY" class="position-input" value="130"></label>
                         </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">Photo Area:</div>
-                            <div id="photoArea" class="analysis-value">-</div>
+                        <div>
+                            <label>Name X: <input type="number" id="nameX" class="position-input" value="250"></label>
                         </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">Confidence:</div>
-                            <div id="detectionConfidence" class="analysis-value">-</div>
+                        <div>
+                            <label>Name Y: <input type="number" id="nameY" class="position-input" value="320"></label>
                         </div>
                     </div>
-                </div>
-
-                <!-- Detection Controls -->
-                <div class="action-buttons" style="margin-top: 20px;">
-                    <button class="action-btn" onclick="manualNameSelect()">
-                        <span>🔍</span> SELECT NAME AREA
-                    </button>
-                    <button class="action-btn" onclick="manualPhotoSelect()">
-                        <span>📐</span> SELECT PHOTO AREA
+                    <button class="control-btn" onclick="applyPosition()" style="margin-top: 10px;">
+                        Apply Positions
                     </button>
                 </div>
             </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" 
+                 alt="Elite Fusion Logo" class="footer-logo">
+            <h2 class="footer-title">ELITE FUSION</h2>
+            <p class="footer-text">
+                General Team Training & Award Recognition<br>
+                16 DEC 2025 • 10AM • GIDAN DOKI
+            </p>
+        </footer>
     </div>
 
     <script>
-        // ========================================
-        // STATE MANAGEMENT
-        // ========================================
-        let state = {
-            canvas: null,
-            flyerImage: null,
-            userPhoto: null,
-            nameText: null,
-            gender: 'male',
-            
-            // Detection results
-            detectedName: '',
-            namePosition: null,
-            photoArea: null,
-            isAnalyzing: false,
-            
-            // Manual adjustment mode
-            manualMode: null, // 'name' or 'photo'
-            selectionRect: null
-        };
+        // Elite Fusion flyer URL
+        const ELITE_FLYER_URL = "https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427";
 
-        // ========================================
-        // INITIALIZATION
-        // ========================================
+        // State
+        let canvas = null;
+        let flyerImage = null;
+        let userPhoto = null;
+        let nameText = null;
+        let gender = 'male';
+        
+        // Default positions (adjust these based on YOUR flyer)
+        let photoPosition = { x: 250, y: 130, radius: 60 };
+        let namePosition = { x: 250, y: 320 };
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize canvas
-            state.canvas = new fabric.Canvas('previewCanvas');
-            state.canvas.backgroundColor = '#ffffff';
+            // Create canvas
+            canvas = new fabric.Canvas('previewCanvas');
+            
+            // Load the Elite Fusion flyer
+            loadEliteFusionFlyer();
             
             // Setup event listeners
             setupEventListeners();
             
-            showStatus('Upload your flyer to begin automatic analysis', 'info');
+            // Create initial name text
+            createNameText();
+            
+            showStatus('Elite Fusion flyer loaded. Ready to customize!', 'success');
         });
 
-        // ========================================
-        // FLYER UPLOAD & ANALYSIS
-        // ========================================
+        // Load Elite Fusion flyer
+        function loadEliteFusionFlyer() {
+            fabric.Image.fromURL(ELITE_FLYER_URL, function(img) {
+                // Clear canvas
+                canvas.clear();
+                
+                // Calculate scale to fit canvas (500x700)
+                const canvasWidth = 500;
+                const canvasHeight = 700;
+                
+                // Get image dimensions
+                const imgWidth = img.width;
+                const imgHeight = img.height;
+                
+                // Calculate scale to fit while maintaining aspect ratio
+                const scaleX = canvasWidth / imgWidth;
+                const scaleY = canvasHeight / imgHeight;
+                const scale = Math.min(scaleX, scaleY);
+                
+                // Calculate position to center
+                const left = (canvasWidth - (imgWidth * scale)) / 2;
+                const top = (canvasHeight - (imgHeight * scale)) / 2;
+                
+                img.set({
+                    left: left,
+                    top: top,
+                    scaleX: scale,
+                    scaleY: scale,
+                    selectable: false,
+                    evented: false
+                });
+                
+                flyerImage = img;
+                canvas.add(flyerImage);
+                canvas.sendToBack(flyerImage);
+                
+                // Adjust positions based on scaling
+                const scaleFactor = scale;
+                photoPosition.x = 250 * scaleFactor + left;
+                photoPosition.y = 130 * scaleFactor + top;
+                photoPosition.radius = 60 * scaleFactor;
+                
+                namePosition.x = 250 * scaleFactor + left;
+                namePosition.y = 320 * scaleFactor + top;
+                
+                // Update position inputs
+                updatePositionInputs();
+                
+            }, {
+                crossOrigin: 'anonymous'
+            });
+        }
+
+        // Setup event listeners
         function setupEventListeners() {
-            // Flyer upload
-            document.getElementById('flyerUploadArea').addEventListener('click', () => {
-                document.getElementById('flyerUpload').click();
-            });
-
-            document.getElementById('flyerUpload').addEventListener('change', function(e) {
-                if (e.target.files[0]) {
-                    loadAndAnalyzeFlyer(e.target.files[0]);
-                }
-            });
-
             // Photo upload
             document.getElementById('photoUploadArea').addEventListener('click', () => {
                 document.getElementById('photoUpload').click();
@@ -633,166 +615,82 @@
 
             // Name input
             document.getElementById('nameInput').addEventListener('input', function(e) {
-                updateNameText(e.target.value.trim());
+                updateNameText();
             });
 
-            // Setup drag and drop
-            setupDragDrop('flyerUploadArea', loadAndAnalyzeFlyer);
+            // Drag and drop
             setupDragDrop('photoUploadArea', uploadUserPhoto);
+
+            // Position inputs
+            document.getElementById('photoX').addEventListener('change', updatePhotoPosition);
+            document.getElementById('photoY').addEventListener('change', updatePhotoPosition);
+            document.getElementById('nameX').addEventListener('change', updateNamePosition);
+            document.getElementById('nameY').addEventListener('change', updateNamePosition);
         }
 
-        async function loadAndAnalyzeFlyer(file) {
+        // Upload user photo
+        function uploadUserPhoto(file) {
             if (!file.type.match('image.*')) {
-                showStatus('Please upload an image file', 'error');
+                showStatus('Please upload an image file (JPEG or PNG)', 'error');
                 return;
             }
 
-            showStatus('Analyzing flyer... Detecting name and photo areas', 'info');
-            
             const reader = new FileReader();
-            reader.onload = async function(event) {
-                // Load image to canvas
-                await loadImageToCanvas(event.target.result);
-                
-                // Analyze the flyer for name and photo areas
-                await analyzeFlyer();
-                
-                // Extract name text from detected area
-                await extractNameText();
-                
-                showStatus('Analysis complete! Name and photo areas detected', 'success');
+            reader.onload = function(event) {
+                fabric.Image.fromURL(event.target.result, function(img) {
+                    // Remove previous photo
+                    if (userPhoto) {
+                        canvas.remove(userPhoto);
+                    }
+                    
+                    // Create circular clipping mask
+                    const clipCircle = new fabric.Circle({
+                        left: photoPosition.x,
+                        top: photoPosition.y,
+                        radius: photoPosition.radius,
+                        originX: 'center',
+                        originY: 'center'
+                    });
+                    
+                    // Calculate scale to fit circle
+                    const scale = (photoPosition.radius * 2) / Math.min(img.width, img.height);
+                    
+                    img.set({
+                        left: photoPosition.x,
+                        top: photoPosition.y,
+                        originX: 'center',
+                        originY: 'center',
+                        clipPath: clipCircle,
+                        scaleX: scale,
+                        scaleY: scale,
+                        selectable: true,
+                        hasControls: true,
+                        hasBorders: true,
+                        lockScalingFlip: true
+                    });
+                    
+                    userPhoto = img;
+                    canvas.add(userPhoto);
+                    canvas.bringToFront(userPhoto);
+                    
+                    showStatus('Photo uploaded successfully!', 'success');
+                });
             };
             reader.readAsDataURL(file);
         }
 
-        async function loadImageToCanvas(imageData) {
-            return new Promise((resolve) => {
-                fabric.Image.fromURL(imageData, function(img) {
-                    // Clear canvas
-                    state.canvas.clear();
-                    
-                    // Scale to fit
-                    const scale = Math.min(
-                        state.canvas.width / img.width,
-                        state.canvas.height / img.height
-                    );
-                    
-                    img.set({
-                        scaleX: scale,
-                        scaleY: scale,
-                        originX: 'left',
-                        originY: 'top',
-                        selectable: false,
-                        evented: false
-                    });
-                    
-                    state.flyerImage = img;
-                    state.canvas.add(state.flyerImage);
-                    state.canvas.sendToBack(state.flyerImage);
-                    
-                    resolve();
-                });
-            });
-        }
-
-        // ========================================
-        // SMART FLYER ANALYSIS
-        // ========================================
-        async function analyzeFlyer() {
-            // Get canvas image data for analysis
-            const canvas = document.getElementById('previewCanvas');
-            const ctx = canvas.getContext('2d');
-            
-            // For demonstration, we'll use heuristic detection
-            // In production, you could use ML or pattern recognition
-            
-            // Strategy 1: Look for circular shapes (photo frame)
-            detectPhotoArea();
-            
-            // Strategy 2: Look for text clusters (name area)
-            detectNameArea();
-            
-            // Show analysis panel
-            document.getElementById('analysisPanel').style.display = 'block';
-            
-            // Show detection overlay
-            showDetectionOverlay();
-        }
-
-        function detectPhotoArea() {
-            // Heuristic: Look for circular shapes or high-contrast areas
-            // For now, use sample coordinates (you can adjust these)
-            // In real implementation, use image processing
-            
-            const canvasWidth = state.canvas.width;
-            const canvasHeight = state.canvas.height;
-            
-            // Sample detection (adjust based on typical flyer layout)
-            state.photoArea = {
-                x: canvasWidth * 0.5 - 60, // Center - radius
-                y: canvasHeight * 0.18,    // Near top
-                width: 120,
-                height: 120,
-                shape: 'circle'
-            };
-            
-            // Update UI
-            document.getElementById('photoArea').textContent = 
-                `${Math.round(state.photoArea.x)}x${Math.round(state.photoArea.y)}`;
-        }
-
-        function detectNameArea() {
-            const canvasWidth = state.canvas.width;
-            const canvasHeight = state.canvas.height;
-            
-            // Sample detection for name area (middle of flyer)
-            state.namePosition = {
-                x: canvasWidth * 0.5,
-                y: canvasHeight * 0.45,
-                width: 300,
-                height: 80
-            };
-            
-            // Update UI
-            document.getElementById('namePosition').textContent = 
-                `${Math.round(state.namePosition.x)}x${Math.round(state.namePosition.y)}`;
-        }
-
-        async function extractNameText() {
-            // Try to extract text from the detected name area
-            // For now, use a placeholder
-            state.detectedName = "Mr Ismaila Habeeb";
-            
-            // Update the name input field
-            document.getElementById('nameInput').value = state.detectedName;
-            document.getElementById('detectedName').textContent = state.detectedName;
-            
-            // Set confidence
-            document.getElementById('detectionConfidence').textContent = "85%";
-            
-            // Create editable name text
-            createNameText();
-        }
-
-        // ========================================
-        // NAME TEXT HANDLING
-        // ========================================
+        // Create name text
         function createNameText() {
-            if (!state.namePosition) return;
-            
-            // Remove existing name text
-            if (state.nameText) {
-                state.canvas.remove(state.nameText);
+            if (nameText) {
+                canvas.remove(nameText);
             }
             
-            // Format name based on gender
-            const name = document.getElementById('nameInput').value.trim();
+            const name = document.getElementById('nameInput').value.trim() || 'Your Name';
             const formattedName = formatName(name);
             
-            // Create new text
-            state.nameText = new fabric.Text(formattedName, {
-                left: state.namePosition.x,
-                top: state.namePosition.y,
+            nameText = new fabric.Text(formattedName, {
+                left: namePosition.x,
+                top: namePosition.y,
                 fontSize: 32,
                 fontFamily: 'Montserrat',
                 fontWeight: 700,
@@ -802,30 +700,38 @@
                 originY: 'center',
                 selectable: true,
                 hasControls: true,
+                hasBorders: true,
                 editable: true
             });
             
-            state.canvas.add(state.nameText);
-            state.canvas.bringToFront(state.nameText);
+            canvas.add(nameText);
+            canvas.bringToFront(nameText);
             
-            // Make it draggable
-            state.nameText.on('modified', function() {
-                // Update position when user drags
-                state.namePosition = {
-                    x: state.nameText.left,
-                    y: state.nameText.top,
-                    width: state.nameText.width * state.nameText.scaleX,
-                    height: state.nameText.height * state.nameText.scaleY
-                };
-                updateDetectionOverlay();
+            // Update when moved
+            nameText.on('modified', function() {
+                namePosition.x = nameText.left;
+                namePosition.y = nameText.top;
+                updatePositionInputs();
             });
         }
 
-        function formatName(fullName) {
-            if (!fullName) return '';
+        // Update name text
+        function updateNameText() {
+            const name = document.getElementById('nameInput').value.trim() || 'Your Name';
+            const formattedName = formatName(name);
             
+            if (nameText) {
+                nameText.set('text', formattedName);
+                canvas.renderAll();
+            } else {
+                createNameText();
+            }
+        }
+
+        // Format name with gender
+        function formatName(fullName) {
             const parts = fullName.split(' ');
-            const prefix = state.gender === 'male' ? 'Mr' : 'Miss';
+            const prefix = gender === 'male' ? 'Mr' : 'Miss';
             
             if (parts.length === 1) {
                 return `${prefix} ${parts[0]}`;
@@ -834,255 +740,96 @@
             }
         }
 
-        function updateNameText(name) {
-            if (!state.nameText) {
-                createNameText();
-                return;
-            }
-            
-            const formattedName = formatName(name);
-            state.nameText.set('text', formattedName);
-            state.canvas.renderAll();
-        }
-
-        // ========================================
-        // PHOTO HANDLING
-        // ========================================
-        function uploadUserPhoto(file) {
-            if (!state.photoArea) {
-                showStatus('Please analyze flyer first to detect photo area', 'error');
-                return;
-            }
-
-            if (!file.type.match('image.*')) {
-                showStatus('Please upload an image file', 'error');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                fabric.Image.fromURL(event.target.result, function(img) {
-                    // Remove previous photo
-                    if (state.userPhoto) {
-                        state.canvas.remove(state.userPhoto);
-                    }
-                    
-                    // Create circular mask if photo area is circular
-                    let clipPath = null;
-                    if (state.photoArea.shape === 'circle') {
-                        const radius = state.photoArea.width / 2;
-                        clipPath = new fabric.Circle({
-                            left: state.photoArea.x,
-                            top: state.photoArea.y,
-                            radius: radius,
-                            originX: 'center',
-                            originY: 'center'
-                        });
-                    }
-                    
-                    // Calculate scale to fit
-                    const targetSize = Math.min(state.photoArea.width, state.photoArea.height);
-                    const scale = targetSize / Math.min(img.width, img.height);
-                    
-                    // Center in photo area
-                    const centerX = state.photoArea.x + state.photoArea.width / 2;
-                    const centerY = state.photoArea.y + state.photoArea.height / 2;
-                    
-                    img.set({
-                        left: centerX,
-                        top: centerY,
-                        originX: 'center',
-                        originY: 'center',
-                        clipPath: clipPath,
-                        scaleX: scale,
-                        scaleY: scale,
-                        selectable: true,
-                        hasControls: true,
-                        hasBorders: true
-                    });
-                    
-                    state.userPhoto = img;
-                    state.canvas.add(state.userPhoto);
-                    state.canvas.bringToFront(state.userPhoto);
-                    
-                    showStatus('Photo added to detected frame', 'success');
-                });
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // ========================================
-        // DETECTION VISUALIZATION
-        // ========================================
-        function showDetectionOverlay() {
-            const overlay = document.getElementById('detectionOverlay');
-            overlay.innerHTML = '';
-            
-            // Show photo area
-            if (state.photoArea) {
-                const photoBox = document.createElement('div');
-                photoBox.className = 'detection-box photo-detected';
-                photoBox.style.left = state.photoArea.x + 'px';
-                photoBox.style.top = state.photoArea.y + 'px';
-                photoBox.style.width = state.photoArea.width + 'px';
-                photoBox.style.height = state.photoArea.height + 'px';
-                
-                const label = document.createElement('div');
-                label.className = 'detection-label';
-                label.textContent = 'Photo Area';
-                label.style.left = state.photoArea.x + 'px';
-                label.style.top = state.photoArea.y + 'px';
-                
-                overlay.appendChild(photoBox);
-                overlay.appendChild(label);
-            }
-            
-            // Show name area
-            if (state.namePosition) {
-                const nameBox = document.createElement('div');
-                nameBox.className = 'detection-box name-detected';
-                nameBox.style.left = (state.namePosition.x - state.namePosition.width/2) + 'px';
-                nameBox.style.top = (state.namePosition.y - state.namePosition.height/2) + 'px';
-                nameBox.style.width = state.namePosition.width + 'px';
-                nameBox.style.height = state.namePosition.height + 'px';
-                
-                const label = document.createElement('div');
-                label.className = 'detection-label';
-                label.textContent = 'Name Area';
-                label.style.left = (state.namePosition.x - state.namePosition.width/2) + 'px';
-                label.style.top = (state.namePosition.y - state.namePosition.height/2) + 'px';
-                
-                overlay.appendChild(nameBox);
-                overlay.appendChild(label);
-            }
-        }
-
-        function updateDetectionOverlay() {
-            showDetectionOverlay();
-        }
-
-        // ========================================
-        // MANUAL ADJUSTMENT
-        // ========================================
-        function manualNameSelect() {
-            startManualSelection('name');
-        }
-
-        function manualPhotoSelect() {
-            startManualSelection('photo');
-        }
-
-        function startManualSelection(type) {
-            state.manualMode = type;
-            showStatus(`Click and drag to select ${type} area`, 'info');
-            
-            // Remove previous selection rectangle
-            if (state.selectionRect) {
-                state.canvas.remove(state.selectionRect);
-            }
-            
-            // Create selection rectangle
-            state.selectionRect = new fabric.Rect({
-                left: 100,
-                top: 100,
-                width: 50,
-                height: 50,
-                fill: 'rgba(0, 255, 0, 0.1)',
-                stroke: '#00FF00',
-                strokeWidth: 2,
-                selectable: true,
-                hasControls: true,
-                hasBorders: true
-            });
-            
-            state.canvas.add(state.selectionRect);
-            state.canvas.setActiveObject(state.selectionRect);
-            
-            // Listen for modifications
-            state.selectionRect.on('modified', function() {
-                const rect = state.selectionRect;
-                if (state.manualMode === 'name') {
-                    state.namePosition = {
-                        x: rect.left + rect.width * rect.scaleX / 2,
-                        y: rect.top + rect.height * rect.scaleY / 2,
-                        width: rect.width * rect.scaleX,
-                        height: rect.height * rect.scaleY
-                    };
-                } else {
-                    state.photoArea = {
-                        x: rect.left,
-                        y: rect.top,
-                        width: rect.width * rect.scaleX,
-                        height: rect.height * rect.scaleY,
-                        shape: 'rectangle'
-                    };
-                }
-                updateDetectionOverlay();
-            });
-        }
-
-        function adjustDetection() {
-            if (!state.manualMode) {
-                showStatus('First select an area to adjust', 'info');
-                return;
-            }
-            
-            state.manualMode = null;
-            if (state.selectionRect) {
-                state.canvas.remove(state.selectionRect);
-                state.selectionRect = null;
-            }
-            
-            showStatus('Area adjusted successfully', 'success');
-            updateDetectionOverlay();
-        }
-
-        // ========================================
-        // CONTROLS
-        // ========================================
-        function selectGender(gender) {
-            state.gender = gender;
+        // Select gender
+        function selectGender(selectedGender) {
+            gender = selectedGender;
             
             // Update UI
             document.querySelectorAll('.gender-option').forEach(option => {
                 option.classList.remove('selected');
             });
-            document.querySelector(`[data-gender="${gender}"]`).classList.add('selected');
+            event.target.classList.add('selected');
             
             // Update name text
-            const currentName = document.getElementById('nameInput').value.trim();
-            updateNameText(currentName);
+            updateNameText();
+            
+            showStatus(`Title set to ${gender === 'male' ? 'Mr' : 'Miss'}`, 'success');
         }
 
-        function rotatePhoto(angle) {
-            if (!state.userPhoto) {
+        // Adjust position
+        function adjustPosition(type, deltaX, deltaY) {
+            if (type === 'photo' && userPhoto) {
+                photoPosition.x += deltaX;
+                photoPosition.y += deltaY;
+                userPhoto.set({
+                    left: photoPosition.x,
+                    top: photoPosition.y
+                });
+            } else if (type === 'name' && nameText) {
+                namePosition.x += deltaX;
+                namePosition.y += deltaY;
+                nameText.set({
+                    left: namePosition.x,
+                    top: namePosition.y
+                });
+            }
+            
+            canvas.renderAll();
+            updatePositionInputs();
+        }
+
+        // Update position inputs
+        function updatePositionInputs() {
+            document.getElementById('photoX').value = Math.round(photoPosition.x);
+            document.getElementById('photoY').value = Math.round(photoPosition.y);
+            document.getElementById('nameX').value = Math.round(namePosition.x);
+            document.getElementById('nameY').value = Math.round(namePosition.y);
+        }
+
+        // Update photo position from inputs
+        function updatePhotoPosition() {
+            photoPosition.x = parseInt(document.getElementById('photoX').value);
+            photoPosition.y = parseInt(document.getElementById('photoY').value);
+            
+            if (userPhoto) {
+                userPhoto.set({
+                    left: photoPosition.x,
+                    top: photoPosition.y
+                });
+                canvas.renderAll();
+            }
+        }
+
+        // Update name position from inputs
+        function updateNamePosition() {
+            namePosition.x = parseInt(document.getElementById('nameX').value);
+            namePosition.y = parseInt(document.getElementById('nameY').value);
+            
+            if (nameText) {
+                nameText.set({
+                    left: namePosition.x,
+                    top: namePosition.y
+                });
+                canvas.renderAll();
+            }
+        }
+
+        // Apply positions
+        function applyPosition() {
+            updatePhotoPosition();
+            updateNamePosition();
+            showStatus('Positions updated', 'success');
+        }
+
+        // Download flyer
+        function downloadFlyer() {
+            if (!userPhoto) {
                 showStatus('Please upload your photo first', 'error');
                 return;
             }
             
-            state.userPhoto.rotate((state.userPhoto.angle || 0) + angle);
-            state.canvas.renderAll();
-        }
-
-        // ========================================
-        // DOWNLOAD
-        // ========================================
-        function downloadFlyer() {
-            if (!state.flyerImage) {
-                showStatus('Please upload a flyer first', 'error');
-                return;
-            }
-            
-            // Hide selection rectangle if present
-            if (state.selectionRect) {
-                state.selectionRect.visible = false;
-            }
-            
-            // Hide detection overlay
-            document.getElementById('detectionOverlay').style.display = 'none';
-            
-            // Generate download
-            const dataURL = state.canvas.toDataURL({
+            // Create download
+            const dataURL = canvas.toDataURL({
                 format: 'png',
                 quality: 1,
                 multiplier: 2
@@ -1090,30 +837,22 @@
             
             const link = document.createElement('a');
             const name = document.getElementById('nameInput').value.trim().replace(/\s+/g, '-');
-            link.download = `custom-flyer-${name || 'elite-fusion'}.png`;
+            link.download = `Elite-Fusion-${name}.png`;
             link.href = dataURL;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             
-            // Restore overlay
-            document.getElementById('detectionOverlay').style.display = 'block';
-            if (state.selectionRect) {
-                state.selectionRect.visible = true;
-            }
-            
             showStatus('Flyer downloaded successfully!', 'success');
         }
 
-        // ========================================
-        // UTILITIES
-        // ========================================
+        // Setup drag and drop
         function setupDragDrop(elementId, callback) {
             const element = document.getElementById(elementId);
             
             element.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                element.style.background = 'rgba(139, 26, 26, 0.2)';
+                element.style.background = '#FFF9E6';
             });
             
             element.addEventListener('dragleave', () => {
@@ -1130,6 +869,7 @@
             });
         }
 
+        // Show status message
         function showStatus(message, type) {
             const status = document.getElementById('statusMessage');
             status.textContent = message;
@@ -1137,7 +877,7 @@
             
             setTimeout(() => {
                 status.style.display = 'none';
-            }, 5000);
+            }, 4000);
         }
     </script>
 </body>
