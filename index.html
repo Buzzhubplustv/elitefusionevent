@@ -193,6 +193,16 @@
             padding: 5px;
             cursor: move;
             min-width: 50px;
+            transition: background-color 0.2s, transform 0.1s;
+            border-radius: 4px;
+        }
+        
+        .user-name:hover {
+            background-color: rgba(255, 0, 0, 0.1);
+        }
+        
+        .user-name:active {
+            transform: scale(0.95);
         }
         
         .download-btn {
@@ -276,6 +286,22 @@
         .small-text-btn:hover {
             background: #777;
         }
+        
+        /* NEW: Click to reduce feature indicator */
+        .click-reduce-indicator {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4444;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #d32f2f;
+        }
+        
+        .click-reduce-indicator strong {
+            color: #d32f2f;
+        }
     </style>
 </head>
 <body>
@@ -286,7 +312,8 @@
             <h3>✅ WORKING EDITOR - FIXED DOWNLOAD</h3>
             <ul>
                 <li><strong>No circle border</strong> - Clean circular photo</li>
-                <li><strong>Text as small as 8px</strong> - Use slider or preset buttons</li>
+                <li><strong>Text as small as 8px</strong> - Use slider, preset buttons, or CLICK on name</li>
+                <li><strong>NEW: Click name to reduce size</strong> - Click directly on name in preview</li>
                 <li><strong>Preset positions</strong> - Text at X:22, Y:171</li>
                 <li><strong>Resizable image</strong> - Drag corner to resize</li>
                 <li><strong>Fixed download</strong> - Now works properly</li>
@@ -329,6 +356,10 @@
                     </div>
                 </div>
                 
+                <div class="click-reduce-indicator">
+                    <strong>NEW FEATURE:</strong> Click directly on the name in the preview to <strong>REDUCE</strong> its font size
+                </div>
+                
                 <div class="position-controls">
                     <div style="font-weight: bold; margin-bottom: 10px; color: #333;">PRESET POSITIONS:</div>
                     <div class="position-row">
@@ -361,7 +392,7 @@
                 
                 <div class="flyer-container" id="flyerContainer">
                     <!-- Elite Fusion Flyer -->
-                    <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427" 
+                    <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765823760" 
                          alt="Elite Fusion Flyer" class="flyer-img" id="flyerImg">
                     
                     <!-- User Photo -->
@@ -380,7 +411,7 @@
                 </div>
                 
                 <div style="margin-top: 15px; color: #666; font-size: 14px;">
-                    <p><strong>Drag photo/text to move • Drag corner dot to resize photo</strong></p>
+                    <p><strong>Drag photo/text to move • Drag corner dot to resize photo • Click name to reduce size</strong></p>
                 </div>
                 
                 <button class="download-btn" onclick="downloadFlyer()" id="downloadBtn">
@@ -398,6 +429,10 @@
         let isResizing = false;
         let startX, startY, startWidth, startHeight;
         
+        // NEW: Size reduction variables
+        let minFontSize = 8;
+        let fontSizeDecrement = 2; // Reduce by 2px each click
+        
         // INITIALIZE
         document.addEventListener('DOMContentLoaded', function() {
             // Setup event listeners
@@ -412,6 +447,9 @@
             
             // Apply preset positions
             applyPresetPositions();
+            
+            // NEW: Add click-to-reduce functionality to name
+            setupNameClickToReduce();
         });
         
         function setupEvents() {
@@ -424,8 +462,7 @@
             // Text size slider
             document.getElementById('textSize').addEventListener('input', function() {
                 const size = this.value;
-                document.getElementById('sizeValue').textContent = size + 'px';
-                document.getElementById('nameContainer').style.fontSize = size + 'px';
+                updateTextSize(parseInt(size));
             });
             
             // Position inputs
@@ -438,6 +475,59 @@
             document.getElementById('flyerImg').onload = function() {
                 console.log('Flyer image loaded');
             };
+        }
+        
+        // NEW: Setup click to reduce size functionality
+        function setupNameClickToReduce() {
+            const nameContainer = document.getElementById('nameContainer');
+            
+            // Add click event to reduce font size
+            nameContainer.addEventListener('click', function(e) {
+                // Don't trigger if we're trying to drag
+                if (e.target === nameContainer) {
+                    reduceFontSize();
+                }
+            });
+        }
+        
+        // NEW: Function to reduce font size when name is clicked
+        function reduceFontSize() {
+            const nameContainer = document.getElementById('nameContainer');
+            const textSizeSlider = document.getElementById('textSize');
+            
+            // Get current font size
+            let currentSize = parseInt(nameContainer.style.fontSize) || 32;
+            
+            // Reduce size by decrement amount
+            currentSize -= fontSizeDecrement;
+            
+            // Don't go below minimum
+            if (currentSize < minFontSize) {
+                currentSize = minFontSize;
+                
+                // Visual feedback for min size reached
+                nameContainer.style.backgroundColor = 'rgba(255, 0, 0, 0.2)';
+                setTimeout(() => {
+                    nameContainer.style.backgroundColor = '';
+                }, 500);
+            }
+            
+            // Apply new size
+            updateTextSize(currentSize);
+            
+            // Update slider
+            textSizeSlider.value = currentSize;
+            
+            // Visual feedback for click
+            nameContainer.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                nameContainer.style.transform = '';
+            }, 200);
+        }
+        
+        function updateTextSize(size) {
+            document.getElementById('sizeValue').textContent = size + 'px';
+            document.getElementById('nameContainer').style.fontSize = size + 'px';
         }
         
         function selectGender(selectedGender) {
@@ -454,9 +544,8 @@
         }
         
         function setTextSize(size) {
+            updateTextSize(size);
             document.getElementById('textSize').value = size;
-            document.getElementById('sizeValue').textContent = size + 'px';
-            document.getElementById('nameContainer').style.fontSize = size + 'px';
         }
         
         function updateName() {
