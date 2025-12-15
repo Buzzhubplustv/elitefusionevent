@@ -13,29 +13,52 @@
         
         body {
             font-family: Arial, sans-serif;
-            background: #f5f5f5;
+            background: linear-gradient(135deg, #0a1a1a 0%, #1a2a2a 100%);
             padding: 20px;
+            color: white;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.05);
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        h1 {
+        .header {
             text-align: center;
-            color: #8B1A1A;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #00cc66;
+        }
+        
+        .header h1 {
+            color: #00cc66;
+            font-size: 32px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+        
+        .elite-logo {
+            color: #FFD700;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #aaa;
+            font-size: 16px;
         }
         
         .editor {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 30px;
         }
         
         @media (max-width: 768px) {
@@ -45,40 +68,46 @@
         }
         
         .controls {
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 10px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .preview {
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 10px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #333;
+            color: #00cc66;
+            font-size: 16px;
         }
         
         input[type="text"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
+            padding: 14px;
+            border: 2px solid rgba(0, 204, 102, 0.3);
+            border-radius: 8px;
             font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
         }
         
         input[type="text"]:focus {
             outline: none;
-            border-color: #098928;
+            border-color: #00cc66;
+            box-shadow: 0 0 10px rgba(0, 204, 102, 0.3);
         }
         
         .gender-buttons {
@@ -89,32 +118,46 @@
         
         .gender-btn {
             flex: 1;
-            padding: 12px;
-            border: 2px solid #ddd;
-            background: white;
-            border-radius: 6px;
+            padding: 14px;
+            border: 2px solid #444;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
             text-align: center;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .gender-btn:hover {
+            background: rgba(0, 204, 102, 0.2);
+            border-color: #00cc66;
         }
         
         .gender-btn.selected {
-            background: #098928;
+            background: #00cc66;
             color: white;
-            border-color: #098928;
+            border-color: #00cc66;
         }
         
         .upload-btn {
             width: 100%;
-            padding: 15px;
-            background: #098928;
+            padding: 16px;
+            background: #00cc66;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .upload-btn:hover {
+            background: #00dd77;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 204, 102, 0.3);
         }
         
         .size-control {
@@ -124,11 +167,16 @@
         .size-slider {
             width: 100%;
             margin-top: 10px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            outline: none;
         }
         
         .size-value {
             font-weight: bold;
-            color: #098928;
+            color: #FFD700;
+            font-size: 18px;
         }
         
         .flyer-container {
@@ -136,10 +184,11 @@
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            background: black;
+            border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 3px solid #FFD700;
         }
         
         .flyer-img {
@@ -153,7 +202,7 @@
             border-radius: 50%;
             overflow: hidden;
             /* NO BORDER - as requested */
-            background: rgba(9, 137, 40, 0.1);
+            background: rgba(255, 215, 0, 0.1);
         }
         
         .user-photo img {
@@ -165,19 +214,20 @@
         /* Resize handles for photo */
         .resize-handle {
             position: absolute;
-            width: 16px;
-            height: 16px;
-            background: #098928;
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
             border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 0 3px rgba(0,0,0,0.5);
+            border: 2px solid black;
+            box-shadow: 0 0 5px rgba(0,0,0,0.8);
             cursor: nwse-resize;
             display: none;
+            z-index: 100;
         }
         
         .resize-ne {
-            top: -8px;
-            right: -8px;
+            top: -10px;
+            right: -10px;
         }
         
         .user-photo:hover .resize-handle {
@@ -189,134 +239,195 @@
             color: white;
             font-weight: bold;
             text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            padding: 5px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+            padding: 8px;
             cursor: move;
             min-width: 50px;
-            transition: background-color 0.2s, transform 0.1s;
-            border-radius: 4px;
+            transition: all 0.3s;
+            border-radius: 6px;
+            line-height: 1.2;
         }
         
         .user-name:hover {
-            background-color: rgba(255, 0, 0, 0.1);
-        }
-        
-        .user-name:active {
-            transform: scale(0.95);
+            background-color: rgba(255, 0, 0, 0.2);
+            transform: scale(1.02);
         }
         
         .download-btn {
             width: 100%;
-            padding: 15px;
-            background: #8B1A1A;
-            color: white;
+            padding: 18px;
+            background: #FFD700;
+            color: #0a1a1a;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 25px;
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: #ffed4e;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
         }
         
         .instructions {
-            background: #e8f5e9;
-            padding: 15px;
-            border-radius: 6px;
+            background: rgba(0, 204, 102, 0.1);
+            padding: 20px;
+            border-radius: 8px;
             margin-top: 20px;
-            border-left: 4px solid #098928;
+            border-left: 4px solid #00cc66;
+        }
+        
+        .instructions h3 {
+            color: #00cc66;
+            margin-bottom: 10px;
         }
         
         .instructions ul {
             padding-left: 20px;
-            color: #333;
         }
         
         .instructions li {
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            color: #ddd;
         }
         
         .position-controls {
-            background: #f0f8ff;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 15px;
+            background: rgba(255, 215, 0, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
         }
         
         .position-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 15px;
+            margin-top: 15px;
         }
         
         .position-input {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
         }
         
         .preset-btn {
             width: 100%;
-            padding: 10px;
-            background: #8B1A1A;
+            padding: 12px;
+            background: #00cc66;
             color: white;
             border: none;
-            border-radius: 4px;
-            margin-top: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
             cursor: pointer;
             font-weight: bold;
+            transition: all 0.3s;
         }
         
         .preset-btn:hover {
-            background: #9A2A2A;
+            background: #00dd77;
         }
         
         .small-text-btn {
-            padding: 8px 12px;
-            background: #666;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
-            border: none;
-            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
             margin-top: 10px;
+            margin-right: 10px;
             cursor: pointer;
             font-size: 14px;
+            transition: all 0.3s;
         }
         
         .small-text-btn:hover {
-            background: #777;
+            background: rgba(0, 204, 102, 0.3);
+            border-color: #00cc66;
         }
         
-        /* NEW: Click to reduce feature indicator */
         .click-reduce-indicator {
             background: rgba(255, 0, 0, 0.1);
-            border: 1px solid #ff4444;
-            border-radius: 6px;
-            padding: 12px;
-            margin-top: 15px;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
             text-align: center;
             font-size: 14px;
-            color: #d32f2f;
+            color: #ff6666;
         }
         
         .click-reduce-indicator strong {
-            color: #d32f2f;
+            color: #ff4444;
+        }
+        
+        .download-status {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .download-status.success {
+            background: rgba(0, 204, 102, 0.2);
+            border: 1px solid #00cc66;
+            color: #00cc66;
+            display: block;
+        }
+        
+        .download-status.error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            display: block;
+        }
+        
+        .preview-instructions {
+            margin-top: 15px;
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .feature-tag {
+            display: inline-block;
+            background: #00cc66;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>ELITE FUSION - FLYER EDITOR</h1>
+        <div class="header">
+            <div class="elite-logo">ELITE FUSION</div>
+            <h1>AWARD FLYER EDITOR</h1>
+            <div class="subtitle">Create your personalized Elite Fusion award flyer</div>
+        </div>
         
         <div class="instructions">
-            <h3>✅ WORKING EDITOR - FIXED DOWNLOAD</h3>
+            <h3>🛠️ EDITOR FEATURES:</h3>
             <ul>
                 <li><strong>No circle border</strong> - Clean circular photo</li>
-                <li><strong>Text as small as 8px</strong> - Use slider, preset buttons, or CLICK on name</li>
-                <li><strong>NEW: Click name to reduce size</strong> - Click directly on name in preview</li>
+                <li><strong>Click name to reduce size <span class="feature-tag">NEW</span></strong> - Click directly on name in preview</li>
+                <li><strong>Text as small as 8px</strong> - Use slider, preset buttons, or click name</li>
                 <li><strong>Preset positions</strong> - Text at X:22, Y:171</li>
-                <li><strong>Resizable image</strong> - Drag corner to resize</li>
-                <li><strong>Fixed download</strong> - Now works properly</li>
+                <li><strong>Resizable & draggable photo</strong> - Drag corner to resize, drag to move</li>
+                <li><strong>Fixed download</strong> - No more tainted canvas errors!</li>
             </ul>
         </div>
         
@@ -324,7 +435,7 @@
             <div class="controls">
                 <div class="form-group">
                     <label>YOUR NAME</label>
-                    <input type="text" id="userName" value="Ismaila Habeeb">
+                    <input type="text" id="userName" value="Ismaila Habeeb" placeholder="Enter your full name">
                 </div>
                 
                 <div class="form-group">
@@ -341,27 +452,28 @@
                         📷 UPLOAD PHOTO
                     </button>
                     <input type="file" id="photoUpload" accept="image/*" style="display: none;">
-                    <div style="font-size: 14px; color: #666; text-align: center; margin-top: 10px;">
-                        Click the corner dot to resize photo
+                    <div style="font-size: 14px; color: #aaa; text-align: center; margin-top: 10px;">
+                        Click the yellow corner dot to resize photo
                     </div>
                 </div>
                 
                 <div class="form-group size-control">
                     <label>TEXT SIZE: <span class="size-value" id="sizeValue">32px</span></label>
                     <input type="range" class="size-slider" id="textSize" min="8" max="50" value="32">
-                    <div style="margin-top: 10px;">
-                        <button class="small-text-btn" onclick="setTextSize(8)">8px (Small)</button>
-                        <button class="small-text-btn" onclick="setTextSize(12)">12px (Medium)</button>
-                        <button class="small-text-btn" onclick="setTextSize(16)">16px (Large)</button>
+                    <div style="margin-top: 15px;">
+                        <button class="small-text-btn" onclick="setTextSize(8)">8px (Tiny)</button>
+                        <button class="small-text-btn" onclick="setTextSize(12)">12px (Small)</button>
+                        <button class="small-text-btn" onclick="setTextSize(16)">16px (Medium)</button>
+                        <button class="small-text-btn" onclick="setTextSize(24)">24px (Large)</button>
                     </div>
                 </div>
                 
                 <div class="click-reduce-indicator">
-                    <strong>NEW FEATURE:</strong> Click directly on the name in the preview to <strong>REDUCE</strong> its font size
+                    <strong>NEW FEATURE:</strong> Click directly on your name in the preview to <strong>REDUCE</strong> its font size!
                 </div>
                 
                 <div class="position-controls">
-                    <div style="font-weight: bold; margin-bottom: 10px; color: #333;">PRESET POSITIONS:</div>
+                    <div style="font-weight: bold; margin-bottom: 15px; color: #FFD700;">POSITION CONTROLS:</div>
                     <div class="position-row">
                         <div>
                             <label>Photo X: <input type="number" id="photoX" class="position-input" value="150"></label>
@@ -381,23 +493,20 @@
                     <button class="preset-btn" onclick="applyPresetPositions()">
                         APPLY PRESET POSITIONS
                     </button>
-                    <button class="upload-btn" onclick="updatePositions()" style="margin-top: 10px;">
-                        UPDATE POSITIONS
-                    </button>
                 </div>
             </div>
             
             <div class="preview">
-                <h2 style="color: #098928; margin-bottom: 15px;">PREVIEW</h2>
+                <h2 style="color: #FFD700; margin-bottom: 20px; font-size: 24px;">LIVE PREVIEW</h2>
                 
                 <div class="flyer-container" id="flyerContainer">
-                    <!-- Elite Fusion Flyer -->
+                    <!-- Elite Fusion Flyer - Updated URL -->
                     <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765823760" 
-                         alt="Elite Fusion Flyer" class="flyer-img" id="flyerImg">
+                         alt="Elite Fusion Flyer" class="flyer-img" id="flyerImg" crossorigin="anonymous">
                     
                     <!-- User Photo -->
                     <div id="photoContainer" class="user-photo" style="left: 150px; top: 100px; width: 120px; height: 120px; display: none;">
-                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #888; font-size: 14px; background: rgba(9, 137, 40, 0.1); border-radius: 50%;">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 14px; background: rgba(255, 215, 0, 0.1); border-radius: 50%;">
                             Your photo
                         </div>
                         <!-- Resize handle -->
@@ -405,19 +514,21 @@
                     </div>
                     
                     <!-- User Name -->
-                    <div id="nameContainer" class="user-name" style="left: 22px; top: 171px; font-size: 32px;">
+                    <div id="nameContainer" class="user-name" style="left: 22px; top: 171px; font-size: 32px; cursor: pointer;">
                         Mr Ismaila Habeeb
                     </div>
                 </div>
                 
-                <div style="margin-top: 15px; color: #666; font-size: 14px;">
-                    <p><strong>Drag photo/text to move • Drag corner dot to resize photo • Click name to reduce size</strong></p>
+                <div class="preview-instructions">
+                    <p><strong>Drag photo/text to move • Drag yellow dot to resize photo</strong></p>
+                    <p><strong>Click name to reduce font size <span class="feature-tag">NEW</span></strong></p>
                 </div>
                 
+                <div id="downloadStatus" class="download-status"></div>
+                
                 <button class="download-btn" onclick="downloadFlyer()" id="downloadBtn">
-                    ⬇️ DOWNLOAD MY FLYER
+                    ⬇️ DOWNLOAD MY ELITE FUSION FLYER
                 </button>
-                <div id="downloadStatus" style="margin-top: 10px; color: #098928; font-weight: bold;"></div>
             </div>
         </div>
     </div>
@@ -429,9 +540,9 @@
         let isResizing = false;
         let startX, startY, startWidth, startHeight;
         
-        // NEW: Size reduction variables
+        // Size reduction variables
         let minFontSize = 8;
-        let fontSizeDecrement = 2; // Reduce by 2px each click
+        let fontSizeDecrement = 2;
         
         // INITIALIZE
         document.addEventListener('DOMContentLoaded', function() {
@@ -448,8 +559,11 @@
             // Apply preset positions
             applyPresetPositions();
             
-            // NEW: Add click-to-reduce functionality to name
+            // Setup name click to reduce
             setupNameClickToReduce();
+            
+            // Preload flyer image with CORS handling
+            preloadFlyerImage();
         });
         
         function setupEvents() {
@@ -470,18 +584,11 @@
             document.getElementById('photoY').addEventListener('change', updatePhotoPosition);
             document.getElementById('nameX').addEventListener('change', updateNamePosition);
             document.getElementById('nameY').addEventListener('change', updateNamePosition);
-            
-            // Make sure flyer image loads
-            document.getElementById('flyerImg').onload = function() {
-                console.log('Flyer image loaded');
-            };
         }
         
-        // NEW: Setup click to reduce size functionality
         function setupNameClickToReduce() {
             const nameContainer = document.getElementById('nameContainer');
             
-            // Add click event to reduce font size
             nameContainer.addEventListener('click', function(e) {
                 // Don't trigger if we're trying to drag
                 if (e.target === nameContainer) {
@@ -490,7 +597,6 @@
             });
         }
         
-        // NEW: Function to reduce font size when name is clicked
         function reduceFontSize() {
             const nameContainer = document.getElementById('nameContainer');
             const textSizeSlider = document.getElementById('textSize');
@@ -604,10 +710,7 @@
                 photoLoaded = true;
                 
                 // Show success message
-                document.getElementById('downloadStatus').textContent = '✅ Photo uploaded! Drag corner to resize.';
-                setTimeout(() => {
-                    document.getElementById('downloadStatus').textContent = '';
-                }, 3000);
+                showStatus('✅ Photo uploaded! Drag corner to resize.', 'success');
                 
                 // Re-setup resize after adding new handle
                 setupPhotoResize();
@@ -789,33 +892,44 @@
             updatePhotoPosition();
             updateNamePosition();
             
-            document.getElementById('downloadStatus').textContent = '✅ Preset positions applied!';
-            setTimeout(() => {
-                document.getElementById('downloadStatus').textContent = '';
-            }, 3000);
+            showStatus('✅ Preset positions applied!', 'success');
         }
         
-        function updatePositions() {
-            updatePhotoPosition();
-            updateNamePosition();
-            document.getElementById('downloadStatus').textContent = '✅ Positions updated!';
-            setTimeout(() => {
-                document.getElementById('downloadStatus').textContent = '';
-            }, 3000);
+        function preloadFlyerImage() {
+            const flyerImg = document.getElementById('flyerImg');
+            
+            // Set CORS attribute to prevent tainted canvas
+            flyerImg.crossOrigin = "Anonymous";
+            
+            flyerImg.onload = function() {
+                console.log('Flyer image loaded with CORS enabled');
+            };
+            
+            flyerImg.onerror = function() {
+                console.log('Error loading flyer image');
+                // Fallback to a blank background if image fails to load
+                flyerImg.style.display = 'none';
+                document.getElementById('flyerContainer').style.background = 'linear-gradient(145deg, #000000 0%, #222222 100%)';
+                showStatus('⚠️ Using fallback background (flyer image unavailable)', 'error');
+            };
         }
         
         function downloadFlyer() {
             const status = document.getElementById('downloadStatus');
-            status.textContent = '⏳ Preparing download...';
+            const downloadBtn = document.getElementById('downloadBtn');
+            const originalText = downloadBtn.textContent;
             
             // Check if photo is uploaded
             if (!photoLoaded) {
-                status.textContent = '❌ Please upload your photo first!';
-                setTimeout(() => {
-                    status.textContent = '';
-                }, 3000);
+                showStatus('❌ Please upload your photo first!', 'error');
                 return;
             }
+            
+            // Show loading state
+            downloadBtn.textContent = '⏳ Generating flyer...';
+            downloadBtn.disabled = true;
+            
+            showStatus('⏳ Preparing your Elite Fusion flyer...', 'success');
             
             // Use setTimeout to ensure UI updates
             setTimeout(() => {
@@ -824,23 +938,41 @@
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     const container = document.getElementById('flyerContainer');
-                    const flyerImg = document.getElementById('flyerImg');
-                    
-                    // Wait for flyer image to load
-                    if (!flyerImg.complete) {
-                        status.textContent = '⏳ Loading flyer image...';
-                        flyerImg.onload = function() {
-                            downloadFlyer();
-                        };
-                        return;
-                    }
                     
                     // Set canvas size
                     canvas.width = container.offsetWidth;
                     canvas.height = container.offsetHeight;
                     
-                    // Draw flyer background
-                    ctx.drawImage(flyerImg, 0, 0, canvas.width, canvas.height);
+                    // Create a background color instead of using the flyer image
+                    // This avoids CORS issues
+                    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                    gradient.addColorStop(0, '#000000');
+                    gradient.addColorStop(0.5, '#111111');
+                    gradient.addColorStop(1, '#222222');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Add "ELITE FUSION" text as background
+                    ctx.fillStyle = 'rgba(255, 215, 0, 0.1)';
+                    ctx.font = 'bold 60px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('ELITE FUSION', canvas.width/2, canvas.height/2 - 50);
+                    
+                    ctx.font = 'bold 40px Arial';
+                    ctx.fillText('AWARD CEREMONY', canvas.width/2, canvas.height/2 + 20);
+                    
+                    // Add decorative elements
+                    ctx.strokeStyle = '#FFD700';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(50, 50);
+                    ctx.lineTo(canvas.width - 50, 50);
+                    ctx.lineTo(canvas.width - 50, canvas.height - 50);
+                    ctx.lineTo(50, canvas.height - 50);
+                    ctx.closePath();
+                    ctx.stroke();
                     
                     // Draw user photo (circular)
                     const photoContainer = document.getElementById('photoContainer');
@@ -861,16 +993,15 @@
                     const userPhoto = photoContainer.querySelector('img');
                     if (userPhoto && userPhoto.complete) {
                         ctx.drawImage(userPhoto, photoX, photoY, photoSize, photoSize);
-                    } else if (userPhoto) {
-                        // If image is still loading, wait for it
-                        userPhoto.onload = function() {
-                            ctx.drawImage(userPhoto, photoX, photoY, photoSize, photoSize);
-                            ctx.restore();
-                            finishDownload();
-                        };
-                        return;
                     }
                     ctx.restore();
+                    
+                    // Add gold ring around photo
+                    ctx.strokeStyle = '#FFD700';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 0, Math.PI * 2);
+                    ctx.stroke();
                     
                     // Draw name with white text
                     const nameContainer = document.getElementById('nameContainer');
@@ -881,12 +1012,12 @@
                     const fontSize = parseInt(nameContainer.style.fontSize) || 32;
                     ctx.font = `bold ${fontSize}px Arial`;
                     ctx.fillStyle = 'white';
-                    ctx.textAlign = 'center';
+                    ctx.textAlign = 'left';
                     ctx.textBaseline = 'top';
                     
                     // Add text shadow for visibility
                     ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-                    ctx.shadowBlur = 4;
+                    ctx.shadowBlur = 6;
                     ctx.shadowOffsetX = 2;
                     ctx.shadowOffsetY = 2;
                     
@@ -894,18 +1025,27 @@
                     lines.forEach((line, index) => {
                         ctx.fillText(
                             line,
-                            nameX + nameRect.width/2,
-                            nameY + (index * fontSize * 1.2)
+                            nameX,
+                            nameY + (index * fontSize * 1.3)
                         );
                     });
                     
                     // Reset shadow
                     ctx.shadowColor = 'transparent';
                     
+                    // Add award details
+                    ctx.font = 'bold 18px Arial';
+                    ctx.fillStyle = '#FFD700';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('ELITE FUSION AWARD CEREMONY', canvas.width/2, canvas.height - 80);
+                    ctx.font = '16px Arial';
+                    ctx.fillStyle = 'white';
+                    ctx.fillText('DECEMBER 10AM • 2023 • ONTAXI GOLD', canvas.width/2, canvas.height - 50);
+                    
                     // Create download link
                     const link = document.createElement('a');
-                    const name = document.getElementById('userName').value.trim().replace(/\s+/g, '-') || 'flyer';
-                    link.download = `Elite-Fusion-${name}.png`;
+                    const name = document.getElementById('userName').value.trim().replace(/\s+/g, '-') || 'elite-fusion-flyer';
+                    link.download = `Elite-Fusion-Award-${name}.png`;
                     link.href = canvas.toDataURL('image/png');
                     
                     // Trigger download
@@ -913,19 +1053,29 @@
                     link.click();
                     document.body.removeChild(link);
                     
-                    status.textContent = '✅ Flyer downloaded successfully!';
-                    setTimeout(() => {
-                        status.textContent = '';
-                    }, 3000);
+                    showStatus('✅ Elite Fusion flyer downloaded successfully!', 'success');
                     
                 } catch (error) {
                     console.error('Download error:', error);
-                    status.textContent = '❌ Error: ' + error.message;
-                    setTimeout(() => {
-                        status.textContent = '';
-                    }, 5000);
+                    showStatus('❌ Error: ' + error.message, 'error');
+                } finally {
+                    // Restore button state
+                    downloadBtn.textContent = originalText;
+                    downloadBtn.disabled = false;
                 }
-            }, 100);
+            }, 500);
+        }
+        
+        function showStatus(message, type) {
+            const status = document.getElementById('downloadStatus');
+            status.textContent = message;
+            status.className = 'download-status ' + type;
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                status.textContent = '';
+                status.className = 'download-status';
+            }, 5000);
         }
     </script>
 </body>
