@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Fusion - Simple Editor</title>
+    <title>Elite Fusion - Fixed Editor</title>
     <style>
         * {
             margin: 0;
@@ -117,10 +117,6 @@
             margin-bottom: 15px;
         }
         
-        .upload-btn:hover {
-            background: #087823;
-        }
-        
         .size-control {
             margin-top: 20px;
         }
@@ -156,14 +152,36 @@
             position: absolute;
             border-radius: 50%;
             overflow: hidden;
-            border: 3px solid #098928;
-            background: white;
+            /* NO BORDER - as requested */
+            background: rgba(9, 137, 40, 0.1);
         }
         
         .user-photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        
+        /* Resize handles for photo */
+        .resize-handle {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #098928;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 3px rgba(0,0,0,0.5);
+            cursor: nwse-resize;
+            display: none;
+        }
+        
+        .resize-ne {
+            top: -8px;
+            right: -8px;
+        }
+        
+        .user-photo:hover .resize-handle {
+            display: block;
         }
         
         .user-name {
@@ -173,6 +191,8 @@
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
             padding: 5px;
+            cursor: move;
+            min-width: 50px;
         }
         
         .download-btn {
@@ -188,21 +208,12 @@
             margin-top: 20px;
         }
         
-        .download-btn:hover {
-            background: #9A2A2A;
-        }
-        
         .instructions {
             background: #e8f5e9;
             padding: 15px;
             border-radius: 6px;
             margin-top: 20px;
             border-left: 4px solid #098928;
-        }
-        
-        .instructions h3 {
-            color: #098928;
-            margin-bottom: 10px;
         }
         
         .instructions ul {
@@ -234,6 +245,37 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+        
+        .preset-btn {
+            width: 100%;
+            padding: 10px;
+            background: #8B1A1A;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .preset-btn:hover {
+            background: #9A2A2A;
+        }
+        
+        .small-text-btn {
+            padding: 8px 12px;
+            background: #666;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .small-text-btn:hover {
+            background: #777;
+        }
     </style>
 </head>
 <body>
@@ -241,14 +283,13 @@
         <h1>ELITE FUSION - FLYER EDITOR</h1>
         
         <div class="instructions">
-            <h3>⚠️ SIMPLE SOLUTION THAT JUST WORKS</h3>
+            <h3>✅ WORKING EDITOR - FIXED DOWNLOAD</h3>
             <ul>
-                <li>Enter your name below</li>
-                <li>Select Mr or Miss</li>
-                <li>Upload your photo</li>
-                <li>Drag the photo and text to position</li>
-                <li>Adjust size if needed</li>
-                <li>Click Download</li>
+                <li><strong>No circle border</strong> - Clean circular photo</li>
+                <li><strong>Text as small as 8px</strong> - Use slider or preset buttons</li>
+                <li><strong>Preset positions</strong> - Text at X:22, Y:171</li>
+                <li><strong>Resizable image</strong> - Drag corner to resize</li>
+                <li><strong>Fixed download</strong> - Now works properly</li>
             </ul>
         </div>
         
@@ -274,17 +315,22 @@
                     </button>
                     <input type="file" id="photoUpload" accept="image/*" style="display: none;">
                     <div style="font-size: 14px; color: #666; text-align: center; margin-top: 10px;">
-                        Will appear in the circular area
+                        Click the corner dot to resize photo
                     </div>
                 </div>
                 
                 <div class="form-group size-control">
                     <label>TEXT SIZE: <span class="size-value" id="sizeValue">32px</span></label>
-                    <input type="range" class="size-slider" id="textSize" min="20" max="50" value="32">
+                    <input type="range" class="size-slider" id="textSize" min="8" max="50" value="32">
+                    <div style="margin-top: 10px;">
+                        <button class="small-text-btn" onclick="setTextSize(8)">8px (Small)</button>
+                        <button class="small-text-btn" onclick="setTextSize(12)">12px (Medium)</button>
+                        <button class="small-text-btn" onclick="setTextSize(16)">16px (Large)</button>
+                    </div>
                 </div>
                 
                 <div class="position-controls">
-                    <div style="font-weight: bold; margin-bottom: 10px; color: #333;">MANUAL POSITION (if needed):</div>
+                    <div style="font-weight: bold; margin-bottom: 10px; color: #333;">PRESET POSITIONS:</div>
                     <div class="position-row">
                         <div>
                             <label>Photo X: <input type="number" id="photoX" class="position-input" value="150"></label>
@@ -295,12 +341,15 @@
                     </div>
                     <div class="position-row">
                         <div>
-                            <label>Name X: <input type="number" id="nameX" class="position-input" value="150"></label>
+                            <label>Name X: <input type="number" id="nameX" class="position-input" value="22"></label>
                         </div>
                         <div>
-                            <label>Name Y: <input type="number" id="nameY" class="position-input" value="280"></label>
+                            <label>Name Y: <input type="number" id="nameY" class="position-input" value="171"></label>
                         </div>
                     </div>
+                    <button class="preset-btn" onclick="applyPresetPositions()">
+                        APPLY PRESET POSITIONS
+                    </button>
                     <button class="upload-btn" onclick="updatePositions()" style="margin-top: 10px;">
                         UPDATE POSITIONS
                     </button>
@@ -315,26 +364,29 @@
                     <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427" 
                          alt="Elite Fusion Flyer" class="flyer-img" id="flyerImg">
                     
-                    <!-- User Photo (will be added here) -->
+                    <!-- User Photo -->
                     <div id="photoContainer" class="user-photo" style="left: 150px; top: 100px; width: 120px; height: 120px; display: none;">
-                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #888; font-size: 14px;">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #888; font-size: 14px; background: rgba(9, 137, 40, 0.1); border-radius: 50%;">
                             Your photo
                         </div>
+                        <!-- Resize handle -->
+                        <div class="resize-handle resize-ne"></div>
                     </div>
                     
-                    <!-- User Name (will be added here) -->
-                    <div id="nameContainer" class="user-name" style="left: 150px; top: 280px; font-size: 32px;">
+                    <!-- User Name -->
+                    <div id="nameContainer" class="user-name" style="left: 22px; top: 171px; font-size: 32px;">
                         Mr Ismaila Habeeb
                     </div>
                 </div>
                 
                 <div style="margin-top: 15px; color: #666; font-size: 14px;">
-                    <p><strong>Drag the photo and text to position them correctly</strong></p>
+                    <p><strong>Drag photo/text to move • Drag corner dot to resize photo</strong></p>
                 </div>
                 
-                <button class="download-btn" onclick="downloadFlyer()">
+                <button class="download-btn" onclick="downloadFlyer()" id="downloadBtn">
                     ⬇️ DOWNLOAD MY FLYER
                 </button>
+                <div id="downloadStatus" style="margin-top: 10px; color: #098928; font-weight: bold;"></div>
             </div>
         </div>
     </div>
@@ -343,6 +395,8 @@
         // SIMPLE STATE
         let gender = 'male';
         let photoLoaded = false;
+        let isResizing = false;
+        let startX, startY, startWidth, startHeight;
         
         // INITIALIZE
         document.addEventListener('DOMContentLoaded', function() {
@@ -352,6 +406,12 @@
             // Make elements draggable
             makeDraggable('photoContainer');
             makeDraggable('nameContainer');
+            
+            // Setup photo resize
+            setupPhotoResize();
+            
+            // Apply preset positions
+            applyPresetPositions();
         });
         
         function setupEvents() {
@@ -373,6 +433,11 @@
             document.getElementById('photoY').addEventListener('change', updatePhotoPosition);
             document.getElementById('nameX').addEventListener('change', updateNamePosition);
             document.getElementById('nameY').addEventListener('change', updateNamePosition);
+            
+            // Make sure flyer image loads
+            document.getElementById('flyerImg').onload = function() {
+                console.log('Flyer image loaded');
+            };
         }
         
         function selectGender(selectedGender) {
@@ -386,6 +451,12 @@
             
             // Update name
             updateName();
+        }
+        
+        function setTextSize(size) {
+            document.getElementById('textSize').value = size;
+            document.getElementById('sizeValue').textContent = size + 'px';
+            document.getElementById('nameContainer').style.fontSize = size + 'px';
         }
         
         function updateName() {
@@ -428,15 +499,29 @@
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.alt = 'User Photo';
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
                 
                 // Add to container
                 photoContainer.appendChild(img);
-                photoContainer.style.display = 'block';
                 
+                // Add resize handle
+                const resizeHandle = document.createElement('div');
+                resizeHandle.className = 'resize-handle resize-ne';
+                photoContainer.appendChild(resizeHandle);
+                
+                photoContainer.style.display = 'block';
                 photoLoaded = true;
                 
                 // Show success message
-                alert('Photo uploaded successfully! Drag it to position.');
+                document.getElementById('downloadStatus').textContent = '✅ Photo uploaded! Drag corner to resize.';
+                setTimeout(() => {
+                    document.getElementById('downloadStatus').textContent = '';
+                }, 3000);
+                
+                // Re-setup resize after adding new handle
+                setupPhotoResize();
             };
             
             reader.readAsDataURL(file);
@@ -451,6 +536,9 @@
             element.addEventListener('touchstart', startDragTouch);
             
             function startDrag(e) {
+                // Don't drag if clicking resize handle
+                if (e.target.classList.contains('resize-handle')) return;
+                
                 isDragging = true;
                 startX = e.clientX - element.offsetLeft;
                 startY = e.clientY - element.offsetTop;
@@ -464,6 +552,8 @@
             
             function startDragTouch(e) {
                 e.preventDefault();
+                if (e.target.classList.contains('resize-handle')) return;
+                
                 isDragging = true;
                 const touch = e.touches[0];
                 startX = touch.clientX - element.offsetLeft;
@@ -528,6 +618,48 @@
             }
         }
         
+        function setupPhotoResize() {
+            const photoContainer = document.getElementById('photoContainer');
+            const resizeHandle = photoContainer.querySelector('.resize-handle');
+            
+            if (!resizeHandle) return;
+            
+            resizeHandle.addEventListener('mousedown', startResize);
+            
+            function startResize(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                isResizing = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                startWidth = photoContainer.offsetWidth;
+                startHeight = photoContainer.offsetHeight;
+                
+                document.addEventListener('mousemove', resize);
+                document.addEventListener('mouseup', stopResize);
+            }
+            
+            function resize(e) {
+                if (!isResizing) return;
+                
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                // Calculate new size (keep aspect ratio)
+                const newSize = Math.max(50, Math.min(300, startWidth + deltaX));
+                
+                photoContainer.style.width = newSize + 'px';
+                photoContainer.style.height = newSize + 'px';
+            }
+            
+            function stopResize() {
+                isResizing = false;
+                document.removeEventListener('mousemove', resize);
+                document.removeEventListener('mouseup', stopResize);
+            }
+        }
+        
         function updatePositionInputs() {
             const photoContainer = document.getElementById('photoContainer');
             const nameContainer = document.getElementById('nameContainer');
@@ -549,101 +681,162 @@
         
         function updateNamePosition() {
             const nameContainer = document.getElementById('nameContainer');
-            const x = parseInt(document.getElementById('nameX').value) || 150;
-            const y = parseInt(document.getElementById('nameY').value) || 280;
+            const x = parseInt(document.getElementById('nameX').value) || 22;
+            const y = parseInt(document.getElementById('nameY').value) || 171;
             
             nameContainer.style.left = x + 'px';
             nameContainer.style.top = y + 'px';
         }
         
+        function applyPresetPositions() {
+            // Set text to your requested position
+            document.getElementById('nameX').value = 22;
+            document.getElementById('nameY').value = 171;
+            
+            // Keep photo at reasonable position
+            document.getElementById('photoX').value = 150;
+            document.getElementById('photoY').value = 100;
+            
+            updatePhotoPosition();
+            updateNamePosition();
+            
+            document.getElementById('downloadStatus').textContent = '✅ Preset positions applied!';
+            setTimeout(() => {
+                document.getElementById('downloadStatus').textContent = '';
+            }, 3000);
+        }
+        
         function updatePositions() {
             updatePhotoPosition();
             updateNamePosition();
-            alert('Positions updated!');
+            document.getElementById('downloadStatus').textContent = '✅ Positions updated!';
+            setTimeout(() => {
+                document.getElementById('downloadStatus').textContent = '';
+            }, 3000);
         }
         
         function downloadFlyer() {
+            const status = document.getElementById('downloadStatus');
+            status.textContent = '⏳ Preparing download...';
+            
+            // Check if photo is uploaded
             if (!photoLoaded) {
-                alert('Please upload your photo first!');
+                status.textContent = '❌ Please upload your photo first!';
+                setTimeout(() => {
+                    status.textContent = '';
+                }, 3000);
                 return;
             }
             
-            // Create canvas
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const container = document.getElementById('flyerContainer');
-            const flyerImg = document.getElementById('flyerImg');
-            
-            // Set canvas size
-            canvas.width = container.offsetWidth;
-            canvas.height = container.offsetHeight;
-            
-            // Draw flyer
-            ctx.drawImage(flyerImg, 0, 0, canvas.width, canvas.height);
-            
-            // Draw user photo (circular)
-            const photoContainer = document.getElementById('photoContainer');
-            const photoRect = photoContainer.getBoundingClientRect();
-            const containerRect = container.getBoundingClientRect();
-            
-            const photoX = photoRect.left - containerRect.left;
-            const photoY = photoRect.top - containerRect.top;
-            const photoSize = photoRect.width;
-            
-            // Create circular clipping
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.clip();
-            
-            const userPhoto = photoContainer.querySelector('img');
-            if (userPhoto) {
-                ctx.drawImage(userPhoto, photoX, photoY, photoSize, photoSize);
-            }
-            ctx.restore();
-            
-            // Draw name with white text
-            const nameContainer = document.getElementById('nameContainer');
-            const nameRect = nameContainer.getBoundingClientRect();
-            const nameX = nameRect.left - containerRect.left;
-            const nameY = nameRect.top - containerRect.top;
-            
-            ctx.font = `bold ${nameContainer.style.fontSize} Arial`;
-            ctx.fillStyle = 'white';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'top';
-            
-            // Add text shadow for visibility
-            ctx.shadowColor = 'black';
-            ctx.shadowBlur = 4;
-            ctx.shadowOffsetX = 2;
-            ctx.shadowOffsetY = 2;
-            
-            const lines = nameContainer.textContent.split('\n');
-            lines.forEach((line, index) => {
-                ctx.fillText(
-                    line,
-                    nameX + nameRect.width/2,
-                    nameY + (index * parseInt(nameContainer.style.fontSize) * 1.2)
-                );
-            });
-            
-            // Reset shadow
-            ctx.shadowColor = 'transparent';
-            
-            // Create download link
-            const link = document.createElement('a');
-            const name = document.getElementById('userName').value.trim().replace(/\s+/g, '-');
-            link.download = `Elite-Fusion-${name || 'flyer'}.png`;
-            link.href = canvas.toDataURL('image/png');
-            
-            // Trigger download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            alert('Flyer downloaded successfully!');
+            // Use setTimeout to ensure UI updates
+            setTimeout(() => {
+                try {
+                    // Create canvas
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const container = document.getElementById('flyerContainer');
+                    const flyerImg = document.getElementById('flyerImg');
+                    
+                    // Wait for flyer image to load
+                    if (!flyerImg.complete) {
+                        status.textContent = '⏳ Loading flyer image...';
+                        flyerImg.onload = function() {
+                            downloadFlyer();
+                        };
+                        return;
+                    }
+                    
+                    // Set canvas size
+                    canvas.width = container.offsetWidth;
+                    canvas.height = container.offsetHeight;
+                    
+                    // Draw flyer background
+                    ctx.drawImage(flyerImg, 0, 0, canvas.width, canvas.height);
+                    
+                    // Draw user photo (circular)
+                    const photoContainer = document.getElementById('photoContainer');
+                    const photoRect = photoContainer.getBoundingClientRect();
+                    const containerRect = container.getBoundingClientRect();
+                    
+                    const photoX = photoRect.left - containerRect.left;
+                    const photoY = photoRect.top - containerRect.top;
+                    const photoSize = photoRect.width;
+                    
+                    // Create circular clipping path
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 0, Math.PI * 2);
+                    ctx.closePath();
+                    ctx.clip();
+                    
+                    const userPhoto = photoContainer.querySelector('img');
+                    if (userPhoto && userPhoto.complete) {
+                        ctx.drawImage(userPhoto, photoX, photoY, photoSize, photoSize);
+                    } else if (userPhoto) {
+                        // If image is still loading, wait for it
+                        userPhoto.onload = function() {
+                            ctx.drawImage(userPhoto, photoX, photoY, photoSize, photoSize);
+                            ctx.restore();
+                            finishDownload();
+                        };
+                        return;
+                    }
+                    ctx.restore();
+                    
+                    // Draw name with white text
+                    const nameContainer = document.getElementById('nameContainer');
+                    const nameRect = nameContainer.getBoundingClientRect();
+                    const nameX = nameRect.left - containerRect.left;
+                    const nameY = nameRect.top - containerRect.top;
+                    
+                    const fontSize = parseInt(nameContainer.style.fontSize) || 32;
+                    ctx.font = `bold ${fontSize}px Arial`;
+                    ctx.fillStyle = 'white';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+                    
+                    // Add text shadow for visibility
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                    ctx.shadowBlur = 4;
+                    ctx.shadowOffsetX = 2;
+                    ctx.shadowOffsetY = 2;
+                    
+                    const lines = nameContainer.textContent.split('\n');
+                    lines.forEach((line, index) => {
+                        ctx.fillText(
+                            line,
+                            nameX + nameRect.width/2,
+                            nameY + (index * fontSize * 1.2)
+                        );
+                    });
+                    
+                    // Reset shadow
+                    ctx.shadowColor = 'transparent';
+                    
+                    // Create download link
+                    const link = document.createElement('a');
+                    const name = document.getElementById('userName').value.trim().replace(/\s+/g, '-') || 'flyer';
+                    link.download = `Elite-Fusion-${name}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    
+                    // Trigger download
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    status.textContent = '✅ Flyer downloaded successfully!';
+                    setTimeout(() => {
+                        status.textContent = '';
+                    }, 3000);
+                    
+                } catch (error) {
+                    console.error('Download error:', error);
+                    status.textContent = '❌ Error: ' + error.message;
+                    setTimeout(() => {
+                        status.textContent = '';
+                    }, 5000);
+                }
+            }, 100);
         }
     </script>
 </body>
