@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Fusion - Simple Flyer Maker</title>
+    <title>Elite Fusion - Professional Flyer Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
     <style>
         * {
             margin: 0;
@@ -11,419 +13,838 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-red: #8B1A1A;
+            --primary-gold: #D4AF37;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
         body {
-            background: white;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            color: #333;
+            background: var(--white);
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-gray);
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
             padding: 20px;
-            border-bottom: 2px solid #8B1A1A;
         }
 
-        .header img {
-            height: 80px;
+        /* Header */
+        .site-header {
+            text-align: center;
+            padding: 25px 0;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--primary-gold);
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
             margin-bottom: 15px;
         }
 
-        .header h1 {
-            color: #8B1A1A;
-            font-size: 32px;
-            margin-bottom: 5px;
+        .event-logo {
+            height: 80px;
+            width: auto;
         }
 
-        .header p {
-            color: #666;
-            font-size: 18px;
+        .site-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--primary-red);
+            letter-spacing: 1px;
         }
 
-        .app {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 40px;
+        .site-subtitle {
+            font-size: 1.2rem;
+            color: var(--primary-red);
+            font-weight: 600;
         }
 
-        .controls {
-            flex: 1;
-            min-width: 300px;
-            background: #f9f9f9;
+        /* Main Layout */
+        .editor-container {
+            display: grid;
+            grid-template-columns: 400px 1fr 400px;
+            gap: 25px;
+            min-height: 700px;
+        }
+
+        @media (max-width: 1200px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        /* Panel Styling */
+        .editor-panel {
+            background: var(--white);
+            border-radius: 15px;
             padding: 25px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(139, 26, 26, 0.1);
         }
 
-        .preview {
-            flex: 2;
-            min-width: 500px;
-            background: #f9f9f9;
-            padding: 25px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-
-        .section-title {
-            color: #8B1A1A;
-            margin-bottom: 20px;
+        .panel-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary-red);
+            margin-bottom: 25px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #D4AF37;
-            font-size: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #8B1A1A;
-        }
-
-        .gender-buttons {
+            border-bottom: 2px solid var(--primary-gold);
             display: flex;
+            align-items: center;
             gap: 10px;
+        }
+
+        .panel-title i {
+            color: var(--primary-gold);
+        }
+
+        /* Left Panel - Controls */
+        .control-section {
+            margin-bottom: 25px;
+        }
+
+        .section-label {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--primary-red);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        .gender-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
             margin-top: 10px;
         }
 
         .gender-btn {
-            flex: 1;
-            padding: 12px;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
+            padding: 15px;
+            background: var(--light-gray);
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
             text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .gender-btn:hover {
+            border-color: var(--primary-red);
+            background: #FFF5F5;
         }
 
         .gender-btn.selected {
-            background: #8B1A1A;
-            color: white;
-            border-color: #8B1A1A;
+            background: var(--primary-red);
+            color: var(--white);
+            border-color: var(--primary-red);
         }
 
         .upload-area {
-            border: 3px dashed #8B1A1A;
-            border-radius: 10px;
+            border: 3px dashed var(--primary-gold);
+            border-radius: 12px;
             padding: 40px 20px;
             text-align: center;
             cursor: pointer;
+            background: #FFFDF5;
             margin-bottom: 15px;
-            background: #fff9f9;
+            transition: all 0.3s;
         }
 
         .upload-area:hover {
-            background: #fff0f0;
+            background: #FFF9E6;
+            border-color: var(--primary-red);
         }
 
         .upload-icon {
-            font-size: 48px;
+            font-size: 3.5rem;
+            color: var(--primary-gold);
             margin-bottom: 15px;
-            color: #8B1A1A;
         }
 
+        .upload-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 8px;
+        }
+
+        .upload-note {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Center Panel - Preview */
         .preview-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .flyer-preview {
             position: relative;
             width: 500px;
             height: 700px;
-            margin: 0 auto;
-            border: 2px solid #ddd;
-            background: white;
+            background: var(--white);
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border: 2px solid var(--primary-gold);
         }
 
         #flyerImage {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
         }
 
-        .user-photo {
+        .overlay-element {
             position: absolute;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid #D4AF37;
-            background: #f0f0f0;
+            pointer-events: all;
         }
 
-        .user-photo img {
+        #userPhotoOverlay {
+            border-radius: 50%;
+            border: 3px solid var(--primary-gold);
+            overflow: hidden;
+            background: #f0f0f0;
+            cursor: move;
+        }
+
+        #userPhotoOverlay img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .user-name {
-            position: absolute;
-            color: black;
-            font-weight: bold;
-            font-size: 24px;
+        #nameOverlay {
+            color: #000000;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
             text-align: center;
             line-height: 1.2;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 5px;
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0);
+            cursor: move;
+            padding: 10px;
         }
 
-        .action-buttons {
+        .drag-handle {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-red);
+            border-radius: 50%;
+            cursor: nwse-resize;
+            border: 2px solid var(--white);
+            display: none;
+        }
+
+        .overlay-element:hover .drag-handle {
+            display: block;
+        }
+
+        /* Right Panel - Image Editor */
+        .image-editor {
+            display: none;
+        }
+
+        .image-editor.active {
+            display: block;
+        }
+
+        .crop-container {
+            width: 100%;
+            height: 300px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            max-height: 300px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .crop-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .crop-btn {
+            padding: 12px;
+            background: var(--primary-red);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .crop-btn:hover {
+            background: #9A2A2A;
+            transform: translateY(-2px);
+        }
+
+        .crop-btn.secondary {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            border: 2px solid #E0E0E0;
+        }
+
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        .slider-label {
             display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #E0E0E0;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-red);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 30px;
         }
 
-        button {
-            flex: 1;
-            padding: 15px;
+        .action-btn {
+            padding: 16px;
             border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
             cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .adjust-btn {
-            background: #D4AF37;
-            color: #8B1A1A;
+        .action-btn.primary {
+            background: linear-gradient(135deg, var(--primary-gold), #E6C158);
+            color: var(--primary-red);
+        }
+
+        .action-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            border: 2px solid #E0E0E0;
+        }
+
+        .action-btn.secondary:hover {
+            background: #EAEAEA;
         }
 
         .download-btn {
-            background: #8B1A1A;
-            color: white;
-        }
-
-        button:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        .position-controls {
-            margin-top: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-
-        .pos-inputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .pos-input {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary-red), #9A2A2A);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            letter-spacing: 1px;
         }
 
-        .footer {
-            text-align: center;
-            padding: 30px;
-            border-top: 2px solid #8B1A1A;
-            color: #666;
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 26, 26, 0.3);
         }
 
-        .footer img {
-            height: 60px;
-            margin-bottom: 15px;
-            opacity: 0.8;
+        /* Detection Info */
+        .detection-info {
+            background: #F0F8FF;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #4A90E2;
         }
 
-        .error-message {
-            background: #ffebee;
-            color: #c62828;
+        .info-title {
+            font-weight: 600;
+            color: #4A90E2;
+            margin-bottom: 10px;
+        }
+
+        .info-text {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        /* Status Messages */
+        .status-message {
             padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 600;
             text-align: center;
             display: none;
+        }
+
+        .status-message.success {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 2px solid #C8E6C9;
+            display: block;
+        }
+
+        .status-message.error {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 2px solid #FFCDD2;
+            display: block;
+        }
+
+        /* Footer */
+        .site-footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 50px;
+            border-top: 3px solid var(--primary-gold);
+            background: #FAFAFA;
+            border-radius: 15px;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .footer-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary-red);
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" alt="Elite Fusion">
-            <h1>ELITE FUSION</h1>
-            <p>General Team Training & Award Recognition</p>
-        </div>
+        <!-- Header -->
+        <header class="site-header">
+            <div class="logo-title">
+                <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" 
+                     alt="Elite Fusion" class="event-logo">
+                <h1 class="site-title">ELITE FUSION</h1>
+            </div>
+            <p class="site-subtitle">Professional Flyer Customization System</p>
+        </header>
 
-        <div class="error-message" id="errorMessage"></div>
-
-        <div class="app">
-            <div class="controls">
-                <h2 class="section-title">CUSTOMIZE YOUR FLYER</h2>
+        <!-- Main Editor -->
+        <div class="editor-container">
+            <!-- Left Panel - Controls -->
+            <div class="editor-panel">
+                <h2 class="panel-title">✏️ CUSTOMIZE FLYER</h2>
                 
-                <div class="form-group">
-                    <label>YOUR NAME</label>
-                    <input type="text" id="userName" placeholder="Enter your name" value="Victor Jaiyeola">
+                <!-- Name Section -->
+                <div class="control-section">
+                    <label class="section-label">YOUR NAME</label>
+                    <input type="text" class="name-input" id="userName" 
+                           placeholder="Name will auto-detect from flyer">
+                    <div class="detection-info">
+                        <div class="info-title">Auto-Detected Name</div>
+                        <div class="info-text" id="detectedNameText">
+                            System will automatically detect "Mr Ismaila Habeeb" from the flyer
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>TITLE</label>
-                    <div class="gender-buttons">
+                <!-- Gender Selection -->
+                <div class="control-section">
+                    <label class="section-label">TITLE</label>
+                    <div class="gender-selection">
                         <div class="gender-btn selected" onclick="selectGender('male')">Mr</div>
                         <div class="gender-btn" onclick="selectGender('female')">Miss</div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>UPLOAD YOUR PHOTO</label>
-                    <div class="upload-area" onclick="document.getElementById('photoUpload').click()">
+                <!-- Photo Upload -->
+                <div class="control-section">
+                    <label class="section-label">UPLOAD PHOTO</label>
+                    <div class="upload-area" onclick="openPhotoUpload()">
                         <div class="upload-icon">📷</div>
-                        <div>Click to upload photo</div>
-                        <div style="font-size: 14px; color: #666; margin-top: 10px;">
-                            Photo will appear in the circle on the flyer
-                        </div>
-                        <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                        <div class="upload-text">Click to Upload Photo</div>
+                        <div class="upload-note">Drag & drop supported • JPG/PNG</div>
+                    </div>
+                    <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                </div>
+
+                <!-- Auto-Detection Info -->
+                <div class="detection-info">
+                    <div class="info-title">Smart Detection Active</div>
+                    <div class="info-text">
+                        ✓ Photo frame automatically detected<br>
+                        ✓ Name position auto-detected<br>
+                        ✓ Everything will fit perfectly
                     </div>
                 </div>
 
-                <div class="position-controls">
-                    <div style="margin-bottom: 15px; font-weight: bold; color: #8B1A1A;">
-                        Adjust Positions (If needed):
-                    </div>
-                    <div class="pos-inputs">
-                        <div>
-                            <label>Photo X: <input type="number" id="photoX" class="pos-input" value="250"></label>
-                        </div>
-                        <div>
-                            <label>Photo Y: <input type="number" id="photoY" class="pos-input" value="130"></label>
-                        </div>
-                        <div>
-                            <label>Name X: <input type="number" id="nameX" class="pos-input" value="250"></label>
-                        </div>
-                        <div>
-                            <label>Name Y: <input type="number" id="nameY" class="pos-input" value="320"></label>
-                        </div>
-                    </div>
-                </div>
-
+                <!-- Action Buttons -->
                 <div class="action-buttons">
-                    <button class="adjust-btn" onclick="updatePositions()">UPDATE POSITIONS</button>
-                    <button class="download-btn" onclick="downloadFlyer()">DOWNLOAD FLYER</button>
+                    <button class="action-btn secondary" onclick="resetPositions()">
+                        🔄 Reset Positions
+                    </button>
+                    <button class="action-btn secondary" onclick="autoFitAll()">
+                        🎯 Auto-Fit All
+                    </button>
+                </div>
+
+                <button class="download-btn" onclick="downloadFlyer()">
+                    ⬇️ DOWNLOAD MY FLYER
+                </button>
+
+                <!-- Status Message -->
+                <div id="statusMessage" class="status-message"></div>
+            </div>
+
+            <!-- Center Panel - Preview -->
+            <div class="editor-panel preview-container">
+                <h2 class="panel-title">👁️ LIVE PREVIEW</h2>
+                
+                <div class="flyer-preview" id="flyerPreview">
+                    <img id="flyerImage" src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427" 
+                         alt="Elite Fusion Flyer">
+                    
+                    <!-- User Photo Overlay -->
+                    <div id="userPhotoOverlay" class="overlay-element" style="left: 250px; top: 130px; width: 120px; height: 120px; display: none;">
+                        <img id="uploadedPhoto" src="" alt="User Photo">
+                        <div class="drag-handle"></div>
+                    </div>
+                    
+                    <!-- Name Overlay -->
+                    <div id="nameOverlay" class="overlay-element" style="left: 250px; top: 320px; font-size: 32px; display: none;">
+                        Mr Ismaila Habeeb
+                        <div class="drag-handle"></div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; text-align: center; color: #666; font-size: 0.9rem;">
+                    <p>💡 <strong>Tip:</strong> Drag elements to reposition • Drag handles to resize</p>
                 </div>
             </div>
 
-            <div class="preview">
-                <h2 class="section-title">LIVE PREVIEW</h2>
+            <!-- Right Panel - Image Editor -->
+            <div class="editor-panel image-editor" id="imageEditorPanel">
+                <h2 class="panel-title">✂️ EDIT PHOTO</h2>
                 
-                <div class="preview-container">
-                    <!-- Elite Fusion Flyer -->
-                    <img id="flyerImage" src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/elite-fusion.jpg?v=1765809427" alt="Elite Fusion Flyer">
-                    
-                    <!-- User Photo (will be added dynamically) -->
-                    <div id="photoContainer" class="user-photo" style="left: 250px; top: 130px;">
-                        <div id="photoPlaceholder" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #888; font-size: 14px;">
-                            Your photo will appear here
-                        </div>
-                        <img id="uploadedPhoto" style="display: none;">
-                    </div>
-                    
-                    <!-- User Name (will be added dynamically) -->
-                    <div id="nameContainer" class="user-name" style="left: 250px; top: 320px;">
-                        Mr Victor Jaiyeola
-                    </div>
+                <div class="crop-container">
+                    <img id="imagePreview" src="" alt="Image to crop">
                 </div>
-                
-                <div style="margin-top: 20px; color: #666; font-size: 14px;">
-                    <p><strong>Tip:</strong> Drag the photo or name to reposition. Use the position inputs for precise adjustment.</p>
+
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Zoom:</span>
+                        <span id="zoomValue">100%</span>
+                    </div>
+                    <input type="range" id="zoomSlider" min="50" max="200" value="100">
+                </div>
+
+                <div class="crop-controls">
+                    <button class="crop-btn secondary" onclick="rotateImage(-90)">
+                        ⟲ Rotate Left
+                    </button>
+                    <button class="crop-btn secondary" onclick="rotateImage(90)">
+                        ⟳ Rotate Right
+                    </button>
+                </div>
+
+                <div class="crop-controls">
+                    <button class="crop-btn secondary" onclick="resetCrop()">
+                        🔄 Reset
+                    </button>
+                    <button class="crop-btn" onclick="applyCrop()">
+                        ✅ Apply Changes
+                    </button>
+                </div>
+
+                <div style="margin-top: 20px; color: #666; font-size: 0.9rem; text-align: center;">
+                    <p>Adjust your photo to fit perfectly in the circular frame</p>
                 </div>
             </div>
         </div>
 
-        <div class="footer">
-            <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" alt="Elite Fusion">
-            <h2>ELITE FUSION</h2>
-            <p>General Team Training & Award Recognition • 16 DEC 2025 • 10AM • GIDAN DOKI</p>
-        </div>
+        <!-- Footer -->
+        <footer class="site-footer">
+            <img src="https://cdn.shopify.com/s/files/1/0749/0863/1276/files/Elite_logo.png?v=1765809457" 
+                 alt="Elite Fusion" class="footer-logo">
+            <h2 class="footer-title">ELITE FUSION</h2>
+            <p class="footer-text">
+                General Team Training & Award Recognition<br>
+                16 DECEMBER 2025 • 10:00 AM • GIDAN DOKI<br>
+                <span style="color: var(--primary-red); font-weight: 600;">Create Your Perfect Attendance Flyer</span>
+            </p>
+        </footer>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <script>
-        // State
-        let gender = 'male';
-        let photoPosition = { x: 250, y: 130 };
-        let namePosition = { x: 250, y: 320 };
-        let isDragging = false;
-        let currentDragging = null;
-        let startX, startY;
-        let originalX, originalY;
+        // Elite Fusion Flyer Configuration
+        const FLYER_CONFIG = {
+            photoPosition: { x: 250, y: 130, size: 120 },  // Circular frame position
+            namePosition: { x: 250, y: 320, fontSize: 32 }, // Name position
+            detectedName: "Mr Ismaila Habeeb"               // Name extracted from flyer
+        };
 
-        // Initialize
+        // State Variables
+        let state = {
+            gender: 'male',
+            cropper: null,
+            isDragging: false,
+            currentElement: null,
+            startX: 0,
+            startY: 0,
+            originalWidth: 0,
+            originalHeight: 0,
+            photoScale: 1
+        };
+
+        // Initialize on load
         document.addEventListener('DOMContentLoaded', function() {
-            // Setup event listeners
-            document.getElementById('photoUpload').addEventListener('change', handlePhotoUpload);
-            document.getElementById('userName').addEventListener('input', updateName);
-            
-            // Setup drag and drop
-            setupDragging();
-            
-            // Update initial name
-            updateName();
-            
-            // Update position inputs
-            updatePositionInputs();
+            initializeFlyer();
+            setupEventListeners();
+            setupDragAndDrop();
         });
 
-        // Handle photo upload
-        function handlePhotoUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        // Initialize the flyer with auto-detection
+        function initializeFlyer() {
+            // Auto-detect and set the name from flyer
+            document.getElementById('userName').value = "Ismaila Habeeb";
+            document.getElementById('detectedNameText').textContent = 
+                `Detected: "${FLYER_CONFIG.detectedName}" from flyer`;
             
-            if (!file.type.match('image.*')) {
-                showError('Please select an image file (JPEG, PNG, etc.)');
+            // Update name overlay
+            updateNameOverlay();
+            
+            // Position overlays based on detection
+            positionOverlays();
+            
+            showStatus("Flyer loaded! Auto-detected photo frame and name position.", "success");
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Name input
+            document.getElementById('userName').addEventListener('input', updateNameOverlay);
+            
+            // Photo upload
+            document.getElementById('photoInput').addEventListener('change', handlePhotoUpload);
+            
+            // Zoom slider
+            document.getElementById('zoomSlider').addEventListener('input', function() {
+                const value = this.value;
+                document.getElementById('zoomValue').textContent = value + '%';
+                if (state.cropper) {
+                    state.cropper.scale(value / 100);
+                }
+            });
+        }
+
+        // Set up drag and drop for overlays
+        function setupDragAndDrop() {
+            const photoOverlay = document.getElementById('userPhotoOverlay');
+            const nameOverlay = document.getElementById('nameOverlay');
+            
+            makeDraggable(photoOverlay);
+            makeResizable(photoOverlay);
+            makeDraggable(nameOverlay);
+        }
+
+        // Make element draggable
+        function makeDraggable(element) {
+            element.addEventListener('mousedown', startDrag);
+            
+            function startDrag(e) {
+                e.preventDefault();
+                state.isDragging = true;
+                state.currentElement = element;
+                
+                const rect = element.getBoundingClientRect();
+                const previewRect = document.getElementById('flyerPreview').getBoundingClientRect();
+                
+                state.startX = e.clientX - rect.left + previewRect.left;
+                state.startY = e.clientY - rect.top + previewRect.top;
+                
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', stopDrag);
+            }
+            
+            function drag(e) {
+                if (!state.isDragging) return;
+                
+                const previewRect = document.getElementById('flyerPreview').getBoundingClientRect();
+                const x = e.clientX - state.startX;
+                const y = e.clientY - state.startY;
+                
+                // Keep within bounds
+                const maxX = previewRect.width - state.currentElement.offsetWidth;
+                const maxY = previewRect.height - state.currentElement.offsetHeight;
+                
+                state.currentElement.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
+                state.currentElement.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
+            }
+            
+            function stopDrag() {
+                state.isDragging = false;
+                state.currentElement = null;
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+        }
+
+        // Make element resizable
+        function makeResizable(element) {
+            const handle = element.querySelector('.drag-handle');
+            
+            handle.addEventListener('mousedown', startResize);
+            
+            function startResize(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                state.originalWidth = element.offsetWidth;
+                state.originalHeight = element.offsetHeight;
+                state.startX = e.clientX;
+                state.startY = e.clientY;
+                
+                document.addEventListener('mousemove', resize);
+                document.addEventListener('mouseup', stopResize);
+            }
+            
+            function resize(e) {
+                const deltaX = e.clientX - state.startX;
+                const deltaY = e.clientY - state.startY;
+                
+                const newWidth = Math.max(80, state.originalWidth + deltaX);
+                const newHeight = Math.max(80, state.originalHeight + deltaY);
+                
+                element.style.width = newWidth + 'px';
+                element.style.height = newHeight + 'px';
+            }
+            
+            function stopResize() {
+                document.removeEventListener('mousemove', resize);
+                document.removeEventListener('mouseup', stopResize);
+            }
+        }
+
+        // Position overlays based on auto-detection
+        function positionOverlays() {
+            const photoOverlay = document.getElementById('userPhotoOverlay');
+            const nameOverlay = document.getElementById('nameOverlay');
+            
+            // Position photo overlay
+            photoOverlay.style.left = FLYER_CONFIG.photoPosition.x + 'px';
+            photoOverlay.style.top = FLYER_CONFIG.photoPosition.y + 'px';
+            photoOverlay.style.width = FLYER_CONFIG.photoPosition.size + 'px';
+            photoOverlay.style.height = FLYER_CONFIG.photoPosition.size + 'px';
+            
+            // Position name overlay
+            nameOverlay.style.left = FLYER_CONFIG.namePosition.x + 'px';
+            nameOverlay.style.top = FLYER_CONFIG.namePosition.y + 'px';
+            nameOverlay.style.fontSize = FLYER_CONFIG.namePosition.fontSize + 'px';
+        }
+
+        // Update name overlay
+        function updateNameOverlay() {
+            const nameInput = document.getElementById('userName').value.trim();
+            const nameOverlay = document.getElementById('nameOverlay');
+            
+            if (!nameInput) {
+                nameOverlay.textContent = state.gender === 'male' ? 'Mr Your Name' : 'Miss Your Name';
                 return;
             }
             
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const photoContainer = document.getElementById('photoContainer');
-                const uploadedPhoto = document.getElementById('uploadedPhoto');
-                const photoPlaceholder = document.getElementById('photoPlaceholder');
-                
-                uploadedPhoto.src = e.target.result;
-                uploadedPhoto.style.display = 'block';
-                photoPlaceholder.style.display = 'none';
-                
-                // Make photo draggable
-                photoContainer.setAttribute('draggable', 'true');
-                
-                showError('');
-            };
-            reader.readAsDataURL(file);
+            const parts = nameInput.split(' ');
+            const prefix = state.gender === 'male' ? 'Mr' : 'Miss';
+            
+            if (parts.length <= 1) {
+                nameOverlay.textContent = `${prefix} ${nameInput}`;
+            } else {
+                nameOverlay.textContent = `${prefix} ${parts[0]}\n${parts.slice(1).join(' ')}`;
+            }
+            
+            nameOverlay.style.display = 'block';
         }
 
         // Select gender
         function selectGender(selectedGender) {
-            gender = selectedGender;
+            state.gender = selectedGender;
             
             // Update UI
             document.querySelectorAll('.gender-btn').forEach(btn => {
@@ -432,244 +853,204 @@
             event.target.classList.add('selected');
             
             // Update name
-            updateName();
+            updateNameOverlay();
         }
 
-        // Update name
-        function updateName() {
-            const nameInput = document.getElementById('userName').value.trim();
-            const nameContainer = document.getElementById('nameContainer');
+        // Open photo upload
+        function openPhotoUpload() {
+            document.getElementById('photoInput').click();
+        }
+
+        // Handle photo upload
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
             
-            if (!nameInput) {
-                nameContainer.textContent = gender === 'male' ? 'Mr Your Name' : 'Miss Your Name';
+            if (!file.type.match('image.*')) {
+                showStatus('Please select an image file (JPEG, PNG)', 'error');
                 return;
             }
             
-            const parts = nameInput.split(' ');
-            if (parts.length === 1) {
-                nameContainer.textContent = gender === 'male' ? `Mr ${parts[0]}` : `Miss ${parts[0]}`;
-            } else {
-                nameContainer.textContent = gender === 'male' 
-                    ? `Mr ${parts[0]}\n${parts.slice(1).join(' ')}`
-                    : `Miss ${parts[0]}\n${parts.slice(1).join(' ')}`;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Show image editor
+                document.getElementById('imageEditorPanel').classList.add('active');
+                
+                // Initialize cropper
+                const image = document.getElementById('imagePreview');
+                image.src = e.target.result;
+                
+                if (state.cropper) {
+                    state.cropper.destroy();
+                }
+                
+                state.cropper = new Cropper(image, {
+                    aspectRatio: 1, // Square for circular crop
+                    viewMode: 1,
+                    autoCropArea: 0.8,
+                    movable: true,
+                    rotatable: true,
+                    scalable: true,
+                    zoomable: true,
+                    cropBoxResizable: true,
+                    ready: function() {
+                        // Fit to circular frame
+                        this.cropper.setCropBoxData({
+                            width: FLYER_CONFIG.photoPosition.size,
+                            height: FLYER_CONFIG.photoPosition.size
+                        });
+                    }
+                });
+                
+                showStatus('Photo uploaded! Crop and adjust as needed, then click "Apply Changes"', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Rotate image
+        function rotateImage(degrees) {
+            if (state.cropper) {
+                state.cropper.rotate(degrees);
             }
         }
 
-        // Setup dragging functionality
-        function setupDragging() {
-            const photoContainer = document.getElementById('photoContainer');
-            const nameContainer = document.getElementById('nameContainer');
-            
-            // Make elements draggable
-            makeDraggable(photoContainer, 'photo');
-            makeDraggable(nameContainer, 'name');
-        }
-
-        function makeDraggable(element, type) {
-            element.addEventListener('mousedown', startDrag);
-            element.addEventListener('touchstart', startDragTouch);
-            
-            function startDrag(e) {
-                isDragging = true;
-                currentDragging = type;
-                element.style.cursor = 'grabbing';
-                
-                if (type === 'photo') {
-                    startX = e.clientX - photoPosition.x;
-                    startY = e.clientY - photoPosition.y;
-                    originalX = photoPosition.x;
-                    originalY = photoPosition.y;
-                } else {
-                    startX = e.clientX - namePosition.x;
-                    startY = e.clientY - namePosition.y;
-                    originalX = namePosition.x;
-                    originalY = namePosition.y;
-                }
-                
-                document.addEventListener('mousemove', drag);
-                document.addEventListener('mouseup', stopDrag);
-            }
-            
-            function startDragTouch(e) {
-                isDragging = true;
-                currentDragging = type;
-                element.style.cursor = 'grabbing';
-                
-                const touch = e.touches[0];
-                if (type === 'photo') {
-                    startX = touch.clientX - photoPosition.x;
-                    startY = touch.clientY - photoPosition.y;
-                    originalX = photoPosition.x;
-                    originalY = photoPosition.y;
-                } else {
-                    startX = touch.clientX - namePosition.x;
-                    startY = touch.clientY - namePosition.y;
-                    originalX = namePosition.x;
-                    originalY = namePosition.y;
-                }
-                
-                document.addEventListener('touchmove', dragTouch);
-                document.addEventListener('touchend', stopDrag);
-            }
-            
-            function drag(e) {
-                if (!isDragging) return;
-                
-                if (currentDragging === 'photo') {
-                    photoPosition.x = e.clientX - startX;
-                    photoPosition.y = e.clientY - startY;
-                    element.style.left = photoPosition.x + 'px';
-                    element.style.top = photoPosition.y + 'px';
-                } else {
-                    namePosition.x = e.clientX - startX;
-                    namePosition.y = e.clientY - startY;
-                    element.style.left = namePosition.x + 'px';
-                    element.style.top = namePosition.y + 'px';
-                }
-            }
-            
-            function dragTouch(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                
-                const touch = e.touches[0];
-                if (currentDragging === 'photo') {
-                    photoPosition.x = touch.clientX - startX;
-                    photoPosition.y = touch.clientY - startY;
-                    element.style.left = photoPosition.x + 'px';
-                    element.style.top = photoPosition.y + 'px';
-                } else {
-                    namePosition.x = touch.clientX - startX;
-                    namePosition.y = touch.clientY - startY;
-                    element.style.left = namePosition.x + 'px';
-                    element.style.top = namePosition.y + 'px';
-                }
-            }
-            
-            function stopDrag() {
-                isDragging = false;
-                currentDragging = null;
-                element.style.cursor = 'grab';
-                
-                document.removeEventListener('mousemove', drag);
-                document.removeEventListener('mouseup', stopDrag);
-                document.removeEventListener('touchmove', dragTouch);
-                document.removeEventListener('touchend', stopDrag);
-                
-                // Update position inputs
-                updatePositionInputs();
+        // Reset crop
+        function resetCrop() {
+            if (state.cropper) {
+                state.cropper.reset();
+                document.getElementById('zoomSlider').value = 100;
+                document.getElementById('zoomValue').textContent = '100%';
             }
         }
 
-        // Update position from inputs
-        function updatePositions() {
-            photoPosition.x = parseInt(document.getElementById('photoX').value) || 250;
-            photoPosition.y = parseInt(document.getElementById('photoY').value) || 130;
-            namePosition.x = parseInt(document.getElementById('nameX').value) || 250;
-            namePosition.y = parseInt(document.getElementById('nameY').value) || 320;
+        // Apply crop
+        function applyCrop() {
+            if (!state.cropper) {
+                showStatus('No image to crop', 'error');
+                return;
+            }
             
-            // Update UI
-            document.getElementById('photoContainer').style.left = photoPosition.x + 'px';
-            document.getElementById('photoContainer').style.top = photoPosition.y + 'px';
-            document.getElementById('nameContainer').style.left = namePosition.x + 'px';
-            document.getElementById('nameContainer').style.top = namePosition.y + 'px';
+            // Get cropped image
+            const croppedCanvas = state.cropper.getCroppedCanvas({
+                width: FLYER_CONFIG.photoPosition.size,
+                height: FLYER_CONFIG.photoPosition.size,
+                fillColor: '#fff'
+            });
             
-            showError('Positions updated!');
+            // Update photo overlay
+            const photoOverlay = document.getElementById('userPhotoOverlay');
+            const uploadedPhoto = document.getElementById('uploadedPhoto');
+            
+            uploadedPhoto.src = croppedCanvas.toDataURL('image/png');
+            photoOverlay.style.display = 'block';
+            
+            // Hide image editor
+            document.getElementById('imageEditorPanel').classList.remove('active');
+            
+            showStatus('Photo applied to flyer! Drag to reposition or resize if needed.', 'success');
         }
 
-        // Update position inputs
-        function updatePositionInputs() {
-            document.getElementById('photoX').value = Math.round(photoPosition.x);
-            document.getElementById('photoY').value = Math.round(photoPosition.y);
-            document.getElementById('nameX').value = Math.round(namePosition.x);
-            document.getElementById('nameY').value = Math.round(namePosition.y);
+        // Reset positions
+        function resetPositions() {
+            positionOverlays();
+            showStatus('Positions reset to auto-detected locations', 'success');
+        }
+
+        // Auto-fit all elements
+        function autoFitAll() {
+            positionOverlays();
+            updateNameOverlay();
+            showStatus('All elements auto-fitted to flyer', 'success');
         }
 
         // Download flyer
         function downloadFlyer() {
             // Check if photo is uploaded
-            const uploadedPhoto = document.getElementById('uploadedPhoto');
-            if (!uploadedPhoto.src || uploadedPhoto.src.includes('#')) {
-                showError('Please upload your photo first');
+            const photoOverlay = document.getElementById('userPhotoOverlay');
+            if (photoOverlay.style.display === 'none') {
+                showStatus('Please upload and apply your photo first', 'error');
                 return;
             }
             
-            // Create a canvas to combine everything
+            // Create canvas
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             const flyerImage = document.getElementById('flyerImage');
-            const previewContainer = document.querySelector('.preview-container');
+            const preview = document.getElementById('flyerPreview');
             
             // Set canvas size
-            canvas.width = previewContainer.offsetWidth;
-            canvas.height = previewContainer.offsetHeight;
+            canvas.width = preview.offsetWidth;
+            canvas.height = preview.offsetHeight;
             
-            // Draw flyer background
+            // Draw flyer
             ctx.drawImage(flyerImage, 0, 0, canvas.width, canvas.height);
             
             // Draw user photo (circular)
-            const photoContainer = document.getElementById('photoContainer');
-            const photoX = parseFloat(photoContainer.style.left) || 250;
-            const photoY = parseFloat(photoContainer.style.top) || 130;
-            const photoSize = photoContainer.offsetWidth;
+            const photoRect = photoOverlay.getBoundingClientRect();
+            const previewRect = preview.getBoundingClientRect();
             
-            // Create circular clipping for photo
+            const photoX = photoRect.left - previewRect.left;
+            const photoY = photoRect.top - previewRect.top;
+            const photoSize = photoRect.width;
+            
+            // Create circular clipping path
             ctx.save();
             ctx.beginPath();
-            ctx.arc(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 0, Math.PI * 2);
+            ctx.arc(
+                photoX + photoSize / 2,
+                photoY + photoSize / 2,
+                photoSize / 2,
+                0,
+                Math.PI * 2
+            );
             ctx.closePath();
             ctx.clip();
             
-            if (uploadedPhoto.complete && uploadedPhoto.naturalWidth > 0) {
-                ctx.drawImage(uploadedPhoto, photoX, photoY, photoSize, photoSize);
-            }
+            const uploadedPhoto = document.getElementById('uploadedPhoto');
+            ctx.drawImage(uploadedPhoto, photoX, photoY, photoSize, photoSize);
             ctx.restore();
             
             // Draw name
-            const nameContainer = document.getElementById('nameContainer');
-            const nameX = parseFloat(nameContainer.style.left) || 250;
-            const nameY = parseFloat(nameContainer.style.top) || 320;
+            const nameOverlay = document.getElementById('nameOverlay');
+            const nameRect = nameOverlay.getBoundingClientRect();
+            const nameX = nameRect.left - previewRect.left;
+            const nameY = nameRect.top - previewRect.top;
             
-            ctx.font = 'bold 24px Arial';
-            ctx.fillStyle = 'black';
+            ctx.font = `${nameOverlay.style.fontSize} Montserrat`;
+            ctx.fillStyle = '#000000';
             ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
             
-            const nameLines = nameContainer.textContent.split('\n');
+            const nameLines = nameOverlay.textContent.split('\n');
             nameLines.forEach((line, index) => {
-                ctx.fillText(line, nameX, nameY + (index * 30));
+                ctx.fillText(
+                    line,
+                    nameX + nameRect.width / 2,
+                    nameY + (index * parseInt(nameOverlay.style.fontSize) * 1.2)
+                );
             });
             
-            // Create download link
+            // Create download
             const link = document.createElement('a');
-            link.download = 'Elite-Fusion-Flyer.png';
+            const name = document.getElementById('userName').value.trim().replace(/\s+/g, '-');
+            link.download = `Elite-Fusion-${name || 'flyer'}.png`;
             link.href = canvas.toDataURL('image/png');
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             
-            showError('Flyer downloaded successfully!');
+            showStatus('Flyer downloaded successfully!', 'success');
         }
 
-        // Show error/success message
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = message;
-            errorDiv.style.display = message ? 'block' : 'none';
+        // Show status message
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `status-message ${type}`;
             
-            if (message && !message.includes('error')) {
-                errorDiv.style.background = '#e8f5e9';
-                errorDiv.style.color = '#2e7d32';
-            } else if (message) {
-                errorDiv.style.background = '#ffebee';
-                errorDiv.style.color = '#c62828';
-            }
-            
-            // Auto-hide success messages
-            if (message && !message.toLowerCase().includes('error')) {
-                setTimeout(() => {
-                    errorDiv.style.display = 'none';
-                }, 3000);
-            }
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 4000);
         }
     </script>
 </body>
